@@ -8,68 +8,11 @@ import os
 from sklearn.utils import resample
 from aequitas.audit import Audit
 
-################################################################################
-############################# Path Directories #################################
-
-
-def ensure_directory(path):
-    """Ensure that the directory exists. If not, create it."""
-    if not os.path.exists(path):
-        os.makedirs(path)
-        print(f"Created directory: {path}")
-    else:
-        print(f"Directory exists: {path}")
-
-
-###############################################################################
-
-
-def clean_and_replace(df, threshold=None, verbose=True):
-    """
-    Processes a DataFrame and replaces specified values with NaN and
-    values in categorical columns with NaN where the count of the category
-    is below a specified threshold.
-
-    Parameters:
-    - df (pd.DataFrame): The DataFrame to process.
-    - threshold (int, optional): The minimum count a category must have to not be
-      replaced by np.nan. If None, no replacement occurs. Default is None.
-    - verbose (bool): If True, prints the value counts of each column before
-      processing. Default is True.
-
-    Returns:
-    - pd.DataFrame: A DataFrame with the same structure as the input, where specified
-      values and categories below the threshold are replaced with np.nan.
-    """
-    # Define replacements for specific columns
-    replacements = {
-        "Sex": {"Unknown": np.nan, "X": np.nan, "Other": np.nan},
-        "Race_Ethnicity": {"*No Usable Values": np.nan},
-    }
-
-    # Apply defined replacements
-    for col, replace_dict in replacements.items():
-        df[col] = df[col].replace(replace_dict)
-
-    # Replace less frequent categories with NaN based on the threshold
-    if threshold is not None:
-        for col in df:
-            counts = df[col].value_counts()
-            if verbose:
-                print(
-                    f"\nValue counts for {col} before threshold replacement:\n{counts}"
-                )
-                print()
-                print("*" * 80)
-            to_replace = counts[counts < threshold].index
-            df[col] = df[col].apply(lambda x: np.nan if x in to_replace else x)
-
-    return df
-
 
 ################################################################################
 ########################## Bootstrapped Bias & Fairness ########################
 ################################################################################
+
 
 def perform_bootstrapped_audit(
     df,
@@ -337,6 +280,7 @@ def perform_bootstrapped_audit(
 ## TODO L.S.
 ## make ref_group always straight line regardless of ref_group
 
+
 def plot_metrics(
     df,
     metric_cols,
@@ -538,10 +482,10 @@ def plot_metrics_with_ks_test(
         for i, col in enumerate(metric_cols):
             ax = axs[i // n_cols, i % n_cols]
             sns.violinplot(ax=ax, x="label", y=col, data=rows)
-            cur_rate = pass_rate.loc[name, col.replace('_disparity', '')]
-            
+            cur_rate = pass_rate.loc[name, col.replace("_disparity", "")]
+
             ax.set_title(name + "_" + col)
-            ax.set_suptitle('pass', color='green')
+            ax.set_suptitle("pass", color="green")
             ax.set_xlabel("")
             ax.set_xticks(range(len(label_values)))
             ax.set_xticklabels(
@@ -561,8 +505,6 @@ def plot_metrics_with_ks_test(
             ax.hlines(2, -1, len(value_labels) + 1, ls=":", color="red")
             ax.set_xlim([-1, len(value_labels)])
             ax.set_ylim(-2, 4)
-
-           
 
         for j in range(i + 1, n_rows * n_cols):
             fig.delaxes(axs[j // n_cols, j % n_cols])
