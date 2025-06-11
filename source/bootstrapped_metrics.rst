@@ -1,7 +1,5 @@
 .. _point_estimates:   
 
-.. _target-link:
-
 
 
 Bootstrapped Metrics Evaluation

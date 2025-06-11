@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preparing Model Outputs for Fairness Analysis &mdash; EquiBoots 0.0.1a documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.js" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8c8a9e14"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=a0ccc04e"></script>
+      <script src="_static/custom.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Point Estimate Evaluation" href="point_estimate_metrics.html" />
+    <link rel="prev" title="Welcome to the EquiBoots Documentation!" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            EquiBoots
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Welcome to the EquiBoots Documentation!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparing Model Outputs for Fairness Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-install-and-import-dependencies">Step 1: Install and Import Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-load-the-dataset">Step 2: Load the Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-clean-the-data">Step 3: Clean the Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-encode-the-target-variable">Step 4: Encode the Target Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-prepare-features-and-labels">Step 5: Prepare Features and Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-6-train-test-split">Step 6: Train-Test Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-7-train-the-xgboost-model">Step 7: Train the XGBoost Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-8-generate-predictions-and-evaluate">Step 8: Generate Predictions and Evaluate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-9-extract-model-outputs">Step 9: Extract Model Outputs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Point Estimate Metrics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Bootstrapped Metrics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bootstrapped_metrics.html">Bootstrapped Metrics Evaluation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citations.html">Citing EquiBoots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EquiBoots</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Preparing Model Outputs for Fairness Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="preparing-model-outputs-for-fairness-analysis">
+<span id="model-to-pred"></span><h1>Preparing Model Outputs for Fairness Analysis<a class="headerlink" href="#preparing-model-outputs-for-fairness-analysis" title="Link to this heading"></a></h1>
+<p>Before conducting any fairness or bias audits with EquiBoots, we must first train
+a model and extract the necessary components: predicted labels, predicted probabilities,
+true labels, and sensitive attributes. This section walks through the process using
+the Adult Income dataset, a benchmark dataset commonly used in fairness research.</p>
+<section id="step-1-install-and-import-dependencies">
+<h2>Step 1: Install and Import Dependencies<a class="headerlink" href="#step-1-install-and-import-dependencies" title="Link to this heading"></a></h2>
+<p>We begin by installing the ucimlrepo package and importing the necessary Python
+libraries for data handling, preprocessing, modeling, and evaluation.</p>
+<p><strong>Adult Income Dataset</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>ucimlrepo
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import Necessary Libraries</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ucimlrepo</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_ucirepo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-load-the-dataset">
+<h2>Step 2: Load the Dataset<a class="headerlink" href="#step-2-load-the-dataset" title="Link to this heading"></a></h2>
+<p>We fetch the Adult Income dataset directly from the UCI repository using ucimlrepo.
+This returns a dataset with features and a target variable indicating whether
+an individual’s income is above or below $50K.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Fetch Dataset</span>
+<span class="n">adult</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">adult</span> <span class="o">=</span> <span class="n">adult</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">adult</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-clean-the-data">
+<h2>Step 3: Clean the Data<a class="headerlink" href="#step-3-clean-the-data" title="Link to this heading"></a></h2>
+<p>Missing values are removed to simplify modeling. We also create a backup
+copy of the cleaned dataset.</p>
+<p><strong>a. Drop missing values</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adult</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>b. Copy DataFrame for posterity</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">adult</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-encode-the-target-variable">
+<h2>Step 4: Encode the Target Variable<a class="headerlink" href="#step-4-encode-the-target-variable" title="Link to this heading"></a></h2>
+<p>The target column <code class="docutils literal notranslate"><span class="pre">'income'</span></code> is a string. We convert it into a binary format: 0 for <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> and 1 for <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">outcome_merge</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s1">&#39;&lt;=50K&#39;</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">==</span> <span class="s1">&#39;&lt;=50K.&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">outcome_merge</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-prepare-features-and-labels">
+<h2>Step 5: Prepare Features and Labels<a class="headerlink" href="#step-5-prepare-features-and-labels" title="Link to this heading"></a></h2>
+<p>We split the dataset into features <code class="docutils literal notranslate"><span class="pre">X</span></code> and labels <code class="docutils literal notranslate"><span class="pre">y</span></code>. Categorical variables
+are encoded as pandas category types to be handled natively by XGBoost.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-train-test-split">
+<h2>Step 6: Train-Test Split<a class="headerlink" href="#step-6-train-test-split" title="Link to this heading"></a></h2>
+<p>We split the data into training and test sets using an 80/20 ratio.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-7-train-the-xgboost-model">
+<h2>Step 7: Train the XGBoost Model<a class="headerlink" href="#step-7-train-the-xgboost-model" title="Link to this heading"></a></h2>
+<p>We fit an XGBoost classifier on the training data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">(</span>
+    <span class="n">eval_metric</span><span class="o">=</span><span class="s1">&#39;logloss&#39;</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">enable_categorical</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">enable_categorical=True</span></code> is used to support categorical columns directly.</p>
+</div>
+</section>
+<section id="step-8-generate-predictions-and-evaluate">
+<h2>Step 8: Generate Predictions and Evaluate<a class="headerlink" href="#step-8-generate-predictions-and-evaluate" title="Link to this heading"></a></h2>
+<p>We obtain both predicted class labels (<code class="docutils literal notranslate"><span class="pre">y_pred</span></code>) and predicted probabilities
+(<code class="docutils literal notranslate"><span class="pre">y_prob</span></code>) from the model and print a standard classification report to evaluate
+performance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>               precision    recall  f1-score   support
+
+           0        0.88      0.94      0.91      7170
+           1        0.76      0.63      0.69      2355
+
+    accuracy                            0.86      9525
+   macro avg        0.82      0.78      0.80      9525
+weighted avg        0.85      0.86      0.86      9525
+</pre></div>
+</div>
+</section>
+<section id="step-9-extract-model-outputs">
+<h2>Step 9: Extract Model Outputs<a class="headerlink" href="#step-9-extract-model-outputs" title="Link to this heading"></a></h2>
+<p>We now extract the model’s predicted class labels, predicted probabilities for
+the positive class (income &gt; 50K), and convert the true labels to a NumPy array.
+These are the core inputs required by EquiBoots.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Get predicted class labels (0 or 1)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1">## Get predicted probabilities for class 1 (income &gt; 50K)</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">## Convert ground truth labels to NumPy array</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Welcome to the EquiBoots Documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="point_estimate_metrics.html" class="btn btn-neutral float-right" title="Point Estimate Evaluation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
