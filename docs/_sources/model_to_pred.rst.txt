@@ -16,11 +16,6 @@ Step 1: Install and Import Dependencies
 We begin by installing the ucimlrepo package and importing the necessary Python 
 libraries for data handling, preprocessing, modeling, and evaluation.
 
-
-**Adult Income Dataset**
-
-
-
 .. code:: bash
 
     pip install ucimlrepo
