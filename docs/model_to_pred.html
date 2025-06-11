@@ -113,7 +113,7 @@
 <p>Before conducting any fairness or bias audits with EquiBoots, we must first train
 a model and extract the necessary components: predicted labels, predicted probabilities,
 true labels, and sensitive attributes. This section walks through the process using
-the Adult Income dataset, a benchmark dataset commonly used in fairness research.</p>
+the Adult Income dataset <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, a popular dataset from the UCI Machine Learning Repository <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
 <section id="step-1-install-and-import-dependencies">
 <h2>Step 1: Install and Import Dependencies<a class="headerlink" href="#step-1-install-and-import-dependencies" title="Link to this heading"></a></h2>
 <p>We begin by installing the ucimlrepo package and importing the necessary Python
@@ -250,6 +250,16 @@ These are the core inputs required by EquiBoots.</p>
 <span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 </pre></div>
 </div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Dua, D. &amp; Graff, C. (2019). UCI Machine Learning Repository. University of California, Irvine, School of Information and Computer Sciences. <a class="reference external" href="https://archive.ics.uci.edu">https://archive.ics.uci.edu</a>.</p>
+</aside>
+</aside>
 </section>
 </section>
 

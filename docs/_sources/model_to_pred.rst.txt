@@ -7,7 +7,7 @@ Preparing Model Outputs for Fairness Analysis
 Before conducting any fairness or bias audits with EquiBoots, we must first train 
 a model and extract the necessary components: predicted labels, predicted probabilities, 
 true labels, and sensitive attributes. This section walks through the process using 
-the Adult Income dataset, a benchmark dataset commonly used in fairness research.
+the Adult Income dataset [1]_, a popular dataset from the UCI Machine Learning Repository [2]_.
 
 
 Step 1: Install and Import Dependencies
@@ -178,3 +178,7 @@ These are the core inputs required by EquiBoots.
 
     ## Convert ground truth labels to NumPy array
     y_true = y_test.to_numpy()
+
+
+.. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.
+.. [2] Dua, D. & Graff, C. (2019). UCI Machine Learning Repository. University of California, Irvine, School of Information and Computer Sciences. `https://archive.ics.uci.edu <https://archive.ics.uci.edu>`_.
