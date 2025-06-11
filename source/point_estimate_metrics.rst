@@ -6,22 +6,24 @@
 Point Estimate Evaluation
 ==========================================
 
-EquiBoots includes an interface for computing group-specific and overall 
-point estimates for key performance metrics across classification and regression 
-tasks. These estimates serve as the foundation for fairness auditing by quantifying 
-how models perform across different demographic groups or other sensitive attributes.
+After training a model and preparing predictions, EquiBoots can be used to 
+evaluate how your model performs across different demographic groups. The most 
+basic step in this process is calculating point estimates. These are performance 
+metrics for each group without resampling or bootstrapping.
 
-The EquiBoots class allows you to generate point estimates of model performance 
-metrics across demographic groups using your specified fairness variables. These 
-estimates provide a transparent snapshot of how your model performs across different 
-subpopulations.
+EquiBoots supports the computation of group-specific and overall point estimates 
+for performance metrics across classification and regression tasks. These estimates 
+form the basis for fairness auditing by revealing how models perform across 
+different subpopulations or sensitive attributes.
 
-This section shows how to compute group-specific metrics without bootstrapping. 
-For bootstrapped metrics and confidence intervals, refer to the 
-:ref:`bootstrapped metrics evaluation section <Bootstrapped_Metrics>`.
+This section demonstrates how to compute group-wise performance metrics using 
+model outputs and fairness variables from the Adult Income dataset [1]_. For 
+bootstrapped confidence intervals, refer to the :ref:`bootstrapped metrics 
+evaluation section <Bootstrapped_Metrics>`. 
 
 Supported Metrics
--------------------
+-------------------------
+
 
 For classification tasks, the following metrics are supported:
 
@@ -35,40 +37,39 @@ For classification tasks, the following metrics are supported:
 
 For regression tasks:
 
-- :math:`R^2`, MAE, MSE, RMSE
+- :math:`R^2, MAE, MSE, RMSE`
 
 - Group-based residual plots
 
 Implementation
 -------------------
 
+Step 1: Import and Initialize EquiBoots
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We begin by initializing the ``EquiBoots`` class using the predicted labels, 
+predicted probabilities, true labels, and the DataFrame containing sensitive 
+attributes (e.g., sex, race, education).
+
+.. note::
+
+    ``y_pred``, ``y_prob``, ``y_test`` are defined inside the :ref:`modeling generation section <Modeling_Generation>`.
+
 Point estimates are computed using the ``EquiBoots`` class and its ``grouper`` method:
 
 .. code:: python 
 
-    # Generate synthetic test data
-    y_prob = np.random.rand(1000)
-    y_pred = y_prob > 0.5
-    y_true = np.random.randint(0, 2, 1000)
+    import equiboots as eqb
 
-    race = (
-        np.random.RandomState(3)
-        .choice(["white", "black", "asian", "hispanic"], 1000)
-        .reshape(-1, 1)
-    )
-    sex = np.random.choice(["M", "F"], 1000).reshape(-1, 1)
-
-    fairness_df = pd.DataFrame(
-        data=np.concatenate((race, sex), axis=1), columns=["race", "sex"]
-    )
-
-    # Initialize and process groups
-    eq = eqb.EquiBoots(
+    eq = EquiBoots(
         y_true=y_true,
-        y_prob=y_prob,
         y_pred=y_pred,
+        y_prob=y_prob,
         fairness_df=fairness_df,
-        fairness_vars=["race", "sex"],
+        fairness_vars=["sex", "race"],
+        task="binary_classification"
     )
-    eq.grouper(groupings_vars=["race", "sex"])
-    sliced_data = eq.slicer("race")
+
+
+
+.. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.

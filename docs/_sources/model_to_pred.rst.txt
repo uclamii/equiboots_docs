@@ -67,7 +67,7 @@ copy of the cleaned dataset.
 Step 4: Encode the Target Variable
 -------------------------------------
 
-The target column ``'income'`` is a string. We convert it into a binary format: 0 for ``<=50K`` and 1 for ``>50K``.
+The target column ``'income'`` is a string. We convert it into a binary format: ``0`` for ``<=50K`` and ``1`` for ``>50K``.
     
 .. code:: python
 
@@ -129,6 +129,9 @@ We fit an XGBoost classifier on the training data.
 .. note::    
 
     Note that ``enable_categorical=True`` is used to support categorical columns directly.
+
+
+.. _Modeling_Generation: 
 
 Step 8: Generate Predictions and Evaluate
 -------------------------------------------

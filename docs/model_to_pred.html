@@ -159,7 +159,7 @@ copy of the cleaned dataset.</p>
 </section>
 <section id="step-4-encode-the-target-variable">
 <h2>Step 4: Encode the Target Variable<a class="headerlink" href="#step-4-encode-the-target-variable" title="Link to this heading"></a></h2>
-<p>The target column <code class="docutils literal notranslate"><span class="pre">'income'</span></code> is a string. We convert it into a binary format: 0 for <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> and 1 for <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code>.</p>
+<p>The target column <code class="docutils literal notranslate"><span class="pre">'income'</span></code> is a string. We convert it into a binary format: <code class="docutils literal notranslate"><span class="pre">0</span></code> for <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code> for <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">outcome_merge</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s1">&#39;&lt;=50K&#39;</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">==</span> <span class="s1">&#39;&lt;=50K.&#39;</span><span class="p">:</span>
@@ -214,7 +214,7 @@ are encoded as pandas category types to be handled natively by XGBoost.</p>
 </div>
 </section>
 <section id="step-8-generate-predictions-and-evaluate">
-<h2>Step 8: Generate Predictions and Evaluate<a class="headerlink" href="#step-8-generate-predictions-and-evaluate" title="Link to this heading"></a></h2>
+<span id="modeling-generation"></span><h2>Step 8: Generate Predictions and Evaluate<a class="headerlink" href="#step-8-generate-predictions-and-evaluate" title="Link to this heading"></a></h2>
 <p>We obtain both predicted class labels (<code class="docutils literal notranslate"><span class="pre">y_pred</span></code>) and predicted probabilities
 (<code class="docutils literal notranslate"><span class="pre">y_prob</span></code>) from the model and print a standard classification report to evaluate
 performance.</p>

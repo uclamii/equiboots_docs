@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Bootstrapped Metrics Evaluation" href="bootstrapped_metrics.html" />
-    <link rel="prev" title="Welcome to the EquiBoots Documentation!" href="getting_started.html" /> 
+    <link rel="prev" title="Preparing Model Outputs for Fairness Analysis" href="model_to_pred.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -54,11 +54,18 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Welcome to the EquiBoots Documentation!</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Point Estimate Metrics</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Point Estimate Evaluation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#supported-metrics">Supported Metrics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-import-and-initialize-equiboots">Step 1: Import and Initialize EquiBoots</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -100,17 +107,18 @@
              
   <section id="point-estimate-evaluation">
 <span id="target-link"></span><span id="point-estimates"></span><h1>Point Estimate Evaluation<a class="headerlink" href="#point-estimate-evaluation" title="Link to this heading"></a></h1>
-<p>EquiBoots includes an interface for computing group-specific and overall
-point estimates for key performance metrics across classification and regression
-tasks. These estimates serve as the foundation for fairness auditing by quantifying
-how models perform across different demographic groups or other sensitive attributes.</p>
-<p>The EquiBoots class allows you to generate point estimates of model performance
-metrics across demographic groups using your specified fairness variables. These
-estimates provide a transparent snapshot of how your model performs across different
-subpopulations.</p>
-<p>This section shows how to compute group-specific metrics without bootstrapping.
-For bootstrapped metrics and confidence intervals, refer to the
-<a class="reference internal" href="bootstrapped_metrics.html#bootstrapped-metrics"><span class="std std-ref">bootstrapped metrics evaluation section</span></a>.</p>
+<p>After training a model and preparing predictions, EquiBoots can be used to
+evaluate how your model performs across different demographic groups. The most
+basic step in this process is calculating point estimates. These are performance
+metrics for each group without resampling or bootstrapping.</p>
+<p>EquiBoots supports the computation of group-specific and overall point estimates
+for performance metrics across classification and regression tasks. These estimates
+form the basis for fairness auditing by revealing how models perform across
+different subpopulations or sensitive attributes.</p>
+<p>This section demonstrates how to compute group-wise performance metrics using
+model outputs and fairness variables from the Adult Income dataset <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. For
+bootstrapped confidence intervals, refer to the <a class="reference internal" href="bootstrapped_metrics.html#bootstrapped-metrics"><span class="std std-ref">bootstrapped metrics
+evaluation section</span></a>.</p>
 <section id="supported-metrics">
 <h2>Supported Metrics<a class="headerlink" href="#supported-metrics" title="Link to this heading"></a></h2>
 <p>For classification tasks, the following metrics are supported:</p>
@@ -122,41 +130,41 @@ For bootstrapped metrics and confidence intervals, refer to the
 </ul>
 <p>For regression tasks:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(R^2\)</span>, MAE, MSE, RMSE</p></li>
+<li><p><span class="math notranslate nohighlight">\(R^2, MAE, MSE, RMSE\)</span></p></li>
 <li><p>Group-based residual plots</p></li>
 </ul>
 </section>
 <section id="implementation">
 <h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading"></a></h2>
+<section id="step-1-import-and-initialize-equiboots">
+<h3>Step 1: Import and Initialize EquiBoots<a class="headerlink" href="#step-1-import-and-initialize-equiboots" title="Link to this heading"></a></h3>
+<p>We begin by initializing the <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code> class using the predicted labels,
+predicted probabilities, true labels, and the DataFrame containing sensitive
+attributes (e.g., sex, race, education).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">y_pred</span></code>, <code class="docutils literal notranslate"><span class="pre">y_prob</span></code>, <code class="docutils literal notranslate"><span class="pre">y_test</span></code> are defined inside the <a class="reference internal" href="model_to_pred.html#modeling-generation"><span class="std std-ref">modeling generation section</span></a>.</p>
+</div>
 <p>Point estimates are computed using the <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code> class and its <code class="docutils literal notranslate"><span class="pre">grouper</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate synthetic test data</span>
-<span class="n">y_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_prob</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
-<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
 
-<span class="n">race</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;asian&quot;</span><span class="p">,</span> <span class="s2">&quot;hispanic&quot;</span><span class="p">],</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="n">sex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">],</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="n">fairness_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">race</span><span class="p">,</span> <span class="n">sex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">]</span>
-<span class="p">)</span>
-
-<span class="c1"># Initialize and process groups</span>
-<span class="n">eq</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">EquiBoots</span><span class="p">(</span>
+<span class="n">eq</span> <span class="o">=</span> <span class="n">EquiBoots</span><span class="p">(</span>
     <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
-    <span class="n">y_prob</span><span class="o">=</span><span class="n">y_prob</span><span class="p">,</span>
     <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+    <span class="n">y_prob</span><span class="o">=</span><span class="n">y_prob</span><span class="p">,</span>
     <span class="n">fairness_df</span><span class="o">=</span><span class="n">fairness_df</span><span class="p">,</span>
-    <span class="n">fairness_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">fairness_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">],</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary_classification&quot;</span>
 <span class="p">)</span>
-<span class="n">eq</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">])</span>
-<span class="n">sliced_data</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;race&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>
+</aside>
+</aside>
+</section>
 </section>
 </section>
 
@@ -164,7 +172,7 @@ For bootstrapped metrics and confidence intervals, refer to the
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="getting_started.html" class="btn btn-neutral float-left" title="Welcome to the EquiBoots Documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_to_pred.html" class="btn btn-neutral float-left" title="Preparing Model Outputs for Fairness Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="bootstrapped_metrics.html" class="btn btn-neutral float-right" title="Bootstrapped Metrics Evaluation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
