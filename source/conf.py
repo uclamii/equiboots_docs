@@ -1,6 +1,10 @@
 from docutils import nodes
 from docutils.parsers.rst import roles
 
+import os, sys
+
+sys.path.insert(0, os.path.abspath("../src"))
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -10,8 +14,10 @@ from docutils.parsers.rst import roles
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "EquiBoots"
-copyright = "UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis, Al Rahrooh, Colin Beam"
-author = "Leonid Shpaner, Arthur Funnell, Panayiotis Petousis, Al Rahrooh, Colin Beam"
+copyright = "UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Al Rahrooh, Colin Beam, and Panayiotis Petousis"
+author = (
+    "Leonid Shpaner, Arthur Funnell, Al Rahrooh, Colin Beam, and Panayiotis Petousis"
+)
 release = "0.0.0a9"
 
 # -- General configuration ---------------------------------------------------
@@ -26,6 +32,21 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx_multiversion",
     # "sphinxcontrib.bibtex",
+]
+
+# Mock out heavy/optional dependencies so autodoc won’t fail
+autodoc_mock_imports = [
+    "statsmodels",
+    "statsmodels.stats.multitest",
+    "numpy",
+    "pandas",
+    "scipy",
+    "sklearn",
+    "matplotlib",
+    "matplotlib.pyplot",
+    "seaborn",
+    "packaging",  # packaging.version.parse errors
+    # …and any others your code pulls in…
 ]
 
 templates_path = ["_templates"]
