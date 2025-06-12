@@ -5,6 +5,20 @@
 Welcome to the EquiBoots Documentation!
 ==========================================
 
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/EquiBoots.png
+   :alt: EquiBooots Logo
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+
 .. note::
    This documentation is for ``equiboots`` version ``0.0.0a8``.
 
