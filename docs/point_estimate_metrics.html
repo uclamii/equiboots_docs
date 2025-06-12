@@ -10,9 +10,9 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.js" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.js?v=96d057b0" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -22,7 +22,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=a0ccc04e"></script>
-      <script src="_static/custom.js"></script>
+      <script src="_static/custom.js?v=96d057b0"></script>
       <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -78,6 +78,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#statistical-metrics-table">Statistical Metrics table</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#metrics_table"><code class="docutils literal notranslate"><span class="pre">metrics_table()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#group-curve-plots">Group Curve Plots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#eq_plot_group_curves"><code class="docutils literal notranslate"><span class="pre">eq_plot_group_curves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roc-auc-curve">ROC AUC Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#precision-recall-curves">Precision-Recall Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calibration-plots">Calibration Plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2">Example 2</a></li>
 </ul>
 </li>
 </ul>
@@ -694,12 +705,158 @@ font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
     <td class="tg-2b7s">0.091</td>
     <td class="tg-2b7s">0.042</td>
 </tr>
-</tbody></table></div><div style="height: 40px;"></div><aside class="footnote-list brackets">
+</tbody></table></div><div style="height: 40px;"></div></section>
+</section>
+<section id="group-curve-plots">
+<h1>Group Curve Plots<a class="headerlink" href="#group-curve-plots" title="Link to this heading"></a></h1>
+<p>To help visualize how model performance varies across sensitive groups, EquiBoots
+provides a convenient plotting function for generating ROC, Precision-Recall, and
+Calibration curves by subgroup. These visualizations are essential for identifying
+disparities in predictive behavior and diagnosing potential fairness issues.</p>
+<p>The function below allows you to create either overlaid or per-group subplots,
+customize curve aesthetics, exclude small or irrelevant groups, and optionally save plots for reporting.</p>
+<p>After slicing your data using the <code class="docutils literal notranslate"><span class="pre">slicer()</span></code> method and organizing group-specific
+<code class="docutils literal notranslate"><span class="pre">y_true</span></code> and <code class="docutils literal notranslate"><span class="pre">y_prob</span></code> values, you can pass the resulting dictionary to
+<code class="docutils literal notranslate"><span class="pre">eq_plot_group_curves</span></code> to generate interpretable, publication-ready visuals.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="eq_plot_group_curves">
+<span class="sig-name descname"><span class="pre">eq_plot_group_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'roc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimal_places</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_kwgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_kwgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Curve</span> <span class="pre">by</span> <span class="pre">Group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subplots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lowess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shade_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_plot_group_curves" title="Link to this definition"></a></dt>
+<dd><p>Plots ROC, Precision-Recall, or Calibration curves by demographic group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – Dictionary mapping group names to dictionaries containing <code class="docutils literal notranslate"><span class="pre">y_true</span></code> and <code class="docutils literal notranslate"><span class="pre">y_prob</span></code> arrays. This is typically the output of the <code class="docutils literal notranslate"><span class="pre">slicer</span></code> method from the EquiBoots class.</p></li>
+<li><p><strong>curve_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Type of curve to plot. Options are <code class="docutils literal notranslate"><span class="pre">&quot;roc&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;pr&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;calibration&quot;</span></code>.</p></li>
+<li><p><strong>n_bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of bins to use for calibration curves. Ignored for ROC and PR.</p></li>
+<li><p><strong>decimal_places</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of decimal places to show in curve labels (e.g., for AUC or Brier scores).</p></li>
+<li><p><strong>curve_kwgs</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional dictionary of plotting keyword arguments per group, allowing customization of curve aesthetics.</p></li>
+<li><p><strong>line_kwgs</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional keyword arguments for reference lines (e.g., the diagonal line in ROC).</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Title of the entire figure.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Output filename prefix, used if saving plots.</p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – If specified, saves the figure as PNG in the directory provided.</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>, </em><em>optional</em>) – Tuple specifying the figure size in inches (width, height).</p></li>
+<li><p><strong>dpi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Resolution of the plot in dots per inch.</p></li>
+<li><p><strong>subplots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to generate a subplot per group (if False, all curves are plotted on one axis).</p></li>
+<li><p><strong>n_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of columns to use in subplot grid.</p></li>
+<li><p><strong>n_rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of subplot rows. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, this is inferred based on the number of groups.</p></li>
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – If set, plots only the specified group.</p></li>
+<li><p><strong>color_by_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, uses different colors for each group; otherwise, all curves are plotted in blue.</p></li>
+<li><p><strong>exclude_groups</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.13)"><em>set</em></a><em>]</em><em>, </em><em>optional</em>) – Optionally exclude specific groups by name or minimum sample size.</p></li>
+<li><p><strong>show_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to show background grid in the plot.</p></li>
+<li><p><strong>lowess</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Optional smoothing factor (between 0 and 1) applied to calibration curves.</p></li>
+<li><p><strong>shade_area</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to shade the area under the curve (useful for ROC and PR).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None. The plot is displayed or saved based on the <code class="docutils literal notranslate"><span class="pre">save_path</span></code> argument.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<ul class="simple">
+<li><p><strong>Overlay Mode:</strong> When <code class="docutils literal notranslate"><span class="pre">subplots=False</span></code>, all group curves are shown in a single plot for easy comparison.</p></li>
+<li><p><strong>Subplot Mode:</strong> When <code class="docutils literal notranslate"><span class="pre">subplots=True</span></code>, each group is plotted in its own axis using a grid layout.</p></li>
+<li><p><strong>Single Group Mode:</strong> You can pass a specific <code class="docutils literal notranslate"><span class="pre">group</span></code> to plot only one group separately.</p></li>
+<li><p><strong>Curve Labels:</strong> Each curve is labeled with the metric value, such as AUROC or Brier Score.</p></li>
+<li><p><strong>Reference Lines:</strong> For ROC and calibration curves, a diagonal reference line is included unless overridden via <code class="docutils literal notranslate"><span class="pre">line_kwgs</span></code>.</p></li>
+</ul>
+</div>
+<section id="roc-auc-curve">
+<h2>ROC AUC Curve<a class="headerlink" href="#roc-auc-curve" title="Link to this heading"></a></h2>
+<p>The following code generates an ROC AUC curve comparing performance across racial groups.
+This visualization helps assess whether the model maintains similar true positive and
+false positive trade-offs across subpopulations.</p>
+<p>By setting <code class="docutils literal notranslate"><span class="pre">subplots=False</span></code>, the curves for each group are overlaid on a single plot,
+making disparities visually apparent. Groups with insufficient sample sizes or minimal
+representation can be excluded using the <code class="docutils literal notranslate"><span class="pre">exclude_groups</span></code> parameter, as shown below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
+    <span class="n">sliced_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;roc&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;ROC AUC by Race Group&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amer-Indian-Eskimo&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="no-click"><a class="reference internal image-reference" href="_images/roc_auc_curves.png"><img alt="ROC AUC Curve" class="align-center" src="_images/roc_auc_curves.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div></section>
+<section id="precision-recall-curves">
+<h2>Precision-Recall Curves<a class="headerlink" href="#precision-recall-curves" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
+    <span class="n">sliced_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;pr&quot;</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Precision-Recall by Race Group&quot;</span><span class="p">,</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amer-Indian-Eskimo&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/pr_curves.png"><img alt="Precision-Recall Curves" class="align-center" src="_images/pr_curves.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div></section>
+<section id="calibration-plots">
+<h2>Calibration Plots<a class="headerlink" href="#calibration-plots" title="Link to this heading"></a></h2>
+<section id="example-1">
+<h3>Example 1<a class="headerlink" href="#example-1" title="Link to this heading"></a></h3>
+<p>Calibration plots compare predicted probabilities to actual outcomes, showing
+how well the model’s confidence aligns with observed frequencies. A perfectly
+calibrated model will have a curve that closely follows the diagonal reference line.</p>
+<p>The example below overlays calibration curves by racial group, using the same sliced data.
+Groups with low representation are excluded to ensure stable and interpretable plots.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
+    <span class="n">sliced_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Calibration by Race Group&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amer-Indian-Eskimo&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_plot.png"><img alt="Calibration Plot Overlay" class="align-center" src="_images/calibration_plot.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div></section>
+<section id="example-2">
+<h3>Example 2<a class="headerlink" href="#example-2" title="Link to this heading"></a></h3>
+<p>This example builds on the previous one by showing individual calibration
+curves in separate subplots and enabling shaded areas beneath the curves. This
+layout improves visual clarity, especially when comparing many groups or when the
+overlaid version appears cluttered.</p>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">shade_area=True</span></code> fills the area under each calibration curve.
+Subplots also help isolate each group’s performance,
+allowing easier inspection of group-specific trends.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
+    <span class="n">sliced_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Calibration by Race Group&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shade_area</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amer-Indian-Eskimo&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_sub_plots.png"><img alt="Calibration Subplots" class="align-center" src="_images/calibration_sub_plots.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div><div style="height: 40px;"></div><aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>
 </aside>
 </aside>
+</section>
 </section>
 </section>
 

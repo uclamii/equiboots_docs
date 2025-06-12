@@ -629,4 +629,245 @@ This format provides a concise, interpretable snapshot of where disparities are 
 
     <div style="height: 40px;"></div>
 
+
+Group Curve Plots
+==================
+
+To help visualize how model performance varies across sensitive groups, EquiBoots 
+provides a convenient plotting function for generating ROC, Precision-Recall, and 
+Calibration curves by subgroup. These visualizations are essential for identifying 
+disparities in predictive behavior and diagnosing potential fairness issues.
+
+The function below allows you to create either overlaid or per-group subplots, 
+customize curve aesthetics, exclude small or irrelevant groups, and optionally save plots for reporting.
+
+After slicing your data using the ``slicer()`` method and organizing group-specific 
+``y_true`` and ``y_prob`` values, you can pass the resulting dictionary to 
+``eq_plot_group_curves`` to generate interpretable, publication-ready visuals.
+
+.. function:: eq_plot_group_curves(data, curve_type="roc", n_bins=10, decimal_places=2, curve_kwgs=None, line_kwgs=None, title="Curve by Group", filename="group", save_path=None, figsize=(8, 6), dpi=100, subplots=False, n_cols=2, n_rows=None, group=None, color_by_group=True, exclude_groups=0, show_grid=True, lowess=0, shade_area=False)
+
+    Plots ROC, Precision-Recall, or Calibration curves by demographic group.
+
+    :param data: Dictionary mapping group names to dictionaries containing ``y_true`` and ``y_prob`` arrays. This is typically the output of the ``slicer`` method from the EquiBoots class.
+    :type data: Dict[str, Dict[str, np.ndarray]]
+
+    :param curve_type: Type of curve to plot. Options are ``"roc"``, ``"pr"``, or ``"calibration"``.
+    :type curve_type: str
+
+    :param n_bins: Number of bins to use for calibration curves. Ignored for ROC and PR.
+    :type n_bins: int, optional
+
+    :param decimal_places: Number of decimal places to show in curve labels (e.g., for AUC or Brier scores).
+    :type decimal_places: int, optional
+
+    :param curve_kwgs: Optional dictionary of plotting keyword arguments per group, allowing customization of curve aesthetics.
+    :type curve_kwgs: Dict[str, Dict[str, Union[str, float]]], optional
+
+    :param line_kwgs: Optional keyword arguments for reference lines (e.g., the diagonal line in ROC).
+    :type line_kwgs: Dict[str, Union[str, float]], optional
+
+    :param title: Title of the entire figure.
+    :type title: str, optional
+
+    :param filename: Output filename prefix, used if saving plots.
+    :type filename: str, optional
+
+    :param save_path: If specified, saves the figure as PNG in the directory provided.
+    :type save_path: str, optional
+
+    :param figsize: Tuple specifying the figure size in inches (width, height).
+    :type figsize: Tuple[float, float], optional
+
+    :param dpi: Resolution of the plot in dots per inch.
+    :type dpi: int, optional
+
+    :param subplots: Whether to generate a subplot per group (if False, all curves are plotted on one axis).
+    :type subplots: bool, optional
+
+    :param n_cols: Number of columns to use in subplot grid.
+    :type n_cols: int, optional
+
+    :param n_rows: Number of subplot rows. If ``None``, this is inferred based on the number of groups.
+    :type n_rows: int, optional
+
+    :param group: If set, plots only the specified group.
+    :type group: str, optional
+
+    :param color_by_group: If True, uses different colors for each group; otherwise, all curves are plotted in blue.
+    :type color_by_group: bool, optional
+
+    :param exclude_groups: Optionally exclude specific groups by name or minimum sample size.
+    :type exclude_groups: Union[int, str, list, set], optional
+
+    :param show_grid: Whether to show background grid in the plot.
+    :type show_grid: bool, optional
+
+    :param lowess: Optional smoothing factor (between 0 and 1) applied to calibration curves.
+    :type lowess: float, optional
+
+    :param shade_area: Whether to shade the area under the curve (useful for ROC and PR).
+    :type shade_area: bool, optional
+
+    :returns: None. The plot is displayed or saved based on the ``save_path`` argument.
+    :rtype: None
+
+.. admonition:: Notes
+
+    - **Overlay Mode:** When ``subplots=False``, all group curves are shown in a single plot for easy comparison.
+    - **Subplot Mode:** When ``subplots=True``, each group is plotted in its own axis using a grid layout.
+    - **Single Group Mode:** You can pass a specific ``group`` to plot only one group separately.
+    - **Curve Labels:** Each curve is labeled with the metric value, such as AUROC or Brier Score.
+    - **Reference Lines:** For ROC and calibration curves, a diagonal reference line is included unless overridden via ``line_kwgs``.
+
+
+ROC AUC Curve
+-----------------
+
+The following code generates an ROC AUC curve comparing performance across racial groups. 
+This visualization helps assess whether the model maintains similar true positive and 
+false positive trade-offs across subpopulations.
+
+By setting ``subplots=False``, the curves for each group are overlaid on a single plot, 
+making disparities visually apparent. Groups with insufficient sample sizes or minimal 
+representation can be excluded using the ``exclude_groups`` parameter, as shown below.
+
+.. code:: python
+
+    eqb.eq_plot_group_curves(
+        sliced_race_data,
+        curve_type="roc",
+        title="ROC AUC by Race Group",
+        figsize=(7, 7),
+        decimal_places=2,
+        subplots=False,
+        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+    )
+
+
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/roc_auc_curves.png
+   :alt: ROC AUC Curve
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+Precision-Recall Curves
+-------------------------
+
+.. code:: python
+
+    eqb.eq_plot_group_curves(
+        sliced_race_data,
+        curve_type="pr",
+        subplots=False,
+        figsize=(7, 7),
+        title="Precision-Recall by Race Group",
+        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+    )
+
+.. image:: ../assets/pr_curves.png
+   :alt: Precision-Recall Curves
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+
+Calibration Plots
+---------------------
+
+Example 1
+~~~~~~~~~~~~~~
+
+Calibration plots compare predicted probabilities to actual outcomes, showing 
+how well the model's confidence aligns with observed frequencies. A perfectly 
+calibrated model will have a curve that closely follows the diagonal reference line.
+
+The example below overlays calibration curves by racial group, using the same sliced data. 
+Groups with low representation are excluded to ensure stable and interpretable plots.
+
+.. code:: python
+
+    eqb.eq_plot_group_curves(
+        sliced_race_data,
+        curve_type="calibration",
+        title="Calibration by Race Group",
+        figsize=(7, 7),
+        decimal_places=2,
+        subplots=False,
+        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+    )
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/calibration_plot.png
+   :alt: Calibration Plot Overlay
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+Example 2
+~~~~~~~~~~~
+
+This example builds on the previous one by showing individual calibration 
+curves in separate subplots and enabling shaded areas beneath the curves. This 
+layout improves visual clarity, especially when comparing many groups or when the 
+overlaid version appears cluttered.
+
+Setting ``shade_area=True`` fills the area under each calibration curve.
+Subplots also help isolate each group’s performance, 
+allowing easier inspection of group-specific trends.
+
+.. code:: python
+
+    eqb.eq_plot_group_curves(
+        sliced_race_data,
+        curve_type="calibration",
+        title="Calibration by Race Group",
+        figsize=(7, 7),
+        decimal_places=2,
+        subplots=True,
+        shade_area=True,
+        n_cols=3,
+        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+    )
+
+
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/calibration_sub_plots.png
+   :alt: Calibration Subplots
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+
+
 .. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.

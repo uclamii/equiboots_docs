@@ -1,0 +1,47 @@
+/* This file intentionally left blank. */
+.no-click {
+    pointer-events: none;
+}
+
+.docutils table caption {
+    text-align: left;
+}
+
+.sphinxsidebarwrapper img {
+    display: block;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.bold-literal {
+    font-weight: bold;
+    color: red;  /* Set the text color to red */
+    font-family: monospace;
+}
+
+
+.two-col-images {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.two-col-images img {
+    width: 48%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.admonition.features {
+    background-color: #ffe6f0;  /* light pink for body */
+    color: inherit;
+}
+
+.admonition.features .admonition-title {
+    background-color: #d63384;  /* deeper magenta for title bar */
+    color: white;               /* white text on magenta */
+    font-weight: bold;
+}
