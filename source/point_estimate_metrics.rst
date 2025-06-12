@@ -376,6 +376,68 @@ Test Setup
           reference_groups=["white", "female"]
       )
 
+Group Metrics Point Plot
+================================
+
+.. function:: eq_group_metrics_point_plot(group_metrics, metric_cols, category_names, include_legend=True, cmap='tab20c', save_path=None, filename='Point_Disparity_Metrics', strict_layout=True, figsize=None, show_grid=True, plot_thresholds=(0.0, 2.0), show_pass_fail=False, y_lim=None, leg_cols=3, raw_metrics=False, statistical_tests=None, show_reference=True, **plot_kwargs)
+
+   Creates a grid of point plots for visualizing metric values (or disparities) across sensitive groups and multiple categories (e.g., race, sex). Each subplot corresponds to one (metric, category) combination, and groups are colored or flagged based on significance or pass/fail criteria.
+
+   :param group_metrics: A list of dictionaries where each dictionary maps group names to their respective metric values for one category.
+   :type group_metrics: list[dict[str, dict[str, float]]]
+
+   :param metric_cols: List of metric names to plot (one per row).
+   :type metric_cols: list[str]
+
+   :param category_names: Names of each category corresponding to group_metrics (one per column).
+   :type category_names: list[str]
+
+   :param include_legend: Whether to display the legend on the plot.
+   :type include_legend: bool
+
+   :param cmap: Colormap used to distinguish groups.
+   :type cmap: str
+
+   :param save_path: Directory path where the plot should be saved. If None, the plot is shown.
+   :type save_path: str or None
+
+   :param filename: Filename for saving the plot (without extension).
+   :type filename: str
+
+   :param strict_layout: Whether to apply tight layout spacing.
+   :type strict_layout: bool
+
+   :param figsize: Tuple for figure size (width, height).
+   :type figsize: tuple[float, float] or None
+
+   :param show_grid: Toggle for showing gridlines on plots.
+   :type show_grid: bool
+
+   :param plot_thresholds: A tuple (lower, upper) for pass/fail thresholds.
+   :type plot_thresholds: tuple[float, float]
+
+   :param show_pass_fail: Whether to color points based on pass/fail evaluation rather than group color.
+   :type show_pass_fail: bool
+
+   :param y_lim: Y-axis limits as a (min, max) tuple.
+   :type y_lim: tuple[float, float] or None
+
+   :param leg_cols: Number of columns in the group legend.
+   :type leg_cols: int
+
+   :param raw_metrics: Whether the input metrics are raw values (True) or already calculated disparities (False).
+   :type raw_metrics: bool
+
+   :param statistical_tests: Dictionary mapping categories to their statistical test results, used for annotating groups with significance markers.
+   :type statistical_tests: dict or None
+
+   :param show_reference: Whether to plot the horizontal reference line (e.g., y=1 for ratios).
+   :type show_reference: bool
+
+   :param plot_kwargs: Additional keyword arguments passed to `sns.scatterplot`.
+   :type plot_kwargs: dict[str, Union[str, float]]
+
+
 
 Once tests are computed, the ``eq_group_metrics_point_plot`` function can 
 visualize point estimates along with statistical significance annotations:
@@ -384,15 +446,21 @@ visualize point estimates along with statistical significance annotations:
 
     eqb.eq_group_metrics_point_plot(
         group_metrics=[race_metrics, sex_metrics],
-        metric_cols=["Accuracy", "Precision", "Recall"],
+        metric_cols=[
+            "Accuracy",
+            "Precision",
+            "Recall",
+        ],
         category_names=["race", "sex"],
         figsize=(6, 8),
         include_legend=True,
-        plot_thresholds=(0.9, 1.1),
         raw_metrics=True,
         show_grid=True,
-        y_lim=(0, 1),
-        statistical_tests=overall_stat_results
+        y_lim=(0, 1.1),
+        statistical_tests=overall_stat_results,
+        save_path="./images",
+        show_pass_fail=False,
+        show_reference=False,
     )
 
 **Output**
@@ -401,10 +469,10 @@ visualize point estimates along with statistical significance annotations:
 
    <div class="no-click">
 
-.. image:: ../assets/stat_point_estimate_plot.svg
+.. image:: ../assets/stat_point_estimate_plot.png
    :alt: Statistically-Based Point Estimate Plot
    :align: center
-   :width: 600px
+   :width: 550px
 
 .. raw:: html
 

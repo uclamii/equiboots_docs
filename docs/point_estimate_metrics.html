@@ -76,6 +76,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#test-setup">Test Setup</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#group-metrics-point-plot">Group Metrics Point Plot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#eq_group_metrics_point_plot"><code class="docutils literal notranslate"><span class="pre">eq_group_metrics_point_plot()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#statistical-metrics-table">Statistical Metrics table</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#metrics_table"><code class="docutils literal notranslate"><span class="pre">metrics_table()</span></code></a></li>
 </ul>
@@ -98,9 +102,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="bootstrapped_estimates.html">Bootstrap Estimate Evaluation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">EquiBoots Class Overview</span></p>
+<p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="equiboots_class.html">EquiBoots Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html">EquiBoots Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#statisticaltester-class">StatisticalTester Class</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
 <ul>
@@ -417,7 +422,7 @@ comparison adjustments.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, StatTestResult]]</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference internal" href="equiboots_stats_classes.html#StatTestResult" title="StatTestResult">StatTestResult</a>]]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">test_config</span></code> is not provided or is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
@@ -484,24 +489,65 @@ via omnibus and pairwise statistical tests.</p>
 </div>
 </li>
 </ul>
+</section>
+</section>
+</section>
+<section id="group-metrics-point-plot">
+<h1>Group Metrics Point Plot<a class="headerlink" href="#group-metrics-point-plot" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="eq_group_metrics_point_plot">
+<span class="sig-name descname"><span class="pre">eq_group_metrics_point_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab20c'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Point_Disparity_Metrics'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">2.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_pass_fail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leg_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistical_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plot_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_group_metrics_point_plot" title="Link to this definition"></a></dt>
+<dd><p>Creates a grid of point plots for visualizing metric values (or disparities) across sensitive groups and multiple categories (e.g., race, sex). Each subplot corresponds to one (metric, category) combination, and groups are colored or flagged based on significance or pass/fail criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em><em>]</em>) – A list of dictionaries where each dictionary maps group names to their respective metric values for one category.</p></li>
+<li><p><strong>metric_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – List of metric names to plot (one per row).</p></li>
+<li><p><strong>category_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Names of each category corresponding to group_metrics (one per column).</p></li>
+<li><p><strong>include_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to display the legend on the plot.</p></li>
+<li><p><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Colormap used to distinguish groups.</p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Directory path where the plot should be saved. If None, the plot is shown.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename for saving the plot (without extension).</p></li>
+<li><p><strong>strict_layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to apply tight layout spacing.</p></li>
+<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] or </em><em>None</em>) – Tuple for figure size (width, height).</p></li>
+<li><p><strong>show_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Toggle for showing gridlines on plots.</p></li>
+<li><p><strong>plot_thresholds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – A tuple (lower, upper) for pass/fail thresholds.</p></li>
+<li><p><strong>show_pass_fail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to color points based on pass/fail evaluation rather than group color.</p></li>
+<li><p><strong>y_lim</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] or </em><em>None</em>) – Y-axis limits as a (min, max) tuple.</p></li>
+<li><p><strong>leg_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of columns in the group legend.</p></li>
+<li><p><strong>raw_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the input metrics are raw values (True) or already calculated disparities (False).</p></li>
+<li><p><strong>statistical_tests</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em> or </em><em>None</em>) – Dictionary mapping categories to their statistical test results, used for annotating groups with significance markers.</p></li>
+<li><p><strong>show_reference</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to plot the horizontal reference line (e.g., y=1 for ratios).</p></li>
+<li><p><strong>plot_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em>) – Additional keyword arguments passed to <cite>sns.scatterplot</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <p>Once tests are computed, the <code class="docutils literal notranslate"><span class="pre">eq_group_metrics_point_plot</span></code> function can
 visualize point estimates along with statistical significance annotations:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_group_metrics_point_plot</span><span class="p">(</span>
     <span class="n">group_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">race_metrics</span><span class="p">,</span> <span class="n">sex_metrics</span><span class="p">],</span>
-    <span class="n">metric_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">],</span>
+    <span class="n">metric_cols</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Precision&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Recall&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
     <span class="n">category_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
     <span class="n">include_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">plot_thresholds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span>
     <span class="n">raw_metrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">y_lim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">statistical_tests</span><span class="o">=</span><span class="n">overall_stat_results</span>
+    <span class="n">y_lim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span>
+    <span class="n">statistical_tests</span><span class="o">=</span><span class="n">overall_stat_results</span><span class="p">,</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span><span class="p">,</span>
+    <span class="n">show_pass_fail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">show_reference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/stat_point_estimate_plot.svg"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/stat_point_estimate_plot.svg" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/stat_point_estimate_plot.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/stat_point_estimate_plot.png" style="width: 550px;" />
 </a>
 <div style="height: 40px;"></div><p>The chart above summarizes how model performance varies across race and sex groups
 for three key metrics: <strong>Accuracy</strong>, <strong>Precision</strong>, and <strong>Recall</strong>.</p>
@@ -515,8 +561,6 @@ for three key metrics: <strong>Accuracy</strong>, <strong>Precision</strong>, an
 <li><p>Color-coding helps distinguish categories and corresponds to the legend at the top.</p></li>
 </ul>
 <p>This visualization reveals whether disparities exist not only <strong>numerically</strong>, but also <strong>statistically</strong>, helping validate whether observed group-level differences are likely due to bias or simply random variation.</p>
-</section>
-</section>
 <section id="statistical-metrics-table">
 <h2>Statistical Metrics table<a class="headerlink" href="#statistical-metrics-table" title="Link to this heading"></a></h2>
 <p>Once statistical tests have been performed, we can summarize the results in a structured table that shows:</p>
