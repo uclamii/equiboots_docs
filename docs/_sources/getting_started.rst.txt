@@ -16,7 +16,7 @@ Welcome to the EquiBoots Documentation!
 
 .. raw:: html
 
-    <div style="height: 40px;"></div>
+    <div style="height: 40px;"></div></div>
 
 
 .. note::
@@ -45,6 +45,8 @@ Project Links
 1. `PyPI Page <https://pypi.org/project/equiboots/>`_  
 
 2. `GitHub Repository <https://github.com/uclamii/equiboots>`_
+
+3. `Google Colab Example Notebook <https://drive.google.com/file/d/1BrPCOO84nRYssX9JvQcAAC9azVmmGKjB/view?usp=sharing>`_
 
 Prerequisites
 -------------
