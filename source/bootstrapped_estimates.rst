@@ -135,7 +135,9 @@ Use violin plots to visualize variability in disparity metrics across bootstrap 
         plot_type="violinplot",
         color_by_group=True,
         strict_layout=True,
+        figsize=(15, 8),
         leg_cols=7,
+        max_cols=4,
     )
 
 **Output**
@@ -144,10 +146,10 @@ Use violin plots to visualize variability in disparity metrics across bootstrap 
 
     <div class="no-click">
 
-.. image:: ../assets/disparity_plots_ratio.png
+.. image:: ../assets/disparity_ratio_plots.png
     :alt: Disparity Ratio Plot
     :align: center
-    :width: 1000px
+    :width: 900px
 
 .. raw:: html
 
@@ -183,7 +185,9 @@ EquiBoots also enables the user to look at the disparity in metric differences. 
         plot_type="violinplot",
         color_by_group=True,
         strict_layout=True,
+        figsize=(15, 8),
         leg_cols=7,
+        max_cols=4,
     )
 
 **Output**
@@ -192,10 +196,10 @@ EquiBoots also enables the user to look at the disparity in metric differences. 
 
    <div class="no-click">
 
-.. image:: ../assets/disparity_differences.png
+.. image:: ../assets/disparity_differences_plots.png
    :alt: Statistically-Based Point Estimate Plot
    :align: center
-   :width: 1000px
+   :width: 900px
 
 .. raw:: html
 
@@ -330,7 +334,6 @@ Finally, plot the statistically tested metric differences:
         strict_layout=True,
         show_pass_fail=False,
         statistical_tests=stat_test_results,
-        save_path="./images"
     )
 
 
@@ -340,7 +343,7 @@ Finally, plot the statistically tested metric differences:
 
    <div class="no-click">
 
-.. image:: ../assets/differences_statistical_sig.png
+.. image:: ../assets/differences_stat_sig_plot.png
    :alt: Statistical Signficance of Differences
    :align: center
    :width: 1000px

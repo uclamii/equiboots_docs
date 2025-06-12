@@ -48,7 +48,7 @@ Constructor
    - **boot_sample_size** (int)  
      Size of each bootstrap sample.
    - **balanced** (bool)  
-     If True, balance samples across groups; otherwise stratify by original proportions.
+     If ``True``, balance samples across groups; otherwise stratify by original proportions.
    - **stratify_by_outcome** (bool)  
      Stratify sampling by outcome label.
    - **group_min_size** (int)  
@@ -364,7 +364,7 @@ Example Usage
 
 Below are two dummy examples demonstrating how to use the ``EquiBoots`` class: one **without** bootstrapping and one **with** bootstrapping.
 
-For more detailed examples, refer to that Colab notebook or `py_scripts/testingscript.py`.
+For more detailed examples, refer to that Colab notebook or ``py_scripts/testingscript.py``.
 
 Point Estimates Without Bootstrapping
 -------------------------------------

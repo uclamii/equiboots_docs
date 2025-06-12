@@ -82,7 +82,7 @@
 <p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html">EquiBoots Class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#example-usage">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#statisticaltester">StatisticalTester</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
 <ul>
@@ -220,12 +220,14 @@ Here we look at the ratio.</p>
     <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;violinplot&quot;</span><span class="p">,</span>
     <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">strict_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
     <span class="n">leg_cols</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">max_cols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/disparity_plots_ratio.png"><img alt="Disparity Ratio Plot" class="align-center" src="_images/disparity_plots_ratio.png" style="width: 1000px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/disparity_ratio_plots.png"><img alt="Disparity Ratio Plot" class="align-center" src="_images/disparity_ratio_plots.png" style="width: 900px;" />
 </a>
 <div style="height: 40px;"></div></section>
 <section id="metric-differences">
@@ -250,12 +252,14 @@ Here we look at the ratio.</p>
     <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;violinplot&quot;</span><span class="p">,</span>
     <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">strict_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
     <span class="n">leg_cols</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">max_cols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/disparity_differences.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/disparity_differences.png" style="width: 1000px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/disparity_differences_plots.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/disparity_differences_plots.png" style="width: 900px;" />
 </a>
 <div style="height: 40px;"></div></section>
 <section id="statistical-significance-testing">
@@ -368,12 +372,11 @@ distribution of bootstrapped metric differences to a null distribution of no eff
     <span class="n">strict_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show_pass_fail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">statistical_tests</span><span class="o">=</span><span class="n">stat_test_results</span><span class="p">,</span>
-    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/differences_statistical_sig.png"><img alt="Statistical Signficance of Differences" class="align-center" src="_images/differences_statistical_sig.png" style="width: 1000px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/differences_stat_sig_plot.png"><img alt="Statistical Signficance of Differences" class="align-center" src="_images/differences_stat_sig_plot.png" style="width: 1000px;" />
 </a>
 <div style="height: 40px;"></div></section>
 </section>
