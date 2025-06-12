@@ -19,12 +19,6 @@ Table of Contents
 
 .. toctree::
    :maxdepth: 4
-   :caption: From Model to Prediction
-
-   model_to_pred
-
-.. toctree::
-   :maxdepth: 4
    :caption: Point Estimate Metrics
 
    point_estimate_metrics
@@ -34,6 +28,12 @@ Table of Contents
    :caption: Bootstrapped Metrics
 
    bootstrapped_metrics
+
+.. toctree::
+   :maxdepth: 4
+   :caption: From Model to Prediction
+
+   model_to_pred
 
 
 .. toctree::

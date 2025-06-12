@@ -1,6 +1,5 @@
 .. _citations:   
 
-.. _target-link:
 
 
 Citing EquiBoots

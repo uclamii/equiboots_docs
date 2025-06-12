@@ -1,5 +1,3 @@
-.. _target-link:
-
 Changelog
 ===============
 

@@ -1,6 +1,5 @@
 .. _acknowledgements:   
 
-.. _target-link:
 
 Acknowledgements
 =====================

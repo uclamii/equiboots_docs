@@ -1,8 +1,7 @@
-.. _point_estimates:   
+.. _bootstrapped_metrics:   
+
 
 
 
 Bootstrapped Metrics Evaluation
 ==========================================
-
-.. _Bootstrapped_Metrics: 
