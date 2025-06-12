@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Point Estimate Evaluation &mdash; EquiBoots 0.0.1a documentation</title>
+  <title>Point Estimate Evaluation &mdash; EquiBoots 0.0.0a9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=8c8a9e14"></script>
+      <script src="_static/documentation_options.js?v=9756ebf1"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -105,7 +105,7 @@
 <p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html">EquiBoots Class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#statisticaltester-class">StatisticalTester Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#example-usage">Example Usage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
 <ul>
@@ -424,7 +424,7 @@ comparison adjustments.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference internal" href="equiboots_stats_classes.html#StatTestResult" title="StatTestResult">StatTestResult</a>]]</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, StatTestResult]]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">test_config</span></code> is not provided or is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
@@ -542,14 +542,14 @@ visualize point estimates along with statistical significance annotations:</p>
     <span class="n">show_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">y_lim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span>
     <span class="n">statistical_tests</span><span class="o">=</span><span class="n">overall_stat_results</span><span class="p">,</span>
-    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span><span class="p">,</span>
     <span class="n">show_pass_fail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">show_reference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">y_lims</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/stat_point_estimate_plot.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/stat_point_estimate_plot.png" style="width: 550px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/stats_based_point_estimates_plot.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/stats_based_point_estimates_plot.png" style="width: 550px;" />
 </a>
 <div style="height: 40px;"></div><p>The chart above summarizes how model performance varies across race and sex groups
 for three key metrics: <strong>Accuracy</strong>, <strong>Precision</strong>, and <strong>Recall</strong>.</p>
@@ -921,7 +921,7 @@ allowing easier inspection of group-specific trends.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis.</p>
+    <p>&#169; Copyright UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis, Al Rahrooh, Colin Beam.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

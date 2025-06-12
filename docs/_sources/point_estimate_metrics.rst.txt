@@ -472,9 +472,9 @@ visualize point estimates along with statistical significance annotations:
         show_grid=True,
         y_lim=(0, 1.1),
         statistical_tests=overall_stat_results,
-        save_path="./images",
         show_pass_fail=False,
         show_reference=False,
+        y_lims = {(0,0): (0.70, 1.0), (0,1): (0.70, 1.0)}
     )
 
 **Output**
@@ -483,7 +483,7 @@ visualize point estimates along with statistical significance annotations:
 
    <div class="no-click">
 
-.. image:: ../assets/stat_point_estimate_plot.png
+.. image:: ../assets/stats_based_point_estimates_plot.png
    :alt: Statistically-Based Point Estimate Plot
    :align: center
    :width: 550px

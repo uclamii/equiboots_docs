@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EquiBoots Class &mdash; EquiBoots 0.0.1a documentation</title>
+  <title>EquiBoots Class &mdash; EquiBoots 0.0.0a9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=8c8a9e14"></script>
+      <script src="_static/documentation_options.js?v=9756ebf1"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -66,47 +66,46 @@
 <p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">EquiBoots Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots"><code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.bootstrap"><code class="docutils literal notranslate"><span class="pre">EquiBoots.bootstrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.calculate_disparities"><code class="docutils literal notranslate"><span class="pre">EquiBoots.calculate_disparities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.calculate_groups_disparities"><code class="docutils literal notranslate"><span class="pre">EquiBoots.calculate_groups_disparities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.check_fairness_vars"><code class="docutils literal notranslate"><span class="pre">EquiBoots.check_fairness_vars()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.check_task"><code class="docutils literal notranslate"><span class="pre">EquiBoots.check_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.get_groups_metrics"><code class="docutils literal notranslate"><span class="pre">EquiBoots.get_groups_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.get_metrics"><code class="docutils literal notranslate"><span class="pre">EquiBoots.get_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.grouper"><code class="docutils literal notranslate"><span class="pre">EquiBoots.grouper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.groups_slicer"><code class="docutils literal notranslate"><span class="pre">EquiBoots.groups_slicer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.set_fix_seeds"><code class="docutils literal notranslate"><span class="pre">EquiBoots.set_fix_seeds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.set_reference_groups"><code class="docutils literal notranslate"><span class="pre">EquiBoots.set_reference_groups()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.EquiBoots.slicer"><code class="docutils literal notranslate"><span class="pre">EquiBoots.slicer()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constructor">Constructor</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#EquiBoots"><code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#get_grouped_data"><code class="docutils literal notranslate"><span class="pre">get_grouped_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#run_bootstrap"><code class="docutils literal notranslate"><span class="pre">run_bootstrap()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#summarize_metrics"><code class="docutils literal notranslate"><span class="pre">summarize_metrics()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compute_disparities"><code class="docutils literal notranslate"><span class="pre">compute_disparities()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#summarize_boot_disparities"><code class="docutils literal notranslate"><span class="pre">summarize_boot_disparities()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#get_confidence_intervals"><code class="docutils literal notranslate"><span class="pre">get_confidence_intervals()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#to_dataframe"><code class="docutils literal notranslate"><span class="pre">to_dataframe()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#statisticaltester-class">StatisticalTester Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#StatTestResult"><code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#StatisticalTester"><code class="docutils literal notranslate"><span class="pre">StatisticalTester</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.AVAILABLE_TESTS"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.AVAILABLE_TESTS</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.ADJUSTMENT_METHODS"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.ADJUSTMENT_METHODS</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.__init__"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.analyze_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.analyze_metrics()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.get_ci_bounds"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.get_ci_bounds()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._bootstrap_test"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._bootstrap_test()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._chi_square_test"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._chi_square_test()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._calculate_effect_size"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._calculate_effect_size()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.calc_p_value_bootstrap"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.calc_p_value_bootstrap()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._adjust_p_values"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._adjust_p_values()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.adjusting_p_vals"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.adjusting_p_vals()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester.cohens_d"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.cohens_d()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._analyze_single_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._analyze_single_metrics()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._analyze_bootstrapped_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._analyze_bootstrapped_metrics()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#StatisticalTester._validate_config"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._validate_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main-methods">Main Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-main-internal-methods">Non-Main/Internal Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.set_reference_groups"><code class="docutils literal notranslate"><span class="pre">set_reference_groups()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.check_task"><code class="docutils literal notranslate"><span class="pre">check_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.check_classification_task"><code class="docutils literal notranslate"><span class="pre">check_classification_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.check_fairness_vars"><code class="docutils literal notranslate"><span class="pre">check_fairness_vars()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.check_group_size"><code class="docutils literal notranslate"><span class="pre">check_group_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.check_group_empty"><code class="docutils literal notranslate"><span class="pre">check_group_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.sample_group"><code class="docutils literal notranslate"><span class="pre">sample_group()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.groups_slicer"><code class="docutils literal notranslate"><span class="pre">groups_slicer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.get_groups_metrics"><code class="docutils literal notranslate"><span class="pre">get_groups_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.calculate_groups_disparities"><code class="docutils literal notranslate"><span class="pre">calculate_groups_disparities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equiboots.EquiBootsClass.calculate_groups_differences"><code class="docutils literal notranslate"><span class="pre">calculate_groups_differences()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#example-usage">Example Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#point-estimates-without-bootstrapping">Point Estimates Without Bootstrapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#with-bootstrapping">With Bootstrapping</a></li>
 </ul>
 </li>
 </ul>
@@ -148,289 +147,328 @@
              
   <div class="no-click"><a class="reference internal image-reference" href="_images/EquiBoots.png"><img alt="EquiBoots Logo" class="align-left" src="_images/EquiBoots.png" style="width: 300px;" />
 </a>
-<div style="height: 130px;"></div><section id="id1">
-<h1>EquiBoots Class<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<div style="height: 130px;"></div><section id="module-equiboots.EquiBootsClass">
+<span id="id1"></span><h1>EquiBoots Class<a class="headerlink" href="#module-equiboots.EquiBootsClass" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">EquiBoots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fairness_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fairness_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'binary_classification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstraps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boot_sample_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balanced</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.bootstrap">
+<span class="sig-name descname"><span class="pre">bootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupings_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balanced</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.bootstrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.bootstrap" title="Link to this definition"></a></dt>
+<dd><p>Perform balanced bootstrap sampling on the dataset.</p>
+<p>Parameters:
+seeds : list</p>
+<blockquote>
+<div><p>List of random seeds for reproducibility.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>n_iterations<span class="classifier">int</span></dt><dd><p>Number of bootstrap iterations.</p>
+</dd>
+<dt>sample_size<span class="classifier">int</span></dt><dd><p>Size of each bootstrap sample.</p>
+</dd>
+<dt>groupings_vars<span class="classifier">list</span></dt><dd><p>Variables to group by during sampling.</p>
+</dd>
+<dt>balanced<span class="classifier">bool</span></dt><dd><p>Whether to balance samples across groups.</p>
+</dd>
+</dl>
+<p>Returns:
+list</p>
+<blockquote>
+<div><p>List of bootstrapped samples with group indices.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.calculate_disparities">
+<span class="sig-name descname"><span class="pre">calculate_disparities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.calculate_disparities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.calculate_disparities" title="Link to this definition"></a></dt>
+<dd><p>Calculate metrics for each group based on the task type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.calculate_groups_disparities">
+<span class="sig-name descname"><span class="pre">calculate_groups_disparities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.calculate_groups_disparities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.calculate_groups_disparities" title="Link to this definition"></a></dt>
+<dd><p>Calculate disparities between each group and the reference group.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.check_fairness_vars">
+<span class="sig-name descname"><span class="pre">check_fairness_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fairness_vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.check_fairness_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.check_fairness_vars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.check_task">
+<span class="sig-name descname"><span class="pre">check_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.check_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.check_task" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.get_groups_metrics">
+<span class="sig-name descname"><span class="pre">get_groups_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sliced_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.get_groups_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.get_groups_metrics" title="Link to this definition"></a></dt>
+<dd><p>Calculate metrics for each group based on the task type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.get_metrics">
+<span class="sig-name descname"><span class="pre">get_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sliced_dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.get_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.get_metrics" title="Link to this definition"></a></dt>
+<dd><p>Calculate metrics for each group based on the task type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.grouper">
+<span class="sig-name descname"><span class="pre">grouper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupings_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.grouper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.grouper" title="Link to this definition"></a></dt>
+<dd><p>Groups data by categorical variables and stores indices for each category.</p>
+<p>Parameters:
+groupings_vars : list</p>
+<blockquote>
+<div><p>Categorical variables to group by.</p>
+</div></blockquote>
+<p>Returns:
+None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.groups_slicer">
+<span class="sig-name descname"><span class="pre">groups_slicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slicing_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.groups_slicer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.groups_slicer" title="Link to this definition"></a></dt>
+<dd><p>Slices y_true, y_prob, and y_pred into categories of a given variable.</p>
+<p>Parameters:
+groups : dict</p>
+<blockquote>
+<div><p>Group indices for slicing.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>slicing_var<span class="classifier">str</span></dt><dd><p>The categorical variable to slice by.</p>
+</dd>
+</dl>
+<p>Returns:
+dictionary</p>
+<blockquote>
+<div><p>Sliced data grouped by categories.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.set_fix_seeds">
+<span class="sig-name descname"><span class="pre">set_fix_seeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.set_fix_seeds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.set_fix_seeds" title="Link to this definition"></a></dt>
+<dd><p>Set fixed random seeds for bootstrapping or reproducibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.set_reference_groups">
+<span class="sig-name descname"><span class="pre">set_reference_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_groups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.set_reference_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.set_reference_groups" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.EquiBoots.slicer">
+<span class="sig-name descname"><span class="pre">slicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slicing_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots.slicer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#equiboots.EquiBootsClass.EquiBoots.slicer" title="Link to this definition"></a></dt>
+<dd><p>Slices y_true, y_prob, and y_pred by a categorical variable, with or
+without bootstrapping.</p>
+<p>Parameters:
+slicing_var : str</p>
+<blockquote>
+<div><p>The categorical variable to slice by.</p>
+</div></blockquote>
+<p>Returns:
+list of dictionaries or dictionary</p>
+<blockquote>
+<div><p>Sliced data grouped by the variable’s categories.</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code> class offers a structured framework for fairness auditing in machine learning.
-It supports the evaluation of performance metrics across subgroups defined by sensitive attributes
-such as race, sex, or age, with optional bootstrapping to assess metric stability and disparity.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code> class provides tools for fairness-aware evaluation and bootstrapping of machine learning model predictions. It supports binary, multi-class, multi-label classification, and regression tasks, and enables group-based metric calculation, disparity analysis, and statistical significance testing.</p>
 </section>
 <section id="constructor">
 <h2>Constructor<a class="headerlink" href="#constructor" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="EquiBoots">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EquiBoots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fairness_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fairness_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary_classification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstraps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boot_sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balanced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#EquiBoots" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">EquiBoots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fairness_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fairness_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary_classification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstraps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boot_sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balanced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratify_by_outcome</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_min_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/equiboots/EquiBootsClass.html#EquiBoots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.array</em>) – Array of ground truth labels.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.array</em>) – Array of predicted labels (discrete).</p></li>
-<li><p><strong>fairness_df</strong> (<em>pandas.DataFrame</em>) – DataFrame containing subgroup identifiers (e.g., race, sex).</p></li>
-<li><p><strong>fairness_vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – List of column names in <code class="docutils literal notranslate"><span class="pre">fairness_df</span></code> to audit fairness across.</p></li>
-<li><p><strong>y_prob</strong> (<em>np.array</em><em> or </em><em>None</em>) – Optional array of predicted probabilities or scores.</p></li>
-<li><p><strong>seeds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – Random seeds used to generate bootstraps.</p></li>
-<li><p><strong>reference_groups</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> or </em><em>None</em>) – Optional list of reference groups, one per fairness variable.</p></li>
-<li><p><strong>task</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Task type, one of <code class="docutils literal notranslate"><span class="pre">'binary_classification'</span></code>, <code class="docutils literal notranslate"><span class="pre">'multi_class'</span></code>, <code class="docutils literal notranslate"><span class="pre">'multi_label'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'regression'</span></code>.</p></li>
-<li><p><strong>bootstrap_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to perform bootstrapped evaluation.</p></li>
-<li><p><strong>num_bootstraps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of bootstrap replicates.</p></li>
-<li><p><strong>boot_sample_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Size of each bootstrap sample.</p></li>
-<li><p><strong>balanced</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to enforce balanced sampling across subgroups during bootstrapping.</p></li>
+<li><p><strong>y_true</strong> – Ground truth labels (numpy array)</p></li>
+<li><p><strong>y_pred</strong> – Predicted labels (numpy array)</p></li>
+<li><p><strong>fairness_df</strong> – DataFrame with fairness variables (pandas DataFrame)</p></li>
+<li><p><strong>fairness_vars</strong> – List of fairness variable names (list)</p></li>
+<li><p><strong>y_prob</strong> – Predicted probabilities (numpy array, optional)</p></li>
+<li><p><strong>seeds</strong> – Random seeds for bootstrapping (list, optional)</p></li>
+<li><p><strong>reference_groups</strong> – Reference group for each fairness variable (list, optional)</p></li>
+<li><p><strong>task</strong> – Task type (“binary_classification”, “multi_class_classification”, “regression”, “multi_label_classification”)</p></li>
+<li><p><strong>bootstrap_flag</strong> – Whether to use bootstrapping (bool)</p></li>
+<li><p><strong>num_bootstraps</strong> – Number of bootstrap iterations (int)</p></li>
+<li><p><strong>boot_sample_size</strong> – Size of each bootstrap sample (int)</p></li>
+<li><p><strong>balanced</strong> – Whether to balance samples across groups (bool), if False groups are stratified (proportions of groups from original dataset is maintaned) if True groups are balanced (equal number of samples from each group)</p></li>
+<li><p><strong>stratify_by_outcome</strong> – Stratify sampling by outcome (bool)</p></li>
+<li><p><strong>group_min_size</strong> – Any group with less observation than Minimum group size (int) gets ommitted</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
-<dl class="py method">
-<dt class="sig sig-object py" id="get_grouped_data">
-<span class="sig-name descname"><span class="pre">get_grouped_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_grouped_data" title="Link to this definition"></a></dt>
-<dd><p>Slice input data by each fairness variable and group, returning a dictionary structure containing <code class="docutils literal notranslate"><span class="pre">y_true</span></code>, <code class="docutils literal notranslate"><span class="pre">y_pred</span></code>, and optionally <code class="docutils literal notranslate"><span class="pre">y_prob</span></code> for each subgroup.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict of nested group-wise arrays.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="run_bootstrap">
-<span class="sig-name descname"><span class="pre">run_bootstrap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#run_bootstrap" title="Link to this definition"></a></dt>
-<dd><p>Perform bootstrapped sampling and compute metrics across all specified groups. Required if <code class="docutils literal notranslate"><span class="pre">bootstrap_flag</span></code> is True.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Bootstrapped metrics per group per seed.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="summarize_metrics">
-<span class="sig-name descname"><span class="pre">summarize_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#summarize_metrics" title="Link to this definition"></a></dt>
-<dd><p>Compute performance metrics by group (with or without bootstrapping).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dictionary or DataFrame of grouped performance metrics.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a> or pandas.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="compute_disparities">
-<span class="sig-name descname"><span class="pre">compute_disparities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compute_disparities" title="Link to this definition"></a></dt>
-<dd><p>Compare each subgroup against a reference group for each fairness variable. Computes metric-level disparities.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dictionary of disparities across metrics and groups.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="summarize_boot_disparities">
-<span class="sig-name descname"><span class="pre">summarize_boot_disparities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#summarize_boot_disparities" title="Link to this definition"></a></dt>
-<dd><p>Compute disparities across bootstrap replicates and return confidence intervals.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Nested dictionary of disparity distributions and confidence intervals.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="get_confidence_intervals">
-<span class="sig-name descname"><span class="pre">get_confidence_intervals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#get_confidence_intervals" title="Link to this definition"></a></dt>
-<dd><p>Given a dictionary of bootstrapped metric results, compute 95% confidence intervals.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>metric_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Bootstrapped results keyed by group and metric.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Confidence intervals per metric per group.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="to_dataframe">
-<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#to_dataframe" title="Link to this definition"></a></dt>
-<dd><p>Utility method to convert metric dictionaries into tabular format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>metric_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Dictionary of results keyed by group and metric.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame of results.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="main-methods">
+<h2>Main Methods<a class="headerlink" href="#main-methods" title="Link to this heading"></a></h2>
 </section>
-</section>
-<section id="statisticaltester-class">
-<h1>StatisticalTester Class<a class="headerlink" href="#statisticaltester-class" title="Link to this heading"></a></h1>
-<section id="id2">
-<h2>Overview<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">StatisticalTester</span></code> class provides a flexible framework for statistical significance testing
-across subgroup metrics in machine learning fairness audits. It supports both parametric and
-non-parametric tests, p-value adjustments, and bootstrapped confidence interval estimation.</p>
-</section>
-<section id="classes">
-<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="StatTestResult">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">StatTestResult</span></span><a class="headerlink" href="#StatTestResult" title="Link to this definition"></a></dt>
-<dd><p>Stores the result of a statistical test.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>statistic</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Test statistic value.</p></li>
-<li><p><strong>p_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Computed p-value for the test.</p></li>
-<li><p><strong>is_significant</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Boolean indicating whether the test result is statistically significant.</p></li>
-<li><p><strong>test_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the statistical test.</p></li>
-<li><p><strong>critical_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Optional critical value used for decision-making.</p></li>
-<li><p><strong>effect_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Optional effect size (e.g., Cramér’s V or Cohen’s d).</p></li>
-<li><p><strong>confidence_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>)</em><em>, </em><em>optional</em>) – Optional confidence interval for the test statistic.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="StatisticalTester">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">StatisticalTester</span></span><a class="headerlink" href="#StatisticalTester" title="Link to this definition"></a></dt>
-<dd><p>Performs statistical testing with support for bootstrapping, chi-square, p-value correction,
-and effect size estimation.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="StatisticalTester.AVAILABLE_TESTS">
-<span class="sig-name descname"><span class="pre">AVAILABLE_TESTS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{&quot;chi_square&quot;:</span> <span class="pre">&quot;Chi-square</span> <span class="pre">test&quot;,</span> <span class="pre">&quot;bootstrap_test&quot;:</span> <span class="pre">&quot;Bootstrap</span> <span class="pre">test&quot;}</span></em><a class="headerlink" href="#StatisticalTester.AVAILABLE_TESTS" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="StatisticalTester.ADJUSTMENT_METHODS">
-<span class="sig-name descname"><span class="pre">ADJUSTMENT_METHODS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{&quot;bonferroni&quot;,</span> <span class="pre">&quot;fdr_bh&quot;,</span> <span class="pre">&quot;holm&quot;,</span> <span class="pre">&quot;none&quot;}</span></em><a class="headerlink" href="#StatisticalTester.ADJUSTMENT_METHODS" title="Link to this definition"></a></dt>
+<section id="non-main-internal-methods">
+<h2>Non-Main/Internal Methods<a class="headerlink" href="#non-main-internal-methods" title="Link to this heading"></a></h2>
+<p>These methods are primarily used internally by the class for validation, group management, and sampling, but may be useful for advanced users:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.set_reference_groups">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">set_reference_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.set_reference_groups" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Sets</span> <span class="pre">the</span> <span class="pre">reference</span> <span class="pre">group</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">fairness</span> <span class="pre">variable,</span> <span class="pre">either</span> <span class="pre">from</span> <span class="pre">user</span> <span class="pre">input</span> <span class="pre">or</span> <span class="pre">by</span> <span class="pre">selecting</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">populous</span> <span class="pre">group.</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initializes test method mappings.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.check_task">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">check_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.check_task" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Validates</span> <span class="pre">the</span> <span class="pre">task</span> <span class="pre">type.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester.analyze_metrics">
-<span class="sig-name descname"><span class="pre">analyze_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">differences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester.analyze_metrics" title="Link to this definition"></a></dt>
-<dd><p>Main interface to analyze group metrics for significance relative to a reference group.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics_data</strong> – Metric data in either dict or list of dicts format.</p></li>
-<li><p><strong>reference_group</strong> – The baseline group to compare others against.</p></li>
-<li><p><strong>test_config</strong> – Dictionary of test parameters (e.g., alpha, test_type).</p></li>
-<li><p><strong>task</strong> – Optional task type (e.g., “binary_classification”).</p></li>
-<li><p><strong>differences</strong> – Optional differences dictionary for bootstrapped metrics.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary of test results.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.check_classification_task">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">check_classification_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.check_classification_task" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Ensures</span> <span class="pre">the</span> <span class="pre">task</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">classification</span> <span class="pre">task</span> <span class="pre">when</span> <span class="pre">required.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester.get_ci_bounds">
-<span class="sig-name descname"><span class="pre">get_ci_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester.get_ci_bounds" title="Link to this definition"></a></dt>
-<dd><p>Returns lower and upper percentile bounds for CI based on test type.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.check_fairness_vars">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">check_fairness_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fairness_vars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.check_fairness_vars" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Validates</span> <span class="pre">the</span> <span class="pre">fairness_vars</span> <span class="pre">input.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._bootstrap_test">
-<span class="sig-name descname"><span class="pre">_bootstrap_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._bootstrap_test" title="Link to this definition"></a></dt>
-<dd><p>Performs a bootstrap significance test with CI and effect direction.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.check_group_size">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">check_group_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.check_group_size" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Checks</span> <span class="pre">if</span> <span class="pre">a</span> <span class="pre">group</span> <span class="pre">meets</span> <span class="pre">the</span> <span class="pre">minimum</span> <span class="pre">size</span> <span class="pre">requirement.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._chi_square_test">
-<span class="sig-name descname"><span class="pre">_chi_square_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._chi_square_test" title="Link to this definition"></a></dt>
-<dd><p>Performs a chi-square test on a contingency table of confusion matrix values.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.check_group_empty">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">check_group_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sampled_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.check_group_empty" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Checks</span> <span class="pre">if</span> <span class="pre">a</span> <span class="pre">sampled</span> <span class="pre">group</span> <span class="pre">is</span> <span class="pre">empty.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._calculate_effect_size">
-<span class="sig-name descname"><span class="pre">_calculate_effect_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._calculate_effect_size" title="Link to this definition"></a></dt>
-<dd><p>Computes Cramér’s V from a contingency table.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.sample_group">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">sample_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_categories</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balanced</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.sample_group" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Samples</span> <span class="pre">a</span> <span class="pre">group</span> <span class="pre">with</span> <span class="pre">or</span> <span class="pre">without</span> <span class="pre">balancing.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester.calc_p_value_bootstrap">
-<span class="sig-name descname"><span class="pre">calc_p_value_bootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester.calc_p_value_bootstrap" title="Link to this definition"></a></dt>
-<dd><p>Calculates a bootstrap-based p-value assuming symmetry around 0.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.groups_slicer">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">groups_slicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slicing_var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.groups_slicer" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Slices</span> <span class="pre">y_true,</span> <span class="pre">y_prob,</span> <span class="pre">and</span> <span class="pre">y_pred</span> <span class="pre">into</span> <span class="pre">categories</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">given</span> <span class="pre">variable.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._adjust_p_values">
-<span class="sig-name descname"><span class="pre">_adjust_p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._adjust_p_values" title="Link to this definition"></a></dt>
-<dd><p>Adjusts p-values for multiple comparisons.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.get_groups_metrics">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">get_groups_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sliced_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.get_groups_metrics" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Calculates</span> <span class="pre">metrics</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">group</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">task</span> <span class="pre">type.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester.adjusting_p_vals">
-<span class="sig-name descname"><span class="pre">adjusting_p_vals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester.adjusting_p_vals" title="Link to this definition"></a></dt>
-<dd><p>Wrapper for selecting and running the appropriate p-value adjustment method.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.calculate_groups_disparities">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">calculate_groups_disparities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.calculate_groups_disparities" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Calculates</span> <span class="pre">disparities</span> <span class="pre">between</span> <span class="pre">each</span> <span class="pre">group</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">reference</span> <span class="pre">group.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester.cohens_d">
-<span class="sig-name descname"><span class="pre">cohens_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester.cohens_d" title="Link to this definition"></a></dt>
-<dd><p>Computes Cohen’s d between two arrays.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="equiboots.EquiBootsClass.calculate_groups_differences">
+<span class="sig-prename descclassname"><span class="pre">equiboots.EquiBootsClass.</span></span><span class="sig-name descname"><span class="pre">calculate_groups_differences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_var_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#equiboots.EquiBootsClass.calculate_groups_differences" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Calculates</span> <span class="pre">differences</span> <span class="pre">between</span> <span class="pre">each</span> <span class="pre">group</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">reference</span> <span class="pre">group.</span></span></dt>
+<dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._analyze_single_metrics">
-<span class="sig-name descname"><span class="pre">_analyze_single_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._analyze_single_metrics" title="Link to this definition"></a></dt>
-<dd><p>Performs significance testing on confusion matrix values without bootstrapping.</p>
-</dd></dl>
+</section>
+</section>
+<section id="example-usage">
+<h1>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading"></a></h1>
+<p>Below are two dummy examples demonstrating how to use the <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code> class: one <strong>without</strong> bootstrapping and one <strong>with</strong> bootstrapping.</p>
+<p>For more detailed examples, refer to this colab notebook or
+the py_scripts/testingscript.py.</p>
+<section id="point-estimates-without-bootstrapping">
+<h2>Point Estimates Without Bootstrapping<a class="headerlink" href="#point-estimates-without-bootstrapping" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="kn">import</span> <span class="n">EquiBoots</span>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._analyze_bootstrapped_metrics">
-<span class="sig-name descname"><span class="pre">_analyze_bootstrapped_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics_diff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._analyze_bootstrapped_metrics" title="Link to this definition"></a></dt>
-<dd><p>Runs bootstrapped testing on performance metric differences by group.</p>
-</dd></dl>
+<span class="c1"># Example data</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">fairness_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;race&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">]</span>
+<span class="p">})</span>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="StatisticalTester._validate_config">
-<span class="sig-name descname"><span class="pre">_validate_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#StatisticalTester._validate_config" title="Link to this definition"></a></dt>
-<dd><p>Validates required config keys and test types.</p>
-</dd></dl>
+<span class="n">eq</span> <span class="o">=</span> <span class="n">EquiBoots</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_prob</span><span class="o">=</span><span class="n">y_prob</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+    <span class="n">fairness_df</span><span class="o">=</span><span class="n">fairness_df</span><span class="p">,</span>
+    <span class="n">fairness_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
+    <span class="n">bootstrap_flag</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 
-</dd></dl>
+<span class="n">eq</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">])</span>
+<span class="n">sliced</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;race&quot;</span><span class="p">)</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">sliced</span><span class="p">)</span>
+<span class="n">disparities</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">calculate_disparities</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">)</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Metrics by group:&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Disparities:&quot;</span><span class="p">,</span> <span class="n">disparities</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="with-bootstrapping">
+<h2>With Bootstrapping<a class="headerlink" href="#with-bootstrapping" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="kn">import</span> <span class="n">EquiBoots</span>
+
+<span class="c1"># Example data</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">fairness_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;race&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">eq</span> <span class="o">=</span> <span class="n">EquiBoots</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_prob</span><span class="o">=</span><span class="n">y_prob</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+    <span class="n">fairness_df</span><span class="o">=</span><span class="n">fairness_df</span><span class="p">,</span>
+    <span class="n">fairness_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
+    <span class="n">bootstrap_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">num_bootstraps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">boot_sample_size</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+
+<span class="n">eq</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">])</span>
+<span class="n">sliced</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;race&quot;</span><span class="p">)</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">sliced</span><span class="p">)</span>
+<span class="n">disparities</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">calculate_disparities</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Metrics by group (bootstrapped):&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Disparities (bootstrapped):&quot;</span><span class="p">,</span> <span class="n">disparities</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -445,7 +483,7 @@ and effect size estimation.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis.</p>
+    <p>&#169; Copyright UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis, Al Rahrooh, Colin Beam.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
