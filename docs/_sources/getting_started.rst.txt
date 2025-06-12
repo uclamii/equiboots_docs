@@ -1,13 +1,12 @@
 .. _getting_started:   
 
-.. _target-link:
 
 
 Welcome to the EquiBoots Documentation!
 ==========================================
 
 .. note::
-   This documentation is for ``equiboots`` version ``0.0.0a7``.
+   This documentation is for ``equiboots`` version ``0.0.0a8``.
 
 EquiBoots is a fairness-aware model evaluation toolkit for auditing performance 
 disparities across demographic groups in machine learning models. It provides robust, 
