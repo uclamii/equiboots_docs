@@ -17,7 +17,7 @@ different subpopulations or sensitive attributes.
 This section demonstrates how to compute group-wise performance metrics using 
 model outputs and fairness variables from the Adult Income dataset [1]_. For 
 bootstrapped confidence intervals, refer to the :ref:`bootstrapped metrics 
-evaluation section <bootstrapped_metrics>`. 
+evaluation section <bootstrapped_estimates>`. 
 
 Supported Metrics
 -------------------------

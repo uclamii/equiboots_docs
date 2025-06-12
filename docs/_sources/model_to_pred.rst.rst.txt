@@ -1,4 +1,0 @@
-.. _model_to_pred:   
-
-From Model To Prediction
-==========================================

@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bootstrap Estimate Evaluation &mdash; EquiBoots 0.0.1a documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.js?v=96d057b0" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8c8a9e14"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=a0ccc04e"></script>
+      <script src="_static/custom.js?v=96d057b0"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Preparing Model Outputs for Fairness Analysis" href="model_to_pred.html" />
+    <link rel="prev" title="Point Estimate Evaluation" href="point_estimate_metrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            EquiBoots
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Welcome to the EquiBoots Documentation!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Point Estimate Metrics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bootstrap Estimate Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bootstrap-setup">1. Bootstrap Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-1-instantiate-equiboots-with-bootstrapping"><strong>Step 1.1: Instantiate EquiBoots with Bootstrapping</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-2-slice-by-group-and-compute-metrics"><strong>Step 1.2: Slice by Group and Compute Metrics</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#disparity-analysis">2. Disparity Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metric-differences">3. Metric Differences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#statistical-significance-testing">4. Statistical Significance Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metrics-table-with-significance-annotations"><strong>4.1: Metrics Table with Significance Annotations</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualize-differences-with-significance"><strong>4.2: Visualize Differences with Significance</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citations.html">Citing EquiBoots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EquiBoots</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Bootstrap Estimate Evaluation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bootstrap-estimate-evaluation">
+<span id="bootstrapped-estimates"></span><h1>Bootstrap Estimate Evaluation<a class="headerlink" href="#bootstrap-estimate-evaluation" title="Link to this heading"></a></h1>
+<p>While point estimates provide a snapshot of model performance for each subgroup,
+they do not capture uncertainty or statistical variability. Bootstrap estimates
+enhance fairness auditing by enabling confidence interval computation, statistical
+significance testing, and disparity analysis through repeated resampling.</p>
+<p>EquiBoots supports bootstrap-based estimation for both classification and regression
+tasks. This section walks through the process of generating bootstrapped group metrics,
+computing disparities, and performing statistical tests to assess whether observed
+differences are statistically significant.</p>
+<section id="bootstrap-setup">
+<h2>1. Bootstrap Setup<a class="headerlink" href="#bootstrap-setup" title="Link to this heading"></a></h2>
+<section id="step-1-1-instantiate-equiboots-with-bootstrapping">
+<h3><strong>Step 1.1: Instantiate EquiBoots with Bootstrapping</strong><a class="headerlink" href="#step-1-1-instantiate-equiboots-with-bootstrapping" title="Link to this heading"></a></h3>
+<p>To begin, we instantiate the <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code> class with the required inputs: the
+true outcome labels (<code class="docutils literal notranslate"><span class="pre">y_test</span></code>), predicted class labels (<code class="docutils literal notranslate"><span class="pre">y_pred</span></code>),
+predicted probabilities (<code class="docutils literal notranslate"><span class="pre">y_prob</span></code>), and a DataFrame that holds sensitive
+attributes like <code class="docutils literal notranslate"><span class="pre">race</span></code> or <code class="docutils literal notranslate"><span class="pre">sex</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">y_pred</span></code>, <code class="docutils literal notranslate"><span class="pre">y_prob</span></code>, <code class="docutils literal notranslate"><span class="pre">y_test</span></code> are defined inside the <a class="reference internal" href="model_to_pred.html#modeling-generation"><span class="std std-ref">modeling generation section</span></a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For reccomended behaviour over 5000 bootstraps should be used. This ensures that we are properly
+estimating the normal distribution.</p>
+</div>
+<p>Bootstrapping is enabled by passing the required arguments during initialization.
+You must specify:
+- A list of random seeds for reproducibility
+- <cite>bootstrap_flag=True</cite> to enable resampling
+- The number of bootstrap iterations (<cite>num_bootstraps</cite>)
+- The sample size for each bootstrap
+- Optional settings for stratification and balancing</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
+
+<span class="n">int_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">eq2</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">EquiBoots</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+    <span class="n">y_prob</span><span class="o">=</span><span class="n">y_prob</span><span class="p">,</span>
+    <span class="n">fairness_df</span><span class="o">=</span><span class="n">fairness_df</span><span class="p">,</span>
+    <span class="n">fairness_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">],</span>
+    <span class="n">seeds</span><span class="o">=</span><span class="n">int_list</span><span class="p">,</span>
+    <span class="n">reference_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;White&quot;</span><span class="p">],</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
+    <span class="n">bootstrap_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">num_bootstraps</span><span class="o">=</span><span class="mi">5001</span><span class="p">,</span>
+    <span class="n">boot_sample_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">group_min_size</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+    <span class="n">balanced</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">stratify_by_outcome</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-1-2-slice-by-group-and-compute-metrics">
+<h3><strong>Step 1.2: Slice by Group and Compute Metrics</strong><a class="headerlink" href="#step-1-2-slice-by-group-and-compute-metrics" title="Link to this heading"></a></h3>
+<p>Once initialized, use the <cite>grouper()</cite> and <cite>slicer()</cite> methods to prepare bootstrapped
+samples for each subgroup:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eq2</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">])</span>
+<span class="n">boots_race_data</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;race&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once this is done we get the metrics for each bootstrap, this will return a list of metrics for each bootstrap.
+This may take some time to run.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">race_metrics</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">boots_race_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="disparity-analysis">
+<h2>2. Disparity Analysis<a class="headerlink" href="#disparity-analysis" title="Link to this heading"></a></h2>
+<p>Disparities quantify how model performance varies across subgroups relative to a reference.
+Here we look at the ratio.</p>
+<ul class="simple">
+<li><p><strong>Disparity Ratio:</strong> Metric ratio between a group and the reference</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\text{Disparity Ratio} = \frac{M(G)}{M(R)} \quad\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dispa</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">calculate_disparities</span><span class="p">(</span><span class="n">race_metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Plot Disparity Ratios</strong></p>
+<p>Use violin plots to visualize variability in disparity metrics across bootstrap iterations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_group_metrics_plot</span><span class="p">(</span>
+    <span class="n">group_metrics</span><span class="o">=</span><span class="n">dispa</span><span class="p">,</span>
+    <span class="n">metric_cols</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Accuracy_Ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision_Ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;Predicted_Prevalence_Ratio&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Prevalence_Ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;FP_Rate_Ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;TN_Rate_Ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall_Ratio&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;race&quot;</span><span class="p">,</span>
+    <span class="n">categories</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;violinplot&quot;</span><span class="p">,</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">strict_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">leg_cols</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/disparity_plots_ratio.png"><img alt="Disparity Ratio Plot" class="align-center" src="_images/disparity_plots_ratio.png" style="width: 1000px;" />
+</a>
+<div style="height: 40px;"></div></section>
+<section id="metric-differences">
+<h2>3. Metric Differences<a class="headerlink" href="#metric-differences" title="Link to this heading"></a></h2>
+<p>EquiBoots also enables the user to look at the disparity in metric differences. The difference between the performance of the model for one group against the reference group.</p>
+<ul class="simple">
+<li><p><strong>Disparity Difference:</strong> Metric difference between a group and the reference</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\text{Disparity Difference} = M(G) - M(R)\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">diffs</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">calculate_differences</span><span class="p">(</span><span class="n">race_metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_group_metrics_plot</span><span class="p">(</span>
+    <span class="n">group_metrics</span><span class="o">=</span><span class="n">diffs</span><span class="p">,</span>
+    <span class="n">metric_cols</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Accuracy_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Predicted_Prevalence_diff&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Prevalence_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;FP_Rate_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;TN_Rate_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall_diff&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;race&quot;</span><span class="p">,</span>
+    <span class="n">categories</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;violinplot&quot;</span><span class="p">,</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">strict_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">leg_cols</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/disparity_differences.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/disparity_differences.png" style="width: 1000px;" />
+</a>
+<div style="height: 40px;"></div></section>
+<section id="statistical-significance-testing">
+<h2>4. Statistical Significance Testing<a class="headerlink" href="#statistical-significance-testing" title="Link to this heading"></a></h2>
+<p>To determine whether disparities are statistically significant,
+EquiBoots provides bootstrap-based hypothesis testing. This involves comparing the
+distribution of bootstrapped metric differences to a null distribution of no effect.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">metrics_boot</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Accuracy_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;F1_Score_diff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Specificity_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;TP_Rate_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;FP_Rate_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;FN_Rate_diff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TN_Rate_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Prevalence_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Predicted_Prevalence_diff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC_AUC_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Average_Precision_Score_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Log_Loss_diff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Brier_Score_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;Calibration_AUC_diff&quot;</span>
+<span class="p">]</span>
+
+<span class="n">test_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;test_type&quot;</span><span class="p">:</span> <span class="s2">&quot;bootstrap_test&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s2">&quot;adjust_method&quot;</span><span class="p">:</span> <span class="s2">&quot;bonferroni&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;confidence_level&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="s2">&quot;classification_task&quot;</span><span class="p">:</span> <span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tail_type&quot;</span><span class="p">:</span> <span class="s2">&quot;two_tailed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="n">metrics_boot</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">stat_test_results</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">analyze_statistical_significance</span><span class="p">(</span>
+    <span class="n">metric_dict</span><span class="o">=</span><span class="n">race_metrics</span><span class="p">,</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;race&quot;</span><span class="p">,</span>
+    <span class="n">test_config</span><span class="o">=</span><span class="n">test_config</span><span class="p">,</span>
+    <span class="n">differences</span><span class="o">=</span><span class="n">diffs</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<section id="metrics-table-with-significance-annotations">
+<h3><strong>4.1: Metrics Table with Significance Annotations</strong><a class="headerlink" href="#metrics-table-with-significance-annotations" title="Link to this heading"></a></h3>
+<p>You can summarize bootstrap-based statistical significance using <cite>metrics_table()</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stat_metrics_table_diff</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">metrics_table</span><span class="p">(</span>
+    <span class="n">race_metrics</span><span class="p">,</span>
+    <span class="n">statistical_tests</span><span class="o">=</span><span class="n">stat_test_results</span><span class="p">,</span>
+    <span class="n">differences</span><span class="o">=</span><span class="n">diffs</span><span class="p">,</span>
+    <span class="n">reference_group</span><span class="o">=</span><span class="s2">&quot;White&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Asterisks (*) indicate significant omnibus test results.</p></li>
+<li><p>Triangles (▲) indicate significant pairwise differences from the reference group.</p></li>
+</ul>
+</div>
+<p><strong>Output</strong></p>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td, .tg th {
+    border: 1px solid #000;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 8px;
+    text-align: right;
+}
+.tg th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+.tg td:first-child, .tg th:first-child {
+    text-align: left;
+}
+</style>
+<div class="tg-wrap"><table class="tg">
+<thead>
+    <tr>
+        <th>Metric</th>
+        <th>Black</th>
+        <th>Asian-Pac-Islander</th>
+    </tr>
+</thead>
+<tbody>
+    <tr><td>Accuracy_diff</td><td>0.070 *</td><td>-0.050</td></tr>
+    <tr><td>Precision_diff</td><td>0.141 *</td><td>0.016</td></tr>
+    <tr><td>Recall_diff</td><td>-0.111</td><td>-0.119</td></tr>
+    <tr><td>F1_Score_diff</td><td>-0.050</td><td>-0.080</td></tr>
+    <tr><td>Specificity_diff</td><td>0.056 *</td><td>-0.002</td></tr>
+    <tr><td>TP_Rate_diff</td><td>-0.111</td><td>-0.119</td></tr>
+    <tr><td>FP_Rate_diff</td><td>-0.056 *</td><td>0.002</td></tr>
+    <tr><td>FN_Rate_diff</td><td>0.111</td><td>0.119</td></tr>
+    <tr><td>TN_Rate_diff</td><td>0.056 *</td><td>-0.002</td></tr>
+    <tr><td>Prevalence_diff</td><td>-0.122 *</td><td>0.035</td></tr>
+    <tr><td>Predicted_Prevalence_diff</td><td>-0.133 *</td><td>-0.016</td></tr>
+    <tr><td>ROC_AUC_diff</td><td>0.035</td><td>-0.041</td></tr>
+    <tr><td>Average_Precision_Score_diff</td><td>-0.005</td><td>-0.044</td></tr>
+    <tr><td>Log_Loss_diff</td><td>-0.131 *</td><td>0.113</td></tr>
+    <tr><td>Brier_Score_diff</td><td>-0.043 *</td><td>0.036</td></tr>
+    <tr><td>Calibration_AUC_diff</td><td>0.148 *</td><td>0.215 *</td></tr>
+</tbody>
+</table></div><div style="height: 40px;"></div></section>
+<section id="visualize-differences-with-significance">
+<h3><strong>4.2: Visualize Differences with Significance</strong><a class="headerlink" href="#visualize-differences-with-significance" title="Link to this heading"></a></h3>
+<p>Finally, plot the statistically tested metric differences:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_group_metrics_plot</span><span class="p">(</span>
+    <span class="n">group_metrics</span><span class="o">=</span><span class="n">diffs</span><span class="p">,</span>
+    <span class="n">metric_cols</span><span class="o">=</span><span class="n">metrics_boot</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;race&quot;</span><span class="p">,</span>
+    <span class="n">categories</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;violinplot&quot;</span><span class="p">,</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">show_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">max_cols</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">strict_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">show_pass_fail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">statistical_tests</span><span class="o">=</span><span class="n">stat_test_results</span><span class="p">,</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/differences_statistical_sig.png"><img alt="Statistical Signficance of Differences" class="align-center" src="_images/differences_statistical_sig.png" style="width: 1000px;" />
+</a>
+<div style="height: 40px;"></div></section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>Bootstrapping provides a rigorous and interpretable framework for evaluating fairness
+by estimating uncertainty in performance metrics, computing disparities, and identifying
+statistically significant differences between groups.</p>
+<p>Use EquiBoots to support robust fairness audits that go beyond simple point comparisons
+and account for sampling variability and multiple comparisons.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="point_estimate_metrics.html" class="btn btn-neutral float-left" title="Point Estimate Evaluation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_to_pred.html" class="btn btn-neutral float-right" title="Preparing Model Outputs for Fairness Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Panayiotis Petousis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

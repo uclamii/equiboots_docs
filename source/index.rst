@@ -25,9 +25,9 @@ Table of Contents
 
 .. toctree::
    :maxdepth: 4
-   :caption: Bootstrapped Metrics
+   :caption: Bootstrap Estimate Metrics
 
-   bootstrapped_metrics
+   bootstrapped_estimates
 
 .. toctree::
    :maxdepth: 4
