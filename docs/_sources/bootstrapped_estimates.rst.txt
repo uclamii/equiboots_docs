@@ -222,7 +222,7 @@ distribution of bootstrapped metric differences to a null distribution of no eff
     )
 
 **4.1: Metrics Table with Significance Annotations** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can summarize bootstrap-based statistical significance using `metrics_table()`:
 

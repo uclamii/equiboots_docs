@@ -61,6 +61,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="bootstrapped_estimates.html">Bootstrap Estimate Evaluation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html">EquiBoots Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#statisticaltester-class">StatisticalTester Class</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
@@ -173,6 +178,55 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="bootstrapped_estimates.html#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html">EquiBoots Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="equiboots_stats_classes.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="equiboots_stats_classes.html#constructor">Constructor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#EquiBoots"><code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="equiboots_stats_classes.html#methods">Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#get_grouped_data"><code class="docutils literal notranslate"><span class="pre">get_grouped_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#run_bootstrap"><code class="docutils literal notranslate"><span class="pre">run_bootstrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#summarize_metrics"><code class="docutils literal notranslate"><span class="pre">summarize_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#compute_disparities"><code class="docutils literal notranslate"><span class="pre">compute_disparities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#summarize_boot_disparities"><code class="docutils literal notranslate"><span class="pre">summarize_boot_disparities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#get_confidence_intervals"><code class="docutils literal notranslate"><span class="pre">get_confidence_intervals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#to_dataframe"><code class="docutils literal notranslate"><span class="pre">to_dataframe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#statisticaltester-class">StatisticalTester Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="equiboots_stats_classes.html#id2">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="equiboots_stats_classes.html#classes">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#StatTestResult"><code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester"><code class="docutils literal notranslate"><span class="pre">StatisticalTester</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.AVAILABLE_TESTS"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.AVAILABLE_TESTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.ADJUSTMENT_METHODS"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.ADJUSTMENT_METHODS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.__init__"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.analyze_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.analyze_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.get_ci_bounds"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.get_ci_bounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._bootstrap_test"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._bootstrap_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._chi_square_test"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._chi_square_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._calculate_effect_size"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._calculate_effect_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.calc_p_value_bootstrap"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.calc_p_value_bootstrap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._adjust_p_values"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._adjust_p_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.adjusting_p_vals"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.adjusting_p_vals()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester.cohens_d"><code class="docutils literal notranslate"><span class="pre">StatisticalTester.cohens_d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._analyze_single_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._analyze_single_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._analyze_bootstrapped_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._analyze_bootstrapped_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="equiboots_stats_classes.html#StatisticalTester._validate_config"><code class="docutils literal notranslate"><span class="pre">StatisticalTester._validate_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

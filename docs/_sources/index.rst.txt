@@ -29,6 +29,14 @@ Table of Contents
 
    bootstrapped_estimates
 
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Classes, Attributes, & Methods
+
+   equiboots_stats_classes
+
+
 .. toctree::
    :maxdepth: 4
    :caption: From Model to Prediction
