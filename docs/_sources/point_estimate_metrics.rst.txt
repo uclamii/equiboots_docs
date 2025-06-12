@@ -133,9 +133,9 @@ To keep the table concise and relevant, we subset the DataFrame to include only 
     :returns: A tidy DataFrame with one row per group and one column per metric. The group names are stored in the ``attribute_value`` column.
     :rtype: pd.DataFrame
 
-.. notes::
+.. _note:
 
-    - This function is typically used after computing metrics using ``eqb.get_metrics()``.
+    - This function is used after computing metrics using ``eqb.get_metrics()``.
     - It flattens nested group-wise dictionaries into a readable table, enabling easy subsetting, filtering, and export.
     - Common use cases include displaying fairness-related metrics such as Accuracy, Precision, Recall, Specificity, Calibration AUC, and others across different sensitive attribute groups (e.g., race, sex).
 
@@ -174,161 +174,86 @@ This yields a structured and readable table of group-level performance for use i
     <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
     .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    overflow:hidden;padding:5px 5px;word-break:normal;}
+    overflow:hidden;padding:10px 5px;word-break:normal;}
     .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    font-weight:normal;overflow:hidden;padding:5px 5px;word-break:normal;}
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
     .tg .tg-2b7s{text-align:right;vertical-align:bottom}
-    .tg .tg-bobw{font-weight:bold;text-align:center;vertical-align:bottom}
-    .tg .tg-kex3{font-weight:bold;text-align:right;vertical-align:bottom}
-    .tg .tg-j6zm{font-weight:bold;text-align:right;vertical-align:bottom}
     .tg .tg-8d8j{text-align:center;vertical-align:bottom}
-    .tg .tg-7zrl{text-align:right;vertical-align:bottom}
+    .tg .tg-kex3{font-weight:bold;text-align:right;vertical-align:bottom}
     @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
     <div class="tg-wrap"><table class="tg"><thead>
     <tr>
-        <th class="tg-bobw"></th>
+        <th class="tg-8d8j"></th>
         <th class="tg-kex3">attribute_value</th>
-        <th class="tg-j6zm">Accuracy</th>
-        <th class="tg-j6zm">Precision</th>
-        <th class="tg-j6zm">Recall</th>
-        <th class="tg-j6zm">F1 Score</th>
-        <th class="tg-j6zm">Specificity</th>
-        <th class="tg-j6zm">TP Rate</th>
-        <th class="tg-j6zm">Prevalence</th>
-        <th class="tg-j6zm">Calibration AUC</th>
+        <th class="tg-kex3">Accuracy</th>
+        <th class="tg-kex3">Precision</th>
+        <th class="tg-kex3">Recall</th>
+        <th class="tg-kex3">F1 Score</th>
+        <th class="tg-kex3">Specificity</th>
+        <th class="tg-kex3">TP Rate</th>
+        <th class="tg-kex3">Prevalence</th>
+        <th class="tg-kex3">Calibration AUC</th>
     </tr></thead>
     <tbody>
     <tr>
         <td class="tg-8d8j">0</td>
         <td class="tg-2b7s">White</td>
-        <td class="tg-7zrl">0.835</td>
-        <td class="tg-7zrl">0.705</td>
-        <td class="tg-7zrl">0.573</td>
-        <td class="tg-7zrl">0.632</td>
-        <td class="tg-7zrl">0.921</td>
-        <td class="tg-7zrl">0.573</td>
-        <td class="tg-7zrl">0.247</td>
-        <td class="tg-7zrl">0.092</td>
+        <td class="tg-2b7s">0.853</td>
+        <td class="tg-2b7s">0.761</td>
+        <td class="tg-2b7s">0.638</td>
+        <td class="tg-2b7s">0.694</td>
+        <td class="tg-2b7s">0.929</td>
+        <td class="tg-2b7s">0.638</td>
+        <td class="tg-2b7s">0.262</td>
+        <td class="tg-2b7s">0.040</td>
     </tr>
     <tr>
         <td class="tg-8d8j">1</td>
-        <td class="tg-2b7s">White</td>
-        <td class="tg-7zrl">0.885</td>
-        <td class="tg-7zrl">0.815</td>
-        <td class="tg-7zrl">0.657</td>
-        <td class="tg-7zrl">0.727</td>
-        <td class="tg-7zrl">0.955</td>
-        <td class="tg-7zrl">0.657</td>
-        <td class="tg-7zrl">0.233</td>
-        <td class="tg-7zrl">0.029</td>
+        <td class="tg-2b7s">Black</td>
+        <td class="tg-2b7s">0.931</td>
+        <td class="tg-2b7s">0.861</td>
+        <td class="tg-2b7s">0.549</td>
+        <td class="tg-2b7s">0.670</td>
+        <td class="tg-2b7s">0.987</td>
+        <td class="tg-2b7s">0.549</td>
+        <td class="tg-2b7s">0.128</td>
+        <td class="tg-2b7s">0.054</td>
     </tr>
     <tr>
         <td class="tg-8d8j">2</td>
-        <td class="tg-2b7s">White</td>
-        <td class="tg-7zrl">0.877</td>
-        <td class="tg-7zrl">0.743</td>
-        <td class="tg-7zrl">0.681</td>
-        <td class="tg-7zrl">0.710</td>
-        <td class="tg-7zrl">0.933</td>
-        <td class="tg-7zrl">0.681</td>
-        <td class="tg-7zrl">0.222</td>
-        <td class="tg-7zrl">0.055</td>
+        <td class="tg-2b7s">Asian-Pac-Islander</td>
+        <td class="tg-2b7s">0.826</td>
+        <td class="tg-2b7s">0.760</td>
+        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.633</td>
+        <td class="tg-2b7s">0.934</td>
+        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.277</td>
+        <td class="tg-2b7s">0.140</td>
     </tr>
     <tr>
         <td class="tg-8d8j">3</td>
-        <td class="tg-2b7s">White</td>
-        <td class="tg-7zrl">0.862</td>
-        <td class="tg-7zrl">0.804</td>
-        <td class="tg-7zrl">0.675</td>
-        <td class="tg-7zrl">0.734</td>
-        <td class="tg-7zrl">0.935</td>
-        <td class="tg-7zrl">0.675</td>
-        <td class="tg-7zrl">0.282</td>
-        <td class="tg-7zrl">0.033</td>
+        <td class="tg-2b7s">Amer-Indian-Eskimo</td>
+        <td class="tg-2b7s">0.879</td>
+        <td class="tg-2b7s">0.444</td>
+        <td class="tg-2b7s">0.364</td>
+        <td class="tg-2b7s">0.400</td>
+        <td class="tg-2b7s">0.943</td>
+        <td class="tg-2b7s">0.364</td>
+        <td class="tg-2b7s">0.111</td>
+        <td class="tg-2b7s">0.323</td>
     </tr>
     <tr>
         <td class="tg-8d8j">4</td>
-        <td class="tg-2b7s">White</td>
-        <td class="tg-7zrl">0.868</td>
-        <td class="tg-7zrl">0.744</td>
-        <td class="tg-7zrl">0.709</td>
-        <td class="tg-7zrl">0.726</td>
-        <td class="tg-7zrl">0.920</td>
-        <td class="tg-7zrl">0.709</td>
-        <td class="tg-7zrl">0.247</td>
-        <td class="tg-7zrl">0.061</td>
-    </tr>
-    <tr>
-        <td class="tg-8d8j">...</td>
-        <td class="tg-2b7s">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-        <td class="tg-7zrl">...</td>
-    </tr>
-    <tr>
-        <td class="tg-8d8j">14998</td>
-        <td class="tg-2b7s">Asian-Pac-Islander</td>
-        <td class="tg-7zrl">0.808</td>
-        <td class="tg-7zrl">0.600</td>
-        <td class="tg-7zrl">0.500</td>
-        <td class="tg-7zrl">0.545</td>
-        <td class="tg-7zrl">0.900</td>
-        <td class="tg-7zrl">0.500</td>
-        <td class="tg-7zrl">0.231</td>
-        <td class="tg-7zrl">0.281</td>
-    </tr>
-    <tr>
-        <td class="tg-8d8j">14999</td>
-        <td class="tg-2b7s">Asian-Pac-Islander</td>
-        <td class="tg-7zrl">0.923</td>
-        <td class="tg-7zrl">1.000</td>
-        <td class="tg-7zrl">0.600</td>
-        <td class="tg-7zrl">0.750</td>
-        <td class="tg-7zrl">1.000</td>
-        <td class="tg-7zrl">0.600</td>
-        <td class="tg-7zrl">0.192</td>
-        <td class="tg-7zrl">0.304</td>
-    </tr>
-    <tr>
-        <td class="tg-8d8j">15000</td>
-        <td class="tg-2b7s">Asian-Pac-Islander</td>
-        <td class="tg-7zrl">0.808</td>
-        <td class="tg-7zrl">0.750</td>
-        <td class="tg-7zrl">0.429</td>
-        <td class="tg-7zrl">0.545</td>
-        <td class="tg-7zrl">0.947</td>
-        <td class="tg-7zrl">0.429</td>
-        <td class="tg-7zrl">0.269</td>
-        <td class="tg-7zrl">0.232</td>
-    </tr>
-    <tr>
-        <td class="tg-8d8j">15001</td>
-        <td class="tg-2b7s">Asian-Pac-Islander</td>
-        <td class="tg-7zrl">0.808</td>
-        <td class="tg-7zrl">0.625</td>
-        <td class="tg-7zrl">0.714</td>
-        <td class="tg-7zrl">0.667</td>
-        <td class="tg-7zrl">0.842</td>
-        <td class="tg-7zrl">0.714</td>
-        <td class="tg-7zrl">0.269</td>
-        <td class="tg-7zrl">0.175</td>
-    </tr>
-    <tr>
-        <td class="tg-8d8j">15002</td>
-        <td class="tg-2b7s">Asian-Pac-Islander</td>
-        <td class="tg-7zrl">0.731</td>
-        <td class="tg-7zrl">0.571</td>
-        <td class="tg-7zrl">0.500</td>
-        <td class="tg-7zrl">0.533</td>
-        <td class="tg-7zrl">0.833</td>
-        <td class="tg-7zrl">0.500</td>
-        <td class="tg-7zrl">0.308</td>
-        <td class="tg-7zrl">0.362</td>
+        <td class="tg-2b7s">Other</td>
+        <td class="tg-2b7s">0.958</td>
+        <td class="tg-2b7s">1.000</td>
+        <td class="tg-2b7s">0.500</td>
+        <td class="tg-2b7s">0.667</td>
+        <td class="tg-2b7s">1.000</td>
+        <td class="tg-2b7s">0.500</td>
+        <td class="tg-2b7s">0.083</td>
+        <td class="tg-2b7s">0.277</td>
     </tr>
     </tbody></table></div>
 
@@ -418,5 +343,290 @@ performance metrics for the ``race`` and ``sex`` subgroups:
         "race": stat_test_results_race,
     }
 
+
+Statistical Significance Plots
+--------------------------------
+
+EquiBoots supports formal statistical testing to assess whether differences in 
+performance metrics across demographic groups are statistically significant.
+
+When auditing models for fairness, it’s important not just to observe differences 
+in metrics like accuracy or recall, but to determine whether these differences are 
+**statistically significant**. EquiBoots provides built-in support for this analysis 
+via omnibus and pairwise statistical tests.
+
+Test Setup
+~~~~~~~~~~~
+
+- EquiBoots uses **chi-square tests** to evaluate:
+  
+  - Whether overall performance disparities across groups are significant (omnibus test).
+  - If so, which specific groups significantly differ from the reference (pairwise tests).
+
+- Reference groups for each fairness variable can be set manually during class initialization using the ``reference_groups`` parameter:
+
+  .. code:: python
+
+      eq = EquiBoots(
+          y_true=...,
+          y_pred=...,
+          y_prob=...,
+          fairness_df=...,
+          fairness_vars=["race", "sex"],
+          reference_groups=["white", "female"]
+      )
+
+
+Once tests are computed, the ``eq_group_metrics_point_plot`` function can 
+visualize point estimates along with statistical significance annotations:
+
+.. code:: python
+
+    eqb.eq_group_metrics_point_plot(
+        group_metrics=[race_metrics, sex_metrics],
+        metric_cols=["Accuracy", "Precision", "Recall"],
+        category_names=["race", "sex"],
+        figsize=(6, 8),
+        include_legend=True,
+        plot_thresholds=(0.9, 1.1),
+        raw_metrics=True,
+        show_grid=True,
+        y_lim=(0, 1),
+        statistical_tests=overall_stat_results
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/stat_point_estimate_plot.svg
+   :alt: Statistically-Based Point Estimate Plot
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+
+The chart above summarizes how model performance varies across race and sex groups 
+for three key metrics: **Accuracy**, **Precision**, and **Recall**.
+
+Each **subplot** corresponds to a single metric, plotted separately for race (left) and sex (right).
+
+Here's how to read the plot:
+
+- Each **point** shows the average metric score for a demographic group.
+- **Letters (A–G)** label the groups (e.g., A = Amer-Indian-Eskimo, B = Asian-Pac-Islander), with the full mapping provided in the legend.
+- The **star symbol (★)** below a group axis label indicates that the **omnibus test** for the corresponding fairness attribute (e.g., race or sex) was statistically significant overall.
+- The **triangle symbol (▲)** denotes groups that differ **significantly from the reference group**, as determined by pairwise statistical tests (e.g., Bonferroni-adjusted chi-square).
+- Color-coding helps distinguish categories and corresponds to the legend at the top.
+
+This visualization reveals whether disparities exist not only **numerically**, but also **statistically**, helping validate whether observed group-level differences are likely due to bias or simply random variation.
+
+
+Statistical Metrics table
+-----------------------------
+
+
+Once statistical tests have been performed, we can summarize the results in a structured table that shows:
+
+- The **performance metrics** for each group.
+- Whether the **omnibus test** detected any significant overall differences.
+- Which **individual groups** differ significantly from the reference group.
+
+This is done using the ``metrics_table`` function from EquiBoots, which takes in group metrics, test results, and the name of the reference group:
+
+.. function:: metrics_table(metrics, statistical_tests=None, differences=None, reference_group=None)
+
+    :param metrics: A dictionary or list of dictionaries containing metric results per group. This can either be point estimate output from ``get_metrics`` or bootstrapped results.
+    :type metrics: dict or list
+
+    :param statistical_tests: Output from ``analyze_statistical_significance`` containing omnibus and pairwise test results. If provided, annotations will be added to the output table to reflect significance.
+    :type statistical_tests: dict, optional
+
+    :param differences: A list of bootstrapped difference dictionaries returned from ``calculate_differences``. If provided, the function will average these differences and annotate the results if significant.
+    :type differences: list of dict, optional
+
+    :param reference_group: Name of the reference group used in pairwise comparisons. Only needed if displaying pairwise significance for bootstrapped differences.
+    :type reference_group: str, optional
+
+    :returns: A pandas DataFrame where rows are metric names and columns are group names. If ``statistical_tests`` is provided:
+        - Omnibus test significance is marked with an asterisk (``*``) next to column names.
+        - Pairwise group significance (vs. reference) is marked with a triangle (``▲``).
+    :rtype: pd.DataFrame
+    
+.. note::
+
+    - The function supports **both point estimates and bootstrapped results**.
+    - When using bootstrapped differences, it computes the **mean difference** for each metric across iterations.
+    - Automatically drops less commonly visualized metrics like Brier Score, Log Loss, and Prevalence for clarity if significance annotations are active.
+
+
+.. code:: python
+
+    stat_metrics_table_point = metrics_table(
+        race_metrics,
+        statistical_tests=stat_test_results_race,
+        reference_group="White",
+    )
+
+You can then display the table as follows:
+
+.. code:: python
+
+    ## Table with metrics per group and statistical significance shown on 
+    ## columns for omnibus and/or pairwise
+
+    stat_metrics_table_point
+
+The resulting table displays one row per group and one column per metric. Symbols like ``*`` and ``▲`` appear in the appropriate cells to indicate significance:
+
+- ★ marks metrics where the **omnibus test** found significant variation across all groups.
+- ▲ marks metrics where a specific group differs significantly from the **reference group**.
+
+This format provides a concise, interpretable snapshot of where disparities are statistically supported in your model outputs.
+
+.. raw:: html
+
+    <style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-2b7s{text-align:right;vertical-align:bottom}
+    .tg .tg-7zrl{text-align:left;vertical-align:bottom}
+    .tg .tg-kex3{font-weight:bold;text-align:right;vertical-align:bottom}
+    @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
+    <div class="tg-wrap"><table class="tg"><thead>
+    <tr>
+        <th class="tg-7zrl"></th>
+        <th class="tg-kex3">White *</th>
+        <th class="tg-kex3">Black * ▲</th>
+        <th class="tg-kex3">Asian-Pac-Islander *</th>
+        <th class="tg-kex3">Amer-Indian-Eskimo * ▲</th>
+        <th class="tg-kex3">Other * ▲</th>
+    </tr></thead>
+    <tbody>
+    <tr>
+        <td class="tg-7zrl">Accuracy</td>
+        <td class="tg-2b7s">0.853</td>
+        <td class="tg-2b7s">0.931</td>
+        <td class="tg-2b7s">0.826</td>
+        <td class="tg-2b7s">0.879</td>
+        <td class="tg-2b7s">0.958</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">Precision</td>
+        <td class="tg-2b7s">0.761</td>
+        <td class="tg-2b7s">0.861</td>
+        <td class="tg-2b7s">0.76</td>
+        <td class="tg-2b7s">0.444</td>
+        <td class="tg-2b7s">1</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">Recall</td>
+        <td class="tg-2b7s">0.638</td>
+        <td class="tg-2b7s">0.549</td>
+        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.364</td>
+        <td class="tg-2b7s">0.5</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">F1 Score</td>
+        <td class="tg-2b7s">0.694</td>
+        <td class="tg-2b7s">0.67</td>
+        <td class="tg-2b7s">0.633</td>
+        <td class="tg-2b7s">0.4</td>
+        <td class="tg-2b7s">0.667</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">Specificity</td>
+        <td class="tg-2b7s">0.929</td>
+        <td class="tg-2b7s">0.987</td>
+        <td class="tg-2b7s">0.934</td>
+        <td class="tg-2b7s">0.943</td>
+        <td class="tg-2b7s">1</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">TP Rate</td>
+        <td class="tg-2b7s">0.638</td>
+        <td class="tg-2b7s">0.549</td>
+        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.364</td>
+        <td class="tg-2b7s">0.5</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">FP Rate</td>
+        <td class="tg-2b7s">0.071</td>
+        <td class="tg-2b7s">0.013</td>
+        <td class="tg-2b7s">0.066</td>
+        <td class="tg-2b7s">0.057</td>
+        <td class="tg-2b7s">0</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">FN Rate</td>
+        <td class="tg-2b7s">0.362</td>
+        <td class="tg-2b7s">0.451</td>
+        <td class="tg-2b7s">0.457</td>
+        <td class="tg-2b7s">0.636</td>
+        <td class="tg-2b7s">0.5</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">TN Rate</td>
+        <td class="tg-2b7s">0.929</td>
+        <td class="tg-2b7s">0.987</td>
+        <td class="tg-2b7s">0.934</td>
+        <td class="tg-2b7s">0.943</td>
+        <td class="tg-2b7s">1</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">TP</td>
+        <td class="tg-2b7s">1375</td>
+        <td class="tg-2b7s">62</td>
+        <td class="tg-2b7s">38</td>
+        <td class="tg-2b7s">4</td>
+        <td class="tg-2b7s">3</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">FP</td>
+        <td class="tg-2b7s">432</td>
+        <td class="tg-2b7s">10</td>
+        <td class="tg-2b7s">12</td>
+        <td class="tg-2b7s">5</td>
+        <td class="tg-2b7s">0</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">FN</td>
+        <td class="tg-2b7s">780</td>
+        <td class="tg-2b7s">51</td>
+        <td class="tg-2b7s">32</td>
+        <td class="tg-2b7s">7</td>
+        <td class="tg-2b7s">3</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">TN</td>
+        <td class="tg-2b7s">5631</td>
+        <td class="tg-2b7s">760</td>
+        <td class="tg-2b7s">171</td>
+        <td class="tg-2b7s">83</td>
+        <td class="tg-2b7s">66</td>
+    </tr>
+    <tr>
+        <td class="tg-7zrl">Predicted Prevalence</td>
+        <td class="tg-2b7s">0.22</td>
+        <td class="tg-2b7s">0.082</td>
+        <td class="tg-2b7s">0.198</td>
+        <td class="tg-2b7s">0.091</td>
+        <td class="tg-2b7s">0.042</td>
+    </tr>
+    </tbody></table></div>
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
 
 .. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.
