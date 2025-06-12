@@ -1,6 +1,13 @@
 Changelog
 ===============
 
+`Version 0.0.0a8`_
+----------------------
+
+- ``tqdm`` added to bootstrap
+- reduced the number of decimal places on the tables to 3 dp
+- added p-value calc for when bootstrap number under 5000
+
 `Version 0.0.0a7`_
 ----------------------
 

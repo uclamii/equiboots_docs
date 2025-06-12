@@ -10,9 +10,9 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.js" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.js?v=96d057b0" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -22,7 +22,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=a0ccc04e"></script>
-      <script src="_static/custom.js"></script>
+      <script src="_static/custom.js?v=96d057b0"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -53,17 +53,18 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Welcome to the EquiBoots Documentation!</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Point Estimate Metrics</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrapped Metrics</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="bootstrapped_metrics.html">Bootstrapped Metrics Evaluation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
 <ul class="current">
@@ -71,6 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citations.html">Citing EquiBoots</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a8">Version 0.0.0a8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a7">Version 0.0.0a7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a6">Version 0.0.0a6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a5">Version 0.0.0a5</a><ul>
@@ -117,6 +119,14 @@
              
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
+<section id="version-0-0-0a8">
+<h2><a class="reference internal" href="#version-0-0-0a8">Version 0.0.0a8</a><a class="headerlink" href="#version-0-0-0a8" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tqdm</span></code> added to bootstrap</p></li>
+<li><p>reduced the number of decimal places on the tables to 3 dp</p></li>
+<li><p>added p-value calc for when bootstrap number under 5000</p></li>
+</ul>
+</section>
 <section id="version-0-0-0a7">
 <h2><a class="reference internal" href="#version-0-0-0a7">Version 0.0.0a7</a><a class="headerlink" href="#version-0-0-0a7" title="Link to this heading"></a></h2>
 <ul class="simple">
