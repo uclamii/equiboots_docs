@@ -1,23 +1,21 @@
 .. _getting_started:   
 
-
-
-Welcome to the EquiBoots Documentation!
-==========================================
-
 .. raw:: html
 
    <div class="no-click">
 
 .. image:: ../assets/EquiBoots.png
-   :alt: EquiBooots Logo
-   :align: center
-   :width: 600px
+   :alt: EquiBoots Logo
+   :align: left
+   :width: 300px
 
 .. raw:: html
+   
+   <div style="height: 130px;"></div>
 
-    <div style="height: 40px;"></div></div>
 
+Welcome to the EquiBoots Documentation!
+==========================================
 
 .. note::
    This documentation is for ``equiboots`` version ``0.0.0a8``.

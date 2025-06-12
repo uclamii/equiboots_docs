@@ -3,10 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to EquiBoots Documentation!
-===============================================
+.. raw:: html
 
-.. _target-link:
+   <div class="no-click">
+
+.. image:: ../assets/EquiBoots.png
+   :alt: EquiBoots Logo
+   :align: left
+   :width: 300px
+
+.. raw:: html
+   
+   <div style="height: 130px;"></div>
 
 Table of Contents
 ===================
