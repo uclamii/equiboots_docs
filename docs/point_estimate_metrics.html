@@ -67,6 +67,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#metrics_dataframe"><code class="docutils literal notranslate"><span class="pre">metrics_dataframe()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#statistical-tests">Statistical Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_statistical_significance"><code class="docutils literal notranslate"><span class="pre">analyze_statistical_significance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -228,17 +233,11 @@ function to transform the dictionary into a clean, filterable DataFrame.</p>
 </dl>
 </dd></dl>
 
-<div class="admonition-notes admonition">
-<p class="admonition-title">Notes</p>
-<ul class="simple">
-<li><p>This function is typically used after computing metrics using <code class="docutils literal notranslate"><span class="pre">eqb.get_metrics()</span></code>.</p></li>
-<li><p>It flattens nested group-wise dictionaries into a readable table, enabling easy subsetting, filtering, and export.</p></li>
-<li><p>Common use cases include displaying fairness-related metrics such as Accuracy, Precision, Recall, Specificity, Calibration AUC, and others across different sensitive attribute groups (e.g., race, sex).</p></li>
-</ul>
-</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">metrics_dataframe()</span></code> function simplifies post-processing and reporting by converting the raw output of group-level metrics into a tabular format. Each row corresponds to a demographic group, and each column represents a different metric.</p>
 <p>Below is an example of how this function is used in practice to format metrics by race:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">race_metrics_df</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">(</span><span class="n">metrics_data</span><span class="o">=</span><span class="n">race_metrics</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
+
+<span class="n">race_metrics_df</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">(</span><span class="n">metrics_data</span><span class="o">=</span><span class="n">race_metrics</span><span class="p">)</span>
 <span class="n">race_metrics_df</span> <span class="o">=</span> <span class="n">race_metrics_df</span><span class="p">[</span>
     <span class="p">[</span>
         <span class="s2">&quot;attribute_value&quot;</span><span class="p">,</span>
@@ -418,12 +417,93 @@ font-weight:normal;overflow:hidden;padding:5px 5px;word-break:normal;}
     <td class="tg-7zrl">0.308</td>
     <td class="tg-7zrl">0.362</td>
 </tr>
-</tbody></table></div><div style="height: 40px;"></div><aside class="footnote-list brackets">
+</tbody></table></div><div style="height: 40px;"></div></section>
+<section id="statistical-tests">
+<h2>Statistical Tests<a class="headerlink" href="#statistical-tests" title="Link to this heading"></a></h2>
+<p>After computing point estimates for different demographic groups, we may want to
+assess whether observed differences in model performance are statistically significant.
+This is particularly important when determining if disparities are due to random
+variation or reflect systematic bias.</p>
+<p>EquiBoots provides a method to conduct hypothesis testing across group-level metrics.
+The <code class="docutils literal notranslate"><span class="pre">analyze_statistical_significance</span></code> function performs appropriate statistical
+tests—such as Chi-square tests for classification tasks—while supporting multiple
+comparison adjustments.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="analyze_statistical_significance">
+<span class="sig-name descname"><span class="pre">analyze_statistical_significance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">differences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_statistical_significance" title="Link to this definition"></a></dt>
+<dd><p><strong>Performs statistical significance testing of metric differences between groups.</strong></p>
+<p>This method compares model performance across subgroups (e.g., race, sex) to determine whether the differences in metrics (e.g., accuracy, F1 score) are statistically significant. It supports multiple test types and adjustment methods for robust group-level comparison.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Dictionary of metrics returned by <code class="docutils literal notranslate"><span class="pre">get_metrics()</span></code>, where each key is a group name and values are metric dictionaries.</p></li>
+<li><p><strong>var_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The name of the sensitive attribute or grouping variable (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;race&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;sex&quot;</span></code>).</p></li>
+<li><p><strong>test_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – <p>Configuration dictionary defining how the statistical test is performed. The following keys are supported:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_type</span></code>: Type of test to use (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;chi_square&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;bootstrap&quot;</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: Significance threshold (default: 0.05).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adjust_method</span></code>: Correction method for multiple comparisons (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;bonferroni&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;fdr_bh&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;holm&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">confidence_level</span></code>: Confidence level used to compute intervals (e.g., <code class="docutils literal notranslate"><span class="pre">0.95</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">classification_task</span></code>: Specify if the model task is <code class="docutils literal notranslate"><span class="pre">&quot;binary_classification&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;multiclass_classification&quot;</span></code>.</p></li>
+</ul>
+</p></li>
+<li><p><strong>differences</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>, </em><em>optional</em>) – Optional precomputed list of raw metric differences (default is <code class="docutils literal notranslate"><span class="pre">None</span></code>; typically not required).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A nested dictionary containing statistical test results for each metric, with each value being a <code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code> object that includes:</p>
+<ul class="simple">
+<li><p>test statistic</p></li>
+<li><p>raw and adjusted p-values</p></li>
+<li><p>confidence intervals</p></li>
+<li><p>significance flags (<code class="docutils literal notranslate"><span class="pre">True</span></code> / <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+<li><p>effect sizes (e.g., Cohen’s d, rank-biserial correlation)</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, StatTestResult]]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">test_config</span></code> is not provided or is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>This function returns a dictionary where each key is a metric name and the
+corresponding value is another dictionary mapping each group to its <code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code>.</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<p>The following example demonstrates how to configure and run these tests on
+performance metrics for the <code class="docutils literal notranslate"><span class="pre">race</span></code> and <code class="docutils literal notranslate"><span class="pre">sex</span></code> subgroups:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;test_type&quot;</span><span class="p">:</span> <span class="s2">&quot;chi_square&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s2">&quot;adjust_method&quot;</span><span class="p">:</span> <span class="s2">&quot;bonferroni&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;confidence_level&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="s2">&quot;classification_task&quot;</span><span class="p">:</span> <span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">stat_test_results_race</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">analyze_statistical_significance</span><span class="p">(</span>
+    <span class="n">race_metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="n">test_config</span>
+<span class="p">)</span>
+
+<span class="n">stat_test_results_sex</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">analyze_statistical_significance</span><span class="p">(</span>
+    <span class="n">sex_metrics</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="n">test_config</span>
+<span class="p">)</span>
+
+<span class="n">overall_stat_results</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="n">stat_test_results_sex</span><span class="p">,</span>
+    <span class="s2">&quot;race&quot;</span><span class="p">:</span> <span class="n">stat_test_results_race</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>
 </aside>
 </aside>
+</section>
 </section>
 </section>
 

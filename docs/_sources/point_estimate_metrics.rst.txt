@@ -133,7 +133,7 @@ To keep the table concise and relevant, we subset the DataFrame to include only 
     :returns: A tidy DataFrame with one row per group and one column per metric. The group names are stored in the ``attribute_value`` column.
     :rtype: pd.DataFrame
 
-.. admonition:: Notes
+.. notes::
 
     - This function is typically used after computing metrics using ``eqb.get_metrics()``.
     - It flattens nested group-wise dictionaries into a readable table, enabling easy subsetting, filtering, and export.
@@ -144,6 +144,8 @@ The ``metrics_dataframe()`` function simplifies post-processing and reporting by
 Below is an example of how this function is used in practice to format metrics by race:
 
 .. code-block:: python
+
+    import equiboots as eqb
 
     race_metrics_df = eqb.metrics_dataframe(metrics_data=race_metrics)
     race_metrics_df = race_metrics_df[
@@ -334,8 +336,87 @@ This yields a structured and readable table of group-level performance for use i
 
     <div style="height: 40px;"></div>
 
+Statistical Tests
+------------------------
+
+After computing point estimates for different demographic groups, we may want to 
+assess whether observed differences in model performance are statistically significant. 
+This is particularly important when determining if disparities are due to random 
+variation or reflect systematic bias.
+
+EquiBoots provides a method to conduct hypothesis testing across group-level metrics. 
+The ``analyze_statistical_significance`` function performs appropriate statistical 
+tests—such as Chi-square tests for classification tasks—while supporting multiple 
+comparison adjustments.
+
+.. function:: analyze_statistical_significance(metric_dict, var_name, test_config, differences=None)
+
+    **Performs statistical significance testing of metric differences between groups.**
+
+    This method compares model performance across subgroups (e.g., race, sex) to determine whether the differences in metrics (e.g., accuracy, F1 score) are statistically significant. It supports multiple test types and adjustment methods for robust group-level comparison.
+
+    :param metric_dict: Dictionary of metrics returned by ``get_metrics()``, where each key is a group name and values are metric dictionaries.
+    :type metric_dict: dict
+
+    :param var_name: The name of the sensitive attribute or grouping variable (e.g., ``"race"``, ``"sex"``).
+    :type var_name: str
+
+    :param test_config: Configuration dictionary defining how the statistical test is performed. The following keys are supported:
+
+        - ``test_type``: Type of test to use (e.g., ``"chi_square"``, ``"bootstrap"``).
+        - ``alpha``: Significance threshold (default: 0.05).
+        - ``adjust_method``: Correction method for multiple comparisons (e.g., ``"bonferroni"``, ``"fdr_bh"``, ``"holm"``, or ``"none"``).
+        - ``confidence_level``: Confidence level used to compute intervals (e.g., ``0.95``).
+        - ``classification_task``: Specify if the model task is ``"binary_classification"`` or ``"multiclass_classification"``.
+    
+    :type test_config: dict
+
+    :param differences: Optional precomputed list of raw metric differences (default is ``None``; typically not required).
+    :type differences: list, optional
+
+    :returns: A nested dictionary containing statistical test results for each metric, with each value being a ``StatTestResult`` object that includes:
+        
+        - test statistic
+        - raw and adjusted p-values
+        - confidence intervals
+        - significance flags (``True`` / ``False``)
+        - effect sizes (e.g., Cohen’s d, rank-biserial correlation)
+
+    :rtype: Dict[str, Dict[str, StatTestResult]]
+
+    :raises ValueError: If ``test_config`` is not provided or is ``None``.
 
 
+This function returns a dictionary where each key is a metric name and the 
+corresponding value is another dictionary mapping each group to its ``StatTestResult``.
+
+Example
+~~~~~~~~~~~
+
+The following example demonstrates how to configure and run these tests on 
+performance metrics for the ``race`` and ``sex`` subgroups:
+
+.. code:: python
+
+    test_config = {
+        "test_type": "chi_square",
+        "alpha": 0.05,
+        "adjust_method": "bonferroni",
+        "confidence_level": 0.95,
+        "classification_task": "binary_classification",
+    }
+    stat_test_results_race = eq.analyze_statistical_significance(
+        race_metrics, "race", test_config
+    )
+
+    stat_test_results_sex = eq.analyze_statistical_significance(
+        sex_metrics, "sex", test_config
+    )
+
+    overall_stat_results = {
+        "sex": stat_test_results_sex,
+        "race": stat_test_results_race,
+    }
 
 
 .. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.
