@@ -16,7 +16,7 @@
 Contributors
 =================
 
-1. Leonid Shpaner3. Panayiotis Petousis
+1. Leonid Shpaner
 2. Arthur Funnell
 3. Al Rahrooh
 4. Colin Beam
