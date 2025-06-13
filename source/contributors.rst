@@ -11,7 +11,7 @@
 
 .. raw:: html
    
-   <div style="height: 130px;"></div>
+   <div style="height: 130px;"></div></div>
 
 Contributors
 =================

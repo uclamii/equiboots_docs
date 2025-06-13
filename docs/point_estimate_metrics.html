@@ -105,7 +105,7 @@
 <p class="caption" role="heading"><span class="caption-text">Classes, Attributes, &amp; Methods</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html">EquiBoots Class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#example-usage">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equiboots_stats_classes.html#statisticaltester">StatisticalTester</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">From Model to Prediction</span></p>
 <ul>
@@ -145,7 +145,7 @@
              
   <div class="no-click"><a class="reference internal image-reference" href="_images/EquiBoots.png"><img alt="EquiBoots Logo" class="align-left" src="_images/EquiBoots.png" style="width: 300px;" />
 </a>
-<div style="height: 130px;"></div><section id="point-estimate-evaluation">
+<div style="height: 130px;"></div></div><section id="point-estimate-evaluation">
 <h1>Point Estimate Evaluation<a class="headerlink" href="#point-estimate-evaluation" title="Link to this heading"></a></h1>
 <p>After training a model and preparing predictions, EquiBoots can be used to
 evaluate how your model performs across different demographic groups. The most
@@ -424,7 +424,7 @@ comparison adjustments.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, StatTestResult]]</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference internal" href="equiboots_stats_classes.html#StatTestResult" title="StatTestResult">StatTestResult</a>]]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">test_config</span></code> is not provided or is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
@@ -551,7 +551,7 @@ visualize point estimates along with statistical significance annotations:</p>
 <p><strong>Output</strong></p>
 <div class="no-click"><a class="reference internal image-reference" href="_images/stats_based_point_estimates_plot.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/stats_based_point_estimates_plot.png" style="width: 550px;" />
 </a>
-<div style="height: 40px;"></div><p>The chart above summarizes how model performance varies across race and sex groups
+<div style="height: 40px;"></div></div><p>The chart above summarizes how model performance varies across race and sex groups
 for three key metrics: <strong>Accuracy</strong>, <strong>Precision</strong>, and <strong>Recall</strong>.</p>
 <p>Each <strong>subplot</strong> corresponds to a single metric, plotted separately for race (left) and sex (right).</p>
 <p>Here’s how to read the plot:</p>
@@ -837,7 +837,7 @@ representation can be excluded using the <code class="docutils literal notransla
 </div>
 <div class="no-click"><a class="reference internal image-reference" href="_images/roc_auc_curves.png"><img alt="ROC AUC Curve" class="align-center" src="_images/roc_auc_curves.png" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div></section>
+<div style="height: 40px;"></div></div></section>
 <section id="precision-recall-curves">
 <h2>Precision-Recall Curves<a class="headerlink" href="#precision-recall-curves" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
@@ -875,7 +875,7 @@ Groups with low representation are excluded to ensure stable and interpretable p
 </div>
 <div class="no-click"><a class="reference internal image-reference" href="_images/calibration_plot.png"><img alt="Calibration Plot Overlay" class="align-center" src="_images/calibration_plot.png" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div></section>
+<div style="height: 40px;"></div></div></section>
 <section id="example-2">
 <h3>Example 2<a class="headerlink" href="#example-2" title="Link to this heading"></a></h3>
 <p>This example builds on the previous one by showing individual calibration
@@ -900,7 +900,7 @@ allowing easier inspection of group-specific trends.</p>
 </div>
 <div class="no-click"><a class="reference internal image-reference" href="_images/calibration_sub_plots.png"><img alt="Calibration Subplots" class="align-center" src="_images/calibration_sub_plots.png" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div><div style="height: 40px;"></div><aside class="footnote-list brackets">
+<div style="height: 40px;"></div></div><div style="height: 40px;"></div><aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>

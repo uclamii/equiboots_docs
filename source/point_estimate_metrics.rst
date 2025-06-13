@@ -11,7 +11,7 @@
 
 .. raw:: html
    
-   <div style="height: 130px;"></div>
+   <div style="height: 130px;"></div></div>
 
 
 
@@ -490,7 +490,7 @@ visualize point estimates along with statistical significance annotations:
 
 .. raw:: html
 
-    <div style="height: 40px;"></div>
+    <div style="height: 40px;"></div></div>
 
 
 The chart above summarizes how model performance varies across race and sex groups 
@@ -839,7 +839,7 @@ representation can be excluded using the ``exclude_groups`` parameter, as shown 
 
 .. raw:: html
 
-    <div style="height: 40px;"></div>
+    <div style="height: 40px;"></div></div>
 
 Precision-Recall Curves
 -------------------------
@@ -901,7 +901,7 @@ Groups with low representation are excluded to ensure stable and interpretable p
 
 .. raw:: html
 
-    <div style="height: 40px;"></div>
+    <div style="height: 40px;"></div></div>
 
 Example 2
 ~~~~~~~~~~~
@@ -942,7 +942,7 @@ allowing easier inspection of group-specific trends.
 
 .. raw:: html
 
-    <div style="height: 40px;"></div>
+    <div style="height: 40px;"></div></div>
 
 
 
