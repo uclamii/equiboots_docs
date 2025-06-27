@@ -91,9 +91,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#roc-auc-curve">ROC AUC Curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#precision-recall-curves">Precision-Recall Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#calibration-plots">Calibration Plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#example-1">Example 1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#example-2">Example 2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#example-3">Example 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-1-calibration-overlay">Example 1 (Calibration Overlay)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2-calibration-subplots">Example 2 (Calibration Subplots)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-3-lowess-calibration">Example 3 (LOWESS Calibration)</a></li>
 </ul>
 </li>
 </ul>
@@ -870,8 +870,8 @@ including how the area between the observed curve and the ideal diagonal can be
 interpreted, see the <a class="reference internal" href="mathematical_framework.html#calibration-auc"><span class="std std-ref">Mathematical Framework</span></a> section.
 That section illustrates how integration under the curve provides a mathematical view of
 calibration performance.</p>
-<section id="example-1">
-<h3>Example 1<a class="headerlink" href="#example-1" title="Link to this heading"></a></h3>
+<section id="example-1-calibration-overlay">
+<h3>Example 1 (Calibration Overlay)<a class="headerlink" href="#example-1-calibration-overlay" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
     <span class="n">sliced_race_data</span><span class="p">,</span>
     <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>
@@ -886,8 +886,8 @@ calibration performance.</p>
 <div class="no-click"><a class="reference internal image-reference" href="_images/calibration_plot.png"><img alt="Calibration Plot Overlay" class="align-center" src="_images/calibration_plot.png" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div></section>
-<section id="example-2">
-<h3>Example 2<a class="headerlink" href="#example-2" title="Link to this heading"></a></h3>
+<section id="example-2-calibration-subplots">
+<h3>Example 2 (Calibration Subplots)<a class="headerlink" href="#example-2-calibration-subplots" title="Link to this heading"></a></h3>
 <p>This example builds on the previous one by showing individual calibration
 curves in separate subplots and enabling shaded areas beneath the curves. This
 layout improves visual clarity, especially when comparing many groups or when the
@@ -911,8 +911,8 @@ allowing easier inspection of group-specific trends.</p>
 <div class="no-click"><a class="reference internal image-reference" href="_images/calibration_sub_plots.png"><img alt="Calibration Subplots" class="align-center" src="_images/calibration_sub_plots.png" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div><div style="height: 40px;"></div></section>
-<section id="example-3">
-<h3>Example 3<a class="headerlink" href="#example-3" title="Link to this heading"></a></h3>
+<section id="example-3-lowess-calibration">
+<h3>Example 3 (LOWESS Calibration)<a class="headerlink" href="#example-3-lowess-calibration" title="Link to this heading"></a></h3>
 <p>This example demonstrates the use of <strong>Locally Weighted Scatterplot Smoothing (LOWESS)</strong>
 to fit a locally adaptive curve for calibration. This technique is helpful when
 calibration is non-linear or when jagged curves result from small group sizes or

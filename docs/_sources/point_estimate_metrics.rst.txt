@@ -882,8 +882,8 @@ That section illustrates how integration under the curve provides a mathematical
 calibration performance.
 
 
-Example 1
-~~~~~~~~~~~~~~
+Example 1 (Calibration Overlay)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -910,8 +910,8 @@ Example 1
 
     <div style="height: 40px;"></div></div>
 
-Example 2
-~~~~~~~~~~~
+Example 2 (Calibration Subplots)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example builds on the previous one by showing individual calibration 
 curves in separate subplots and enabling shaded areas beneath the curves. This 
@@ -957,8 +957,8 @@ allowing easier inspection of group-specific trends.
 
     <div style="height: 40px;"></div>
 
-Example 3
-~~~~~~~~~~~~~~~~
+Example 3 (LOWESS Calibration)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 This example demonstrates the use of **Locally Weighted Scatterplot Smoothing (LOWESS)** 
