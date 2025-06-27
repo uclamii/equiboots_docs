@@ -957,6 +957,54 @@ allowing easier inspection of group-specific trends.
 
     <div style="height: 40px;"></div>
 
+Example 3
+~~~~~~~~~~~~~~~~
+
+
+This example demonstrates the use of **Locally Weighted Scatterplot Smoothing (LOWESS)** 
+to fit a locally adaptive curve for calibration. This technique is helpful when 
+calibration is non-linear or when jagged curves result from small group sizes or 
+class imbalance.
+
+.. note:: 
+
+    Enable LOWESS smoothing by setting the ``lowess`` parameter to a float between 
+    0 and 1, which controls the smoothing span. Additional styling can be applied 
+    via ``lowess_kwargs``.
+
+.. code:: python
+
+    eqb.eq_plot_group_curves(
+        sliced_race_data,
+        curve_type="calibration",
+        title="Calibration by Race Group (LOWESS Smoothing)",
+        figsize=(7, 7),
+        decimal_places=2,
+        subplots=True,
+        lowess=0.6,
+        lowess_kwargs={"linestyle": "--", "linewidth": 2, "alpha": 0.6},
+        n_cols=3,
+        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+    )
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/lowess_calibration.png
+   :alt: LOWESS-smoothed Calibration Subplots
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div></div>
+
+LOWESS produces smoother and more flexible calibration curves compared to binning. 
+It is particularly useful for identifying subtle trends in over or under-confidence 
+across different segments of the population.
+
+
 
 
 .. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.

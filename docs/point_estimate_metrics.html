@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#calibration-plots">Calibration Plots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#example-1">Example 1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example-2">Example 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-3">Example 3</a></li>
 </ul>
 </li>
 </ul>
@@ -909,7 +910,39 @@ allowing easier inspection of group-specific trends.</p>
 </div>
 <div class="no-click"><a class="reference internal image-reference" href="_images/calibration_sub_plots.png"><img alt="Calibration Subplots" class="align-center" src="_images/calibration_sub_plots.png" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div></div><div style="height: 40px;"></div><aside class="footnote-list brackets">
+<div style="height: 40px;"></div></div><div style="height: 40px;"></div></section>
+<section id="example-3">
+<h3>Example 3<a class="headerlink" href="#example-3" title="Link to this heading"></a></h3>
+<p>This example demonstrates the use of <strong>Locally Weighted Scatterplot Smoothing (LOWESS)</strong>
+to fit a locally adaptive curve for calibration. This technique is helpful when
+calibration is non-linear or when jagged curves result from small group sizes or
+class imbalance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Enable LOWESS smoothing by setting the <code class="docutils literal notranslate"><span class="pre">lowess</span></code> parameter to a float between
+0 and 1, which controls the smoothing span. Additional styling can be applied
+via <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</span></code>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
+    <span class="n">sliced_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Calibration by Race Group (LOWESS Smoothing)&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">lowess</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+    <span class="n">lowess_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidth&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">},</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amer-Indian-Eskimo&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="no-click"><a class="reference internal image-reference" href="_images/lowess_calibration.png"><img alt="LOWESS-smoothed Calibration Subplots" class="align-center" src="_images/lowess_calibration.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div></div><p>LOWESS produces smoother and more flexible calibration curves compared to binning.
+It is particularly useful for identifying subtle trends in over or under-confidence
+across different segments of the population.</p>
+<aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>
