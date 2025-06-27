@@ -507,18 +507,28 @@ Usage Example
 
 .. code-block:: python
 
-    from equiboots.StatisticalTester import StatisticalTester
+  from equiboots.StatisticalTester import StatisticalTester
 
-    tester = StatisticalTester()
-    config = {
-        "test_type": "chi_square",
-        "alpha": 0.05,
-        "adjust_method": "bonferroni"
-    }
-    metrics = {
-        "group1": {"TP": 10, "FP": 5, "TN": 20, "FN": 2},
-        "group2": {"TP": 8, "FP": 7, "TN": 18, "FN": 4}
-    }
-    results = tester.analyze_metrics(metrics, reference_group="group1", test_config=config, task="binary_classification")
-    for group, result in results.items():
-        print(f"{group}: p-value={result.p_value}, significant={result.is_significant}")
+  tester = StatisticalTester()
+
+  config = {
+      "test_type": "chi_square",
+      "alpha": 0.05,
+      "adjust_method": "bonferroni",
+  }
+
+  metrics = {
+      "group1": {"TP": 10, "FP": 5, "TN": 20, "FN": 2},
+      "group2": {"TP": 8, "FP": 7, "TN": 18, "FN": 4},
+  }
+
+  results = tester.analyze_metrics(
+      metrics,
+      reference_group="group1",
+      test_config=config,
+      task="binary_classification",
+  )
+
+  for group, result in results.items():
+      print(f"{group}: p-value={result.p_value}, significant={result.is_significant}")
+

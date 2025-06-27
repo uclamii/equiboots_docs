@@ -157,6 +157,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Mathematical Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html">Calibration Curves and Area Under the Curve</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
@@ -870,16 +874,25 @@ Reference group name.</p></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">equiboots.StatisticalTester</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatisticalTester</span>
 
 <span class="n">tester</span> <span class="o">=</span> <span class="n">StatisticalTester</span><span class="p">()</span>
+
 <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;test_type&quot;</span><span class="p">:</span> <span class="s2">&quot;chi_square&quot;</span><span class="p">,</span>
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-    <span class="s2">&quot;adjust_method&quot;</span><span class="p">:</span> <span class="s2">&quot;bonferroni&quot;</span>
+    <span class="s2">&quot;adjust_method&quot;</span><span class="p">:</span> <span class="s2">&quot;bonferroni&quot;</span><span class="p">,</span>
 <span class="p">}</span>
+
 <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;group1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;TP&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;TN&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;FN&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
-    <span class="s2">&quot;group2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;TP&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;TN&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s2">&quot;FN&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+    <span class="s2">&quot;group2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;TP&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;TN&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s2">&quot;FN&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
 <span class="p">}</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">analyze_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">reference_group</span><span class="o">=</span><span class="s2">&quot;group1&quot;</span><span class="p">,</span> <span class="n">test_config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary_classification&quot;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">analyze_metrics</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="p">,</span>
+    <span class="n">reference_group</span><span class="o">=</span><span class="s2">&quot;group1&quot;</span><span class="p">,</span>
+    <span class="n">test_config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
 <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">: p-value=</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">p_value</span><span class="si">}</span><span class="s2">, significant=</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">is_significant</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>

@@ -111,6 +111,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="model_to_pred.html">Preparing Model Outputs for Fairness Analysis</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Mathematical Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html">Calibration Curves and Area Under the Curve</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
@@ -855,13 +859,18 @@ representation can be excluded using the <code class="docutils literal notransla
 <div style="height: 40px;"></div></section>
 <section id="calibration-plots">
 <h2>Calibration Plots<a class="headerlink" href="#calibration-plots" title="Link to this heading"></a></h2>
-<section id="example-1">
-<h3>Example 1<a class="headerlink" href="#example-1" title="Link to this heading"></a></h3>
 <p>Calibration plots compare predicted probabilities to actual outcomes, showing
 how well the model’s confidence aligns with observed frequencies. A perfectly
 calibrated model will have a curve that closely follows the diagonal reference line.</p>
 <p>The example below overlays calibration curves by racial group, using the same sliced data.
 Groups with low representation are excluded to ensure stable and interpretable plots.</p>
+<p>For additional context on the geometric intuition behind calibration curves,
+including how the area between the observed curve and the ideal diagonal can be
+interpreted, see the <a class="reference internal" href="mathematical_framework.html#calibration-auc"><span class="std std-ref">Mathematical Framework</span></a> section.
+That section illustrates how integration under the curve provides a mathematical view of
+calibration performance.</p>
+<section id="example-1">
+<h3>Example 1<a class="headerlink" href="#example-1" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
     <span class="n">sliced_race_data</span><span class="p">,</span>
     <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>

@@ -868,15 +868,22 @@ Precision-Recall Curves
 Calibration Plots
 ---------------------
 
-Example 1
-~~~~~~~~~~~~~~
-
-Calibration plots compare predicted probabilities to actual outcomes, showing 
-how well the model's confidence aligns with observed frequencies. A perfectly 
+Calibration plots compare predicted probabilities to actual outcomes, showing
+how well the model's confidence aligns with observed frequencies. A perfectly
 calibrated model will have a curve that closely follows the diagonal reference line.
 
-The example below overlays calibration curves by racial group, using the same sliced data. 
+The example below overlays calibration curves by racial group, using the same sliced data.
 Groups with low representation are excluded to ensure stable and interpretable plots.
+
+For additional context on the geometric intuition behind calibration curves, 
+including how the area between the observed curve and the ideal diagonal can be 
+interpreted, see the :ref:`Mathematical Framework <calibration_auc>` section. 
+That section illustrates how integration under the curve provides a mathematical view of 
+calibration performance.
+
+
+Example 1
+~~~~~~~~~~~~~~
 
 .. code:: python
 

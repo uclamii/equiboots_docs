@@ -54,6 +54,12 @@ Table of Contents
 
 .. toctree::
    :maxdepth: 4
+   :caption: Mathematical Framework
+
+   mathematical_framework
+
+.. toctree::
+   :maxdepth: 4
    :caption: About EquiBoots
 
    acknowledgements
