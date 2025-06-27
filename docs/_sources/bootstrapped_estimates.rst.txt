@@ -352,6 +352,260 @@ Finally, plot the statistically tested metric differences:
 
     <div style="height: 40px;"></div>
 
+Bootstrapped Group Curve Plots
+----------------------------------------
+
+.. function:: eq_plot_bootstrapped_group_curves(boot_sliced_data, curve_type='roc', common_grid=np.linspace(0, 1, 100), bar_every=10, n_bins=10, line_kwgs=None, title='Bootstrapped Curve by Group', filename='bootstrapped_curve', save_path=None, figsize=(8, 6), dpi=100, subplots=False, n_cols=2, n_rows=None, group=None, color_by_group=True, exclude_groups=0, show_grid=True, y_lim=None)
+
+   Plots bootstrapped ROC, precision-recall, or calibration curves by group. This function takes a list of bootstrapped group-level datasets and computes uncertainty bands for each curve using interpolation over a shared x-axis grid. Results can be rendered in overlay or subplot formats, with optional gridlines and curve-specific annotations (e.g., AUROC, AUCPR, or Brier score).
+
+   :param boot_sliced_data: A list of bootstrap iterations, each mapping group name to 'y_true' and 'y_prob' arrays.
+   :type boot_sliced_data: list[dict[str, dict[str, np.ndarray]]]
+
+   :param curve_type: Type of curve to plot: 'roc', 'pr', or 'calibration'.
+   :type curve_type: str
+
+   :param common_grid: Shared x-axis points used to interpolate all curves for consistency.
+   :type common_grid: np.ndarray
+
+   :param bar_every: Number of points between vertical error bars on the bootstrapped curve.
+   :type bar_every: int
+
+   :param n_bins: Number of bins for calibration plots.
+   :type n_bins: int
+
+   :param line_kwgs: Optional style parameters for the diagonal or baseline reference line.
+   :type line_kwgs: dict[str, Any] or None
+
+   :param title: Title of the entire plot.
+   :type title: str
+
+   :param filename: Filename (without extension) used when saving the plot.
+   :type filename: str
+
+   :param save_path: Directory path to save the figure. If None, the plot is displayed instead.
+   :type save_path: str or None
+
+   :param figsize: Size of the figure as a (width, height) tuple in inches.
+   :type figsize: tuple[float, float]
+
+   :param dpi: Dots-per-inch resolution of the figure.
+   :type dpi: int
+
+   :param subplots: Whether to show each group’s curve in a separate subplot.
+   :type subplots: bool
+
+   :param n_cols: Number of columns in the subplot grid.
+   :type n_cols: int
+
+   :param n_rows: Number of rows in the subplot grid. Auto-calculated if None.
+   :type n_rows: int or None
+
+   :param group: Optional name of a single group to plot instead of all groups.
+   :type group: str or None
+
+   :param color_by_group: Whether to assign colors by group identity.
+   :type color_by_group: bool
+
+   :param exclude_groups: Groups to exclude from the plot, either by name or by minimum sample size.
+   :type exclude_groups: int | str | list[str] | set[str]
+
+   :param show_grid: Whether to display gridlines on each plot.
+   :type show_grid: bool
+
+   :param y_lim: Optional y-axis limits (min, max) to enforce on the plots.
+   :type y_lim: tuple[float, float] or None
+
+
+ROC AUC Curves 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The example below shows bootstrapped ROC curves stratified by race group. 
+Each curve reflects the average ROC performance across resampled iterations, 
+with vertical error bars illustrating variability.
+
+By toggling the ``subplots`` argument, the visualization can either overlay all group curves 
+on a single axis (``subplots=False``) or display each group in its own panel (``subplots=True``), 
+depending on the desired layout.
+
+**Example 1 (Overlayed Curves with Error Bars)**
+
+.. code:: python
+
+    eqb.eq_plot_bootstrapped_group_curves(
+        boot_sliced_data=boots_race_data,
+        curve_type="roc",
+        title="Bootstrapped ROC Curve by Race",
+        bar_every=100,
+        dpi=100,
+        n_bins=10,
+        figsize=(6, 6),
+        color_by_group=True,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/roc_auc_bootstrapped.png
+   :alt: Statistical Signficance of Differences
+   :align: center
+   :width: 550px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+This view helps quantify variability in model performance across subpopulations. 
+Overlaying curves in a single plot (``subplots=False``) makes it easy to compare 
+uncertainty bands side by side. Groups with insufficient data or minimal representation 
+can be excluded using ``exclude_groups``.
+
+.. rubric:: Example 2 (``subplots=True``)
+
+.. code:: python
+
+    eqb.eq_plot_bootstrapped_group_curves(
+        boot_sliced_data=boots_race_data,
+        curve_type="roc",
+        title="Bootstrapped ROC Curve by Race",
+        bar_every=100,
+        subplots=True,
+        dpi=100,
+        n_bins=10,
+        figsize=(6, 6),
+        color_by_group=True,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/roc_auc_subplots_bootstrapped.png
+   :alt: Bootstrapped ROC AUC Curves by Race (subplots)
+   :align: center
+   :width: 550px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+This multi‐panel layout makes side-by-side comparison of each group’s uncertainty bands straightforward.
+
+
+.. code:: python
+
+    eqb.eq_plot_bootstrapped_group_curves(
+        boot_sliced_data=boots_race_data,
+        curve_type="pr",
+        title="Bootstrapped PR Curve by Race",
+        filename="boot_roc_race",
+        save_path="./images",
+        subplots=True,
+        bar_every=100,
+        # n_rows=1,
+        n_cols=1,
+        dpi=100,
+        n_bins=10,
+        figsize=(6, 6),
+        color_by_group=True,
+    )
+
+Precision-Recall Curves
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The example below presents bootstrapped precision-recall (PR) curves grouped by race. 
+Each curve illustrates the average precision-recall relationship across bootstrapped samples, 
+with vertical error bars indicating the variability at select recall thresholds.
+
+As with ROC curves, setting ``subplots=False`` overlays all groups in a single plot, 
+allowing for compact comparison. Alternatively, setting ``subplots=True`` creates individual panels 
+for each group to better visualize variations in precision across recall levels.
+
+.. code:: python
+
+    eqb.eq_plot_bootstrapped_group_curves(
+        boot_sliced_data=boots_race_data,
+        curve_type="pr",
+        title="Bootstrapped PR Curve by Race",
+        subplots=True,
+        bar_every=100,
+        n_cols=1,
+        dpi=100,
+        n_bins=10,
+        figsize=(6, 6),
+        color_by_group=True,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/pr_curves_subplots_bootstrapped.png
+   :alt: Bootstrapped PR Curves by Race (subplots)
+   :align: center
+   :width: 550px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+Subplot mode offers a cleaner side-by-side comparison of each group’s bootstrapped precision-recall behavior,
+making small differences in model performance easier to interpret.
+
+
+Calibration Curves
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following example visualizes bootstrapped calibration curves grouped by race. 
+Each curve reflects the average alignment between predicted probabilities and observed outcomes, 
+aggregated over multiple resampled datasets. Vertical bars show variability in the calibration estimate 
+at evenly spaced probability intervals.
+
+As with ROC and PR plots, ``subplots=False`` will overlay all group curves on one axis, 
+while ``subplots=True`` generates a separate panel for each group.
+
+**Example 1 (Overlayed Calibration Curves with Error Bars)**
+
+.. code:: python
+
+    eqb.eq_plot_bootstrapped_group_curves(
+        boot_sliced_data=boots_race_data,
+        curve_type="calibration",
+        title="Bootstrapped Calibration Curve by Race",
+        subplots=True,
+        bar_every=10,
+        dpi=100,
+        n_bins=10,
+        figsize=(6, 6),
+        color_by_group=True,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/calibration_bootstrapped.png
+   :alt: Bootstrapped Calibration Curves by Race (overlayed)
+   :align: center
+   :width: 550px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div>
+
+
+Using subplots offers a focused view of calibration accuracy for each group, 
+allowing nuanced inspection of where the model’s confidence aligns or diverges from observed outcomes.
+
 
 Summary
 -------------
@@ -362,4 +616,5 @@ statistically significant differences between groups.
 
 Use EquiBoots to support robust fairness audits that go beyond simple point comparisons 
 and account for sampling variability and multiple comparisons.
+
 

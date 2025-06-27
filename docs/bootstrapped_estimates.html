@@ -75,6 +75,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#visualize-differences-with-significance"><strong>4.2: Visualize Differences with Significance</strong></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#bootstrapped-group-curve-plots">Bootstrapped Group Curve Plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eq_plot_bootstrapped_group_curves"><code class="docutils literal notranslate"><span class="pre">eq_plot_bootstrapped_group_curves()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#roc-auc-curves">ROC AUC Curves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#precision-recall-curves">Precision-Recall Curves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calibration-curves">Calibration Curves</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
@@ -379,6 +386,160 @@ distribution of bootstrapped metric differences to a null distribution of no eff
 <div class="no-click"><a class="reference internal image-reference" href="_images/differences_stat_sig_plot.png"><img alt="Statistical Signficance of Differences" class="align-center" src="_images/differences_stat_sig_plot.png" style="width: 1000px;" />
 </a>
 <div style="height: 40px;"></div></section>
+</section>
+<section id="bootstrapped-group-curve-plots">
+<h2>Bootstrapped Group Curve Plots<a class="headerlink" href="#bootstrapped-group-curve-plots" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="eq_plot_bootstrapped_group_curves">
+<span class="sig-name descname"><span class="pre">eq_plot_bootstrapped_group_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boot_sliced_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'roc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.linspace(0,</span> <span class="pre">1,</span> <span class="pre">100)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_every</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_kwgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Bootstrapped</span> <span class="pre">Curve</span> <span class="pre">by</span> <span class="pre">Group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bootstrapped_curve'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subplots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_plot_bootstrapped_group_curves" title="Link to this definition"></a></dt>
+<dd><p>Plots bootstrapped ROC, precision-recall, or calibration curves by group. This function takes a list of bootstrapped group-level datasets and computes uncertainty bands for each curve using interpolation over a shared x-axis grid. Results can be rendered in overlay or subplot formats, with optional gridlines and curve-specific annotations (e.g., AUROC, AUCPR, or Brier score).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>boot_sliced_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>np.ndarray</em><em>]</em><em>]</em><em>]</em>) – A list of bootstrap iterations, each mapping group name to ‘y_true’ and ‘y_prob’ arrays.</p></li>
+<li><p><strong>curve_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Type of curve to plot: ‘roc’, ‘pr’, or ‘calibration’.</p></li>
+<li><p><strong>common_grid</strong> (<em>np.ndarray</em>) – Shared x-axis points used to interpolate all curves for consistency.</p></li>
+<li><p><strong>bar_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of points between vertical error bars on the bootstrapped curve.</p></li>
+<li><p><strong>n_bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of bins for calibration plots.</p></li>
+<li><p><strong>line_kwgs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>] or </em><em>None</em>) – Optional style parameters for the diagonal or baseline reference line.</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Title of the entire plot.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename (without extension) used when saving the plot.</p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Directory path to save the figure. If None, the plot is displayed instead.</p></li>
+<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – Size of the figure as a (width, height) tuple in inches.</p></li>
+<li><p><strong>dpi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Dots-per-inch resolution of the figure.</p></li>
+<li><p><strong>subplots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to show each group’s curve in a separate subplot.</p></li>
+<li><p><strong>n_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of columns in the subplot grid.</p></li>
+<li><p><strong>n_rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><em>None</em>) – Number of rows in the subplot grid. Auto-calculated if None.</p></li>
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Optional name of a single group to plot instead of all groups.</p></li>
+<li><p><strong>color_by_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to assign colors by group identity.</p></li>
+<li><p><strong>exclude_groups</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.13)"><em>set</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Groups to exclude from the plot, either by name or by minimum sample size.</p></li>
+<li><p><strong>show_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to display gridlines on each plot.</p></li>
+<li><p><strong>y_lim</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] or </em><em>None</em>) – Optional y-axis limits (min, max) to enforce on the plots.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="roc-auc-curves">
+<h3>ROC AUC Curves<a class="headerlink" href="#roc-auc-curves" title="Link to this heading"></a></h3>
+<p>The example below shows bootstrapped ROC curves stratified by race group.
+Each curve reflects the average ROC performance across resampled iterations,
+with vertical error bars illustrating variability.</p>
+<p>By toggling the <code class="docutils literal notranslate"><span class="pre">subplots</span></code> argument, the visualization can either overlay all group curves
+on a single axis (<code class="docutils literal notranslate"><span class="pre">subplots=False</span></code>) or display each group in its own panel (<code class="docutils literal notranslate"><span class="pre">subplots=True</span></code>),
+depending on the desired layout.</p>
+<p><strong>Example 1 (Overlayed Curves with Error Bars)</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_bootstrapped_group_curves</span><span class="p">(</span>
+    <span class="n">boot_sliced_data</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;roc&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bootstrapped ROC Curve by Race&quot;</span><span class="p">,</span>
+    <span class="n">bar_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/roc_auc_bootstrapped.png"><img alt="Statistical Signficance of Differences" class="align-center" src="_images/roc_auc_bootstrapped.png" style="width: 550px;" />
+</a>
+<div style="height: 40px;"></div><p>This view helps quantify variability in model performance across subpopulations.
+Overlaying curves in a single plot (<code class="docutils literal notranslate"><span class="pre">subplots=False</span></code>) makes it easy to compare
+uncertainty bands side by side. Groups with insufficient data or minimal representation
+can be excluded using <code class="docutils literal notranslate"><span class="pre">exclude_groups</span></code>.</p>
+<p class="rubric">Example 2 (<code class="docutils literal notranslate"><span class="pre">subplots=True</span></code>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_bootstrapped_group_curves</span><span class="p">(</span>
+    <span class="n">boot_sliced_data</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;roc&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bootstrapped ROC Curve by Race&quot;</span><span class="p">,</span>
+    <span class="n">bar_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/roc_auc_subplots_bootstrapped.png"><img alt="Bootstrapped ROC AUC Curves by Race (subplots)" class="align-center" src="_images/roc_auc_subplots_bootstrapped.png" style="width: 550px;" />
+</a>
+<div style="height: 40px;"></div><p>This multi‐panel layout makes side-by-side comparison of each group’s uncertainty bands straightforward.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_bootstrapped_group_curves</span><span class="p">(</span>
+    <span class="n">boot_sliced_data</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;pr&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bootstrapped PR Curve by Race&quot;</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;boot_roc_race&quot;</span><span class="p">,</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bar_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="c1"># n_rows=1,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="precision-recall-curves">
+<h3>Precision-Recall Curves<a class="headerlink" href="#precision-recall-curves" title="Link to this heading"></a></h3>
+<p>The example below presents bootstrapped precision-recall (PR) curves grouped by race.
+Each curve illustrates the average precision-recall relationship across bootstrapped samples,
+with vertical error bars indicating the variability at select recall thresholds.</p>
+<p>As with ROC curves, setting <code class="docutils literal notranslate"><span class="pre">subplots=False</span></code> overlays all groups in a single plot,
+allowing for compact comparison. Alternatively, setting <code class="docutils literal notranslate"><span class="pre">subplots=True</span></code> creates individual panels
+for each group to better visualize variations in precision across recall levels.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_bootstrapped_group_curves</span><span class="p">(</span>
+    <span class="n">boot_sliced_data</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;pr&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bootstrapped PR Curve by Race&quot;</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bar_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/pr_curves_subplots_bootstrapped.png"><img alt="Bootstrapped PR Curves by Race (subplots)" class="align-center" src="_images/pr_curves_subplots_bootstrapped.png" style="width: 550px;" />
+</a>
+<div style="height: 40px;"></div><p>Subplot mode offers a cleaner side-by-side comparison of each group’s bootstrapped precision-recall behavior,
+making small differences in model performance easier to interpret.</p>
+</section>
+<section id="calibration-curves">
+<h3>Calibration Curves<a class="headerlink" href="#calibration-curves" title="Link to this heading"></a></h3>
+<p>The following example visualizes bootstrapped calibration curves grouped by race.
+Each curve reflects the average alignment between predicted probabilities and observed outcomes,
+aggregated over multiple resampled datasets. Vertical bars show variability in the calibration estimate
+at evenly spaced probability intervals.</p>
+<p>As with ROC and PR plots, <code class="docutils literal notranslate"><span class="pre">subplots=False</span></code> will overlay all group curves on one axis,
+while <code class="docutils literal notranslate"><span class="pre">subplots=True</span></code> generates a separate panel for each group.</p>
+<p><strong>Example 1 (Overlayed Calibration Curves with Error Bars)</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_bootstrapped_group_curves</span><span class="p">(</span>
+    <span class="n">boot_sliced_data</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bootstrapped Calibration Curve by Race&quot;</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bar_every</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_bootstrapped.png"><img alt="Bootstrapped Calibration Curves by Race (overlayed)" class="align-center" src="_images/calibration_bootstrapped.png" style="width: 550px;" />
+</a>
+<div style="height: 40px;"></div><p>Using subplots offers a focused view of calibration accuracy for each group,
+allowing nuanced inspection of where the model’s confidence aligns or diverges from observed outcomes.</p>
+</section>
 </section>
 <section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
