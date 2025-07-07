@@ -381,7 +381,7 @@ Test Setup
 
   .. code:: python
 
-      eq = EquiBoots(
+      eq = eqb.EquiBoots(
           y_true=...,
           y_pred=...,
           y_prob=...,
@@ -548,6 +548,8 @@ This is done using the ``metrics_table`` function from EquiBoots, which takes in
 
 
 .. code:: python
+
+    from equiboots.tables import metrics_table
 
     stat_metrics_table_point = metrics_table(
         race_metrics,
@@ -727,80 +729,85 @@ After slicing your data using the ``slicer()`` method and organizing group-speci
 ``y_true`` and ``y_prob`` values, you can pass the resulting dictionary to 
 ``eq_plot_group_curves`` to generate interpretable, publication-ready visuals.
 
-.. function:: eq_plot_group_curves(data, curve_type="roc", n_bins=10, decimal_places=2, curve_kwgs=None, line_kwgs=None, title="Curve by Group", filename="group", save_path=None, figsize=(8, 6), dpi=100, subplots=False, n_cols=2, n_rows=None, group=None, color_by_group=True, exclude_groups=0, show_grid=True, lowess=0, shade_area=False)
+.. function:: eq_plot_group_curves(data, curve_type="roc", n_bins=10, decimal_places=2, curve_kwgs=None, line_kwgs=None, title="Curve by Group", filename="group", save_path=None, figsize=(8, 6), dpi=100, subplots=False, n_cols=2, n_rows=None, group=None, color_by_group=True, exclude_groups=0, show_grid=True, lowess=0, lowess_kwargs=None, shade_area=False, plot_hist=False)
 
-    Plots ROC, Precision-Recall, or Calibration curves by demographic group.
+    Plots ROC, Precision-Recall, or Calibration curves by demographic group. Supports overlaid and subplot layouts, optional smoothing with LOWESS, shaded areas, and histogram overlays for calibration curves.
 
-    :param data: Dictionary mapping group names to dictionaries containing ``y_true`` and ``y_prob`` arrays. This is typically the output of the ``slicer`` method from the EquiBoots class.
+    :param data: Dictionary mapping group names to dictionaries containing ``y_true`` and ``y_prob`` arrays. Typically the output of ``eqb.slicer()``.
     :type data: Dict[str, Dict[str, np.ndarray]]
 
     :param curve_type: Type of curve to plot. Options are ``"roc"``, ``"pr"``, or ``"calibration"``.
     :type curve_type: str
 
     :param n_bins: Number of bins to use for calibration curves. Ignored for ROC and PR.
-    :type n_bins: int, optional
+    :type n_bins: int
 
     :param decimal_places: Number of decimal places to show in curve labels (e.g., for AUC or Brier scores).
-    :type decimal_places: int, optional
+    :type decimal_places: int
 
-    :param curve_kwgs: Optional dictionary of plotting keyword arguments per group, allowing customization of curve aesthetics.
+    :param curve_kwgs: Optional dictionary mapping group names to curve styling parameters (e.g., ``color``, ``linestyle``).
     :type curve_kwgs: Dict[str, Dict[str, Union[str, float]]], optional
 
-    :param line_kwgs: Optional keyword arguments for reference lines (e.g., the diagonal line in ROC).
+    :param line_kwgs: Optional styling for the reference line (e.g., diagonal in ROC or calibration).
     :type line_kwgs: Dict[str, Union[str, float]], optional
 
     :param title: Title of the entire figure.
-    :type title: str, optional
+    :type title: str
 
-    :param filename: Output filename prefix, used if saving plots.
-    :type filename: str, optional
+    :param filename: Filename prefix for saving the figure (without file extension).
+    :type filename: str
 
-    :param save_path: If specified, saves the figure as PNG in the directory provided.
-    :type save_path: str, optional
+    :param save_path: Directory path where the figure will be saved. If None, the plot is only displayed.
+    :type save_path: str or None
 
     :param figsize: Tuple specifying the figure size in inches (width, height).
-    :type figsize: Tuple[float, float], optional
+    :type figsize: Tuple[float, float]
 
-    :param dpi: Resolution of the plot in dots per inch.
-    :type dpi: int, optional
+    :param dpi: Resolution of the output figure in dots per inch.
+    :type dpi: int
 
-    :param subplots: Whether to generate a subplot per group (if False, all curves are plotted on one axis).
-    :type subplots: bool, optional
+    :param subplots: Whether to generate a subplot per group. If False, all curves are overlaid.
+    :type subplots: bool
 
-    :param n_cols: Number of columns to use in subplot grid.
-    :type n_cols: int, optional
+    :param n_cols: Number of columns in the subplot grid.
+    :type n_cols: int
 
-    :param n_rows: Number of subplot rows. If ``None``, this is inferred based on the number of groups.
-    :type n_rows: int, optional
+    :param n_rows: Number of rows in the subplot grid. If None, it's inferred automatically.
+    :type n_rows: int or None
 
     :param group: If set, plots only the specified group.
-    :type group: str, optional
+    :type group: str or None
 
-    :param color_by_group: If True, uses different colors for each group; otherwise, all curves are plotted in blue.
-    :type color_by_group: bool, optional
+    :param color_by_group: If True, assigns a different color to each group.
+    :type color_by_group: bool
 
-    :param exclude_groups: Optionally exclude specific groups by name or minimum sample size.
-    :type exclude_groups: Union[int, str, list, set], optional
+    :param exclude_groups: Optionally exclude specific groups by name or by minimum sample size.
+    :type exclude_groups: Union[int, str, List[str], Set[str]]
 
-    :param show_grid: Whether to show background grid in the plot.
-    :type show_grid: bool, optional
+    :param show_grid: Whether to display background gridlines in the plots.
+    :type show_grid: bool
 
-    :param lowess: Optional smoothing factor (between 0 and 1) applied to calibration curves.
-    :type lowess: float, optional
+    :param lowess: Smoothing factor (0–1) for LOWESS calibration curves. Set to 0 to disable.
+    :type lowess: float
 
-    :param shade_area: Whether to shade the area under the curve (useful for ROC and PR).
-    :type shade_area: bool, optional
+    :param lowess_kwargs: Dictionary of additional styling arguments for LOWESS curves.
+    :type lowess_kwargs: Dict[str, Union[str, float]], optional
 
-    :returns: None. The plot is displayed or saved based on the ``save_path`` argument.
+    :param shade_area: Whether to fill the area beneath each curve (only for ROC and PR).
+    :type shade_area: bool
+
+    :param plot_hist: If True, displays a histogram of predicted probability counts beneath each calibration curve. Automatically enables ``subplots=True``.
+    :type plot_hist: bool
+
+    :returns: None. Displays or saves the plot depending on the ``save_path`` argument.
     :rtype: None
 
-.. admonition:: Notes
+.. note::
 
-    - **Overlay Mode:** When ``subplots=False``, all group curves are shown in a single plot for easy comparison.
-    - **Subplot Mode:** When ``subplots=True``, each group is plotted in its own axis using a grid layout.
-    - **Single Group Mode:** You can pass a specific ``group`` to plot only one group separately.
-    - **Curve Labels:** Each curve is labeled with the metric value, such as AUROC or Brier Score.
-    - **Reference Lines:** For ROC and calibration curves, a diagonal reference line is included unless overridden via ``line_kwgs``.
+    - When ``plot_hist=True``, each subplot includes a histogram showing how many predictions fall into each predicted probability bin. This is especially useful for interpreting calibration performance in regions with dense or sparse predictions.
+    - LOWESS smoothing is useful for non-linear calibration curves or small sample groups.
+    - When ``subplots=False`` and ``group=None``, all groups are overlaid on a single plot.
+    - Setting both ``group`` and ``subplots=True`` will raise an error.
 
 
 ROC AUC Curve
@@ -1003,6 +1010,53 @@ class imbalance.
 LOWESS produces smoother and more flexible calibration curves compared to binning. 
 It is particularly useful for identifying subtle trends in over or under-confidence 
 across different segments of the population.
+
+Example 4 (Calibration Histograms)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+When ``plot_hist=True`` is enabled, the function displays a histogram of sample 
+counts beneath the calibration curve for each group. Each bar shows how many 
+predictions fall into a given probability bin (e.g., 0.0–0.1, 0.1–0.2). This is 
+helpful for diagnosing whether calibration differences occur in well-populated 
+regions of the probability spectrum or in sparse areas with few predictions.
+
+
+.. note::
+
+   Histograms are especially useful when interpreting overconfident or 
+   underconfident predictions across different groups. Regions with sparse 
+   histogram bars may also indicate model uncertainty or data scarcity in those 
+   probability intervals.
+
+
+.. code:: python
+
+    eqb.eq_plot_group_curves(
+        sliced_race_data,
+        curve_type="calibration",
+        title="Calibration by Race Group",
+        n_bins=10,
+        show_grid=False,
+        plot_hist=True,
+    )
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/calib_hist.png
+   :alt: Calibration Curve with Histogram Overlay
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div></div>
+
+The **histogram bars** at the base of the plot show how frequently predictions fall into each probability bin, grouped by demographic subgroup. This combined view helps validate whether deviations from the ideal diagonal are meaningful and well-supported by the underlying data.
+
+For instance, if a group appears poorly calibrated in a region where very few predictions occur, the issue may be less impactful than one affecting densely populated bins. This visual diagnostic is especially valuable when auditing model behavior across real-world deployment scenarios.
 
 
 
