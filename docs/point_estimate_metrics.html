@@ -967,11 +967,13 @@ probability intervals.</p>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Calibration by Race Group&quot;</span><span class="p">,</span>
     <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amer-Indian-Eskimo&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span><span class="p">]</span>
     <span class="n">plot_hist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="no-click"><a class="reference internal image-reference" href="_images/calib_hist.png"><img alt="Calibration Curve with Histogram Overlay" class="align-center" src="_images/calib_hist.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_hist.png"><img alt="Calibration Curve with Histogram Overlay" class="align-center" src="_images/calibration_hist.png" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div><p>The <strong>histogram bars</strong> at the base of the plot show how frequently predictions fall into each probability bin, grouped by demographic subgroup. This combined view helps validate whether deviations from the ideal diagonal are meaningful and well-supported by the underlying data.</p>
 <p>For instance, if a group appears poorly calibrated in a region where very few predictions occur, the issue may be less impactful than one affecting densely populated bins. This visual diagnostic is especially valuable when auditing model behavior across real-world deployment scenarios.</p>

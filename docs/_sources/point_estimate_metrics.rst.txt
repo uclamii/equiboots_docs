@@ -1038,14 +1038,16 @@ regions of the probability spectrum or in sparse areas with few predictions.
         title="Calibration by Race Group",
         n_bins=10,
         show_grid=False,
+        exclude_groups=["Amer-Indian-Eskimo", "Other"]
         plot_hist=True,
+
     )
 
 .. raw:: html
 
    <div class="no-click">
 
-.. image:: ../assets/calib_hist.png
+.. image:: ../assets/calibration_hist.png
    :alt: Calibration Curve with Histogram Overlay
    :align: center
    :width: 600px
