@@ -51,11 +51,12 @@ attributes like ``race`` or ``sex``.
 
 Bootstrapping is enabled by passing the required arguments during initialization. 
 You must specify:
-- A list of random seeds for reproducibility
-- `bootstrap_flag=True` to enable resampling
-- The number of bootstrap iterations (`num_bootstraps`)
-- The sample size for each bootstrap
-- Optional settings for stratification and balancing
+
+- A list of random seeds for reproducibility  
+- ``bootstrap_flag=True`` to enable resampling  
+- The number of bootstrap iterations (``num_bootstraps``)  
+- The sample size for each bootstrap  
+- Optional settings for stratification and balancing  
 
 .. code:: python
 
@@ -85,7 +86,7 @@ You must specify:
 **Step 1.2: Slice by Group and Compute Metrics**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once initialized, use the `grouper()` and `slicer()` methods to prepare bootstrapped 
+Once initialized, use the ``grouper()`` and ``slicer()`` methods to prepare bootstrapped 
 samples for each subgroup:
 
 .. code:: python
@@ -108,11 +109,27 @@ This may take some time to run.
 Disparities quantify how model performance varies across subgroups relative to a reference.
 Here we look at the ratio. 
 
-- **Disparity Ratio:** Metric ratio between a group and the reference
+- In the context of bias and fairness in machine learning, disparity refers to the differences in model performance, predictions, or outcomes across different demographic or sensitive groups.
+
+- It quantifies how a model's behavior varies for subgroups based on attributes like race, sex, age, or other characteristics.
+
+Here's how you can represent the disparity ratio for a given metric *(M)* and a specific group *(G)* compared to a reference group *(R)*:
+
 
 .. math::
 
     \text{Disparity Ratio} = \frac{M(G)}{M(R)} \quad
+
+For example, if you are looking at the "Predicted Prevalence" metric 
+(the proportion of individuals predicted to have a positive outcome), the 
+Predicted Prevalence Disparity Ratio for a group (e.g., "Black") compared to a 
+reference group (e.g., "White") would be:
+
+.. math::
+
+    \text{Predicted Prevalence Ratio} = \frac{\text{Predicted Prevalence (Black)}}{\text{Predicted Prevalence (White)}}
+
+
 
 .. code:: python
 
@@ -159,13 +176,31 @@ Use violin plots to visualize variability in disparity metrics across bootstrap 
 
 3. Metric Differences
 ------------------------
-EquiBoots also enables the user to look at the disparity in metric differences. The difference between the performance of the model for one group against the reference group.
+EquiBoots also enables the user to look at the disparity in metric differences. 
+The difference between the performance of the model for one group against the reference group.
 
-- **Disparity Difference:** Metric difference between a group and the reference
+And here's how you can represent the disparity difference between a group and the reference:
 
 .. math::
 
     \text{Disparity Difference} = M(G) - M(R)
+
+Where:
+
+- :math:`M(G)` is the value of the metric for group :math:`G`.
+
+- :math:`M(R)` is the value of the metric for the reference group :math:`R`.
+
+
+For example, if you are looking at the "Predicted Prevalence" metric differences, 
+the Predicted Prevalence Disparity Difference for a group (e.g., "Black") compared to a reference group (e.g., "White") would be:
+
+.. math::
+
+   \begin{align*}
+   \text{Predicted Prevalence Difference} &= \text{Predicted Prevalence (Black)} \\
+   &\quad - \text{Predicted Prevalence (White)}
+   \end{align*}
 
 
 .. code:: python

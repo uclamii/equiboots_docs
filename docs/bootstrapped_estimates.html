@@ -161,12 +161,14 @@ attributes like <code class="docutils literal notranslate"><span class="pre">rac
 estimating the normal distribution.</p>
 </div>
 <p>Bootstrapping is enabled by passing the required arguments during initialization.
-You must specify:
-- A list of random seeds for reproducibility
-- <cite>bootstrap_flag=True</cite> to enable resampling
-- The number of bootstrap iterations (<cite>num_bootstraps</cite>)
-- The sample size for each bootstrap
-- Optional settings for stratification and balancing</p>
+You must specify:</p>
+<ul class="simple">
+<li><p>A list of random seeds for reproducibility</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bootstrap_flag=True</span></code> to enable resampling</p></li>
+<li><p>The number of bootstrap iterations (<code class="docutils literal notranslate"><span class="pre">num_bootstraps</span></code>)</p></li>
+<li><p>The sample size for each bootstrap</p></li>
+<li><p>Optional settings for stratification and balancing</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
 
@@ -193,7 +195,7 @@ You must specify:
 </section>
 <section id="step-1-2-slice-by-group-and-compute-metrics">
 <h3><strong>Step 1.2: Slice by Group and Compute Metrics</strong><a class="headerlink" href="#step-1-2-slice-by-group-and-compute-metrics" title="Link to this heading"></a></h3>
-<p>Once initialized, use the <cite>grouper()</cite> and <cite>slicer()</cite> methods to prepare bootstrapped
+<p>Once initialized, use the <code class="docutils literal notranslate"><span class="pre">grouper()</span></code> and <code class="docutils literal notranslate"><span class="pre">slicer()</span></code> methods to prepare bootstrapped
 samples for each subgroup:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eq2</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">])</span>
 <span class="n">boots_race_data</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;race&quot;</span><span class="p">)</span>
@@ -211,10 +213,18 @@ This may take some time to run.</p>
 <p>Disparities quantify how model performance varies across subgroups relative to a reference.
 Here we look at the ratio.</p>
 <ul class="simple">
-<li><p><strong>Disparity Ratio:</strong> Metric ratio between a group and the reference</p></li>
+<li><p>In the context of bias and fairness in machine learning, disparity refers to the differences in model performance, predictions, or outcomes across different demographic or sensitive groups.</p></li>
+<li><p>It quantifies how a model’s behavior varies for subgroups based on attributes like race, sex, age, or other characteristics.</p></li>
 </ul>
+<p>Here’s how you can represent the disparity ratio for a given metric <em>(M)</em> and a specific group <em>(G)</em> compared to a reference group <em>(R)</em>:</p>
 <div class="math notranslate nohighlight">
 \[\text{Disparity Ratio} = \frac{M(G)}{M(R)} \quad\]</div>
+<p>For example, if you are looking at the “Predicted Prevalence” metric
+(the proportion of individuals predicted to have a positive outcome), the
+Predicted Prevalence Disparity Ratio for a group (e.g., “Black”) compared to a
+reference group (e.g., “White”) would be:</p>
+<div class="math notranslate nohighlight">
+\[\text{Predicted Prevalence Ratio} = \frac{\text{Predicted Prevalence (Black)}}{\text{Predicted Prevalence (White)}}\]</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dispa</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">calculate_disparities</span><span class="p">(</span><span class="n">race_metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -243,12 +253,23 @@ Here we look at the ratio.</p>
 <div style="height: 40px;"></div></section>
 <section id="metric-differences">
 <h2>3. Metric Differences<a class="headerlink" href="#metric-differences" title="Link to this heading"></a></h2>
-<p>EquiBoots also enables the user to look at the disparity in metric differences. The difference between the performance of the model for one group against the reference group.</p>
-<ul class="simple">
-<li><p><strong>Disparity Difference:</strong> Metric difference between a group and the reference</p></li>
-</ul>
+<p>EquiBoots also enables the user to look at the disparity in metric differences.
+The difference between the performance of the model for one group against the reference group.</p>
+<p>And here’s how you can represent the disparity difference between a group and the reference:</p>
 <div class="math notranslate nohighlight">
 \[\text{Disparity Difference} = M(G) - M(R)\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(M(G)\)</span> is the value of the metric for group <span class="math notranslate nohighlight">\(G\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(M(R)\)</span> is the value of the metric for the reference group <span class="math notranslate nohighlight">\(R\)</span>.</p></li>
+</ul>
+<p>For example, if you are looking at the “Predicted Prevalence” metric differences,
+the Predicted Prevalence Disparity Difference for a group (e.g., “Black”) compared to a reference group (e.g., “White”) would be:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+\text{Predicted Prevalence Difference} &amp;= \text{Predicted Prevalence (Black)} \\
+&amp;\quad - \text{Predicted Prevalence (White)}
+\end{align*}\end{split}\]</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">diffs</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">calculate_differences</span><span class="p">(</span><span class="n">race_metrics</span><span class="p">,</span> <span class="s2">&quot;race&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
