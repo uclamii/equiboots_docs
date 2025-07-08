@@ -135,9 +135,81 @@ reference group (e.g., "White") would be:
 
     dispa = eq2.calculate_disparities(race_metrics, "race")
 
-**Plot Disparity Ratios**
+Plot Disparity Ratios
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use violin plots to visualize variability in disparity metrics across bootstrap iterations:
+.. function:: eq_group_metrics_plot(group_metrics, metric_cols, name, plot_type='violinplot', categories='all', include_legend=True, cmap='tab20c', color_by_group=True, save_path=None, filename='Disparity_Metrics', max_cols=None, strict_layout=True, figsize=None, show_grid=True, plot_thresholds=(0.0, 2.0), show_pass_fail=False, leg_cols=6, y_lim=None, statistical_tests=None, **plot_kwargs)
+
+   Plot group and disparity metrics using Seaborn (violinplot, boxplot, etc.) with optional pass/fail coloring, statistical annotations, and layout customization.
+
+   :param group_metrics: A list of dictionaries, each mapping group/category names to metric values.
+   :type group_metrics: List[Dict[str, Dict[str, float]]]
+
+   :param metric_cols: List of metric column names to plot (e.g., accuracy, precision).
+   :type metric_cols: List[str]
+
+   :param name: Title prefix or identifier to use in subplot titles.
+   :type name: str
+
+   :param plot_type: Seaborn plot type to use (e.g., ``'violinplot'``, ``'boxplot'``).
+   :type plot_type: str
+
+   :param categories: Which categories/groups to include; 'all' or list of category names.
+   :type categories: str or List[str]
+
+   :param include_legend: Whether to include a legend in the plot.
+   :type include_legend: bool
+
+   :param cmap: Colormap name for group coloring.
+   :type cmap: str
+
+   :param color_by_group: Whether to assign separate colors by group.
+   :type color_by_group: bool
+
+   :param save_path: Directory path to save the figure (if not ``None``).
+   :type save_path: str or ``None``
+
+   :param filename: Filename to use for saving the plot (excluding file extension).
+   :type filename: str
+
+   :param max_cols: Maximum number of subplot columns. Rows are inferred.
+   :type max_cols: int or ``None``
+
+   :param strict_layout: Whether to apply tight layout for better spacing.
+   :type strict_layout: bool
+
+   :param figsize: Optional figure size as (width, height) in inches.
+   :type figsize: Tuple[float, float] or ``None``
+
+   :param show_grid: Whether to display gridlines on each subplot.
+   :type show_grid: bool
+
+   :param plot_thresholds: Tuple indicating the (lower, upper) thresholds for pass/fail coloring.
+   :type plot_thresholds: Tuple[float, float]
+
+   :param show_pass_fail: Whether to color tick labels based on threshold pass/fail status.
+   :type show_pass_fail: bool
+
+   :param leg_cols: Number of columns to use in the legend layout.
+   :type leg_cols: int
+
+   :param y_lim: Y-axis limits for all subplots. If ``None``, determined automatically.
+   :type y_lim: Tuple[float, float] or ``None``
+
+   :param statistical_tests: Dictionary of test results, used to flag significant differences.
+   :type statistical_tests: dict
+
+   :param plot_kwargs: Additional keyword arguments to pass to the Seaborn plotting function.
+   :type plot_kwargs: dict
+
+   :returns: ``None``. The plot is either displayed or saved to disk.
+   :rtype: ``None``
+
+
+.. note::
+    The ``plot_type`` parameter is flexible and accepts any valid Seaborn categorical plot function 
+    such as ``'violinplot'``, ``'boxplot'``, or ``'stripplot'``.
+
 
 .. code:: python
 
@@ -277,7 +349,7 @@ distribution of bootstrapped metric differences to a null distribution of no eff
 **4.1: Metrics Table with Significance Annotations** 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can summarize bootstrap-based statistical significance using `metrics_table()`:
+You can summarize bootstrap-based statistical significance using ``metrics_table()``:
 
 .. code:: python
 
@@ -394,10 +466,10 @@ Bootstrapped Group Curve Plots
 
    Plots bootstrapped ROC, precision-recall, or calibration curves by group. This function takes a list of bootstrapped group-level datasets and computes uncertainty bands for each curve using interpolation over a shared x-axis grid. Results can be rendered in overlay or subplot formats, with optional gridlines and curve-specific annotations (e.g., AUROC, AUCPR, or Brier score).
 
-   :param boot_sliced_data: A list of bootstrap iterations, each mapping group name to 'y_true' and 'y_prob' arrays.
+   :param boot_sliced_data: A list of bootstrap iterations, each mapping group name to ``y_true`` and ``y_prob`` arrays.
    :type boot_sliced_data: list[dict[str, dict[str, np.ndarray]]]
 
-   :param curve_type: Type of curve to plot: 'roc', 'pr', or 'calibration'.
+   :param curve_type: Type of curve to plot: ``roc``, ``pr``, or ``calibration``.
    :type curve_type: str
 
    :param common_grid: Shared x-axis points used to interpolate all curves for consistency.
@@ -410,7 +482,7 @@ Bootstrapped Group Curve Plots
    :type n_bins: int
 
    :param line_kwgs: Optional style parameters for the diagonal or baseline reference line.
-   :type line_kwgs: dict[str, Any] or None
+   :type line_kwgs: dict[str, Any] or ``None``
 
    :param title: Title of the entire plot.
    :type title: str
@@ -418,8 +490,8 @@ Bootstrapped Group Curve Plots
    :param filename: Filename (without extension) used when saving the plot.
    :type filename: str
 
-   :param save_path: Directory path to save the figure. If None, the plot is displayed instead.
-   :type save_path: str or None
+   :param save_path: Directory path to save the figure. If ``None``, the plot is displayed instead.
+   :type save_path: str or ``None``
 
    :param figsize: Size of the figure as a (width, height) tuple in inches.
    :type figsize: tuple[float, float]
@@ -434,10 +506,10 @@ Bootstrapped Group Curve Plots
    :type n_cols: int
 
    :param n_rows: Number of rows in the subplot grid. Auto-calculated if None.
-   :type n_rows: int or None
+   :type n_rows: int or ``None``
 
    :param group: Optional name of a single group to plot instead of all groups.
-   :type group: str or None
+   :type group: str or ``None``
 
    :param color_by_group: Whether to assign colors by group identity.
    :type color_by_group: bool
@@ -449,7 +521,7 @@ Bootstrapped Group Curve Plots
    :type show_grid: bool
 
    :param y_lim: Optional y-axis limits (min, max) to enforce on the plots.
-   :type y_lim: tuple[float, float] or None
+   :type y_lim: tuple[float, float] or ``None``
 
 
 ROC AUC Curves 
