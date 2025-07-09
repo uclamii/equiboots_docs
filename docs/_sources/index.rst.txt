@@ -46,13 +46,6 @@ Table of Contents
 
 .. toctree::
    :maxdepth: 4
-   :caption: iPython Notebooks
-
-   ipynb_notebooks
-
-
-.. toctree::
-   :maxdepth: 4
    :caption: From Model to Prediction
 
    model_to_pred
@@ -62,6 +55,12 @@ Table of Contents
    :caption: Mathematical Framework
 
    mathematical_framework
+
+.. toctree::
+   :maxdepth: 4
+   :caption: iPython Notebooks
+
+   ipynb_notebooks
 
 .. toctree::
    :maxdepth: 4
