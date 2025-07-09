@@ -44,13 +44,18 @@ Table of Contents
 
    equiboots_stats_classes
 
+.. toctree::
+   :maxdepth: 4
+   :caption: iPython Notebooks
+
+   ipynb_notebooks
+
 
 .. toctree::
    :maxdepth: 4
    :caption: From Model to Prediction
 
    model_to_pred
-
 
 .. toctree::
    :maxdepth: 4
