@@ -28,10 +28,10 @@ for performance metrics across classification and regression tasks. These estima
 form the basis for fairness auditing by revealing how models perform across 
 different subpopulations or sensitive attributes.
 
-This section demonstrates how to compute group-wise performance metrics using 
-model outputs and fairness variables from the Adult Income dataset [1]_. For 
-bootstrapped confidence intervals, refer to the :ref:`bootstrapped metrics 
-evaluation section <bootstrapped_estimates>`. 
+The binary classification examples of this section demonstrate how to compute 
+group-wise performance metrics using model outputs and fairness variables from 
+the Adult Income dataset [1]_. For bootstrapped confidence intervals, refer to 
+the :ref:`bootstrapped metrics evaluation section <bootstrapped_estimates>`. 
 
 Supported Metrics
 -------------------------
@@ -1054,13 +1054,177 @@ regions of the probability spectrum or in sparse areas with few predictions.
 
 .. raw:: html
 
-    <div style="height: 40px;"></div></div>
+   <div style="height: 40px;"></div>
 
 The **histogram bars** at the base of the plot show how frequently predictions fall into each probability bin, grouped by demographic subgroup. This combined view helps validate whether deviations from the ideal diagonal are meaningful and well-supported by the underlying data.
 
 For instance, if a group appears poorly calibrated in a region where very few predictions occur, the issue may be less impactful than one affecting densely populated bins. This visual diagnostic is especially valuable when auditing model behavior across real-world deployment scenarios.
 
 
+.. raw:: html
 
+    <div style="height: 40px;"></div></div>
+    
+    
+Residual-Based Point Estimates
+==============================
+
+In regression tasks, **residuals** represent the difference between observed values and model predictions.  
+A detailed explanation of the underlying formulas and metrics is provided in the 
+:ref:`regression residuals <regression_residual_math>` section of the Mathemtical Framework.
+
+
+To visualize how these residuals vary across sensitive groups (e.g., race, sex, age group), you can use the following function:
+
+
+
+.. function:: eq_plot_residuals_by_group(data, alpha=0.6, show_centroids=False, title="Residuals by Group", filename="residuals_by_group", save_path=None, figsize=(8, 6), dpi=100, subplots=False, n_cols=2, n_rows=None, group=None, color_by_group=True, exclude_groups=0, show_grid=True)
+
+   Plot residuals grouped by subgroup.
+
+   This function visualizes regression residuals (i.e., the difference between actual and predicted values) across sensitive or analytical subgroups. It accepts a dictionary of group-level data and plots residual distributions, optionally showing centroids or overlaying all groups.
+
+   :param data: Dictionary of the form ``{group: {'y_true': ..., 'y_pred': ...}}`` or ``{group: {'y_actual': ..., 'y_prob': ...}}`` depending on the naming convention used.
+   :type data: Dict[str, Dict[str, np.ndarray]]
+
+   :param alpha: Transparency level for residual points (0.0 to 1.0).
+   :type alpha: float
+
+   :param show_centroids: Whether to display centroid markers for each group's residuals.
+   :type show_centroids: bool
+
+   :param title: Title of the overall plot.
+   :type title: str
+
+   :param filename: Base name for saving the figure.
+   :type filename: str
+
+   :param save_path: Directory where the figure should be saved. If ``None``, the figure is not saved.
+   :type save_path: Optional[str]
+
+   :param figsize: Width and height of the figure in inches.
+   :type figsize: Tuple[float, float]
+
+   :param dpi: Resolution of the plot in dots per inch.
+   :type dpi: int
+
+   :param subplots: Whether to plot each group in a separate subplot.
+   :type subplots: bool
+
+   :param n_cols: Number of columns when using subplots.
+   :type n_cols: int
+
+   :param n_rows: Number of rows when using subplots. If ``None``, rows are auto-computed.
+   :type n_rows: Optional[int]
+
+   :param group: If specified, only this group will be plotted (``subplots`` must be ``False``).
+   :type group: Optional[str]
+
+   :param color_by_group: Whether to assign colors uniquely per group.
+   :type color_by_group: bool
+
+   :param exclude_groups: Group(s) to exclude from the plot. Can be a single value or a list/set.
+   :type exclude_groups: Union[int, str, List[str], Set[str]]
+
+   :param show_grid: Whether to display a background grid on each axis.
+   :type show_grid: bool
+
+   :returns: ``None``
+
+.. note::
+
+   You can toggle centroid markers using the ``show_centroids`` parameter.  
+   When ``show_centroids=True``, a centroid marker is added for each group to indicate the average residual.  
+   This helps identify whether a group is systematically over- or under-predicted.  
+   Centroids offer directional insight but do not reflect the full distribution or spread of residuals within a group.
+
+
+Resdiaul Plot Examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section demonstrates how to visualize group-level residuals using the  
+:func:`eq_plot_residuals_by_group` function from the EquiBoots package.
+
+We use the **UCI Student Performance dataset** [2]_, which contains academic, demographic, and behavioral data from Portuguese secondary school students.  
+The goal is to evaluate how model residuals vary across sensitive groups when predicting final grades using a linear regression model.
+
+
+Example 1: Residuals by Age Group (Overlayed)
+-----------------------------------------------
+
+The following example shows residuals plotted across age groups in a single overlayed axis.  
+This allows for visual comparison of prediction errors across subgroups, with centroids included to indicate average residual positions.
+
+.. code-block:: python
+
+    eqb.eq_plot_residuals_by_group(
+        data=sliced_age_data,
+        title="Residuals by Age Group",
+        color_by_group=True,
+        figsize=(8, 6),
+        show_centroids=True,
+        show_grid=False,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/regression_residuals_overlayed.png
+   :alt: Regression Residuals Overlayed
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+   <div style="height: 40px;"></div>
+
+
+The output shows all groups together for side-by-side visual inspection of error spread and potential bias.  
+To separate groups into distinct plots, use ``subplots=True``.
+
+Example 2: Residuals by Age Group (Subplots)
+-----------------------------------------------
+
+In this example, we create separate subplots for each age group to facilitate 
+individual analysis. This is particularly useful when the number of groups is large, 
+as it prevents overcrowding in a single plot.
+
+.. code-block:: python
+
+    eqb.eq_plot_residuals_by_group(
+        data=sliced_age_data,
+        title="Residuals by Age Group (Subplots)",
+        color_by_group=True,
+        figsize=(12, 8),
+        show_centroids=True,
+        show_grid=False,
+        subplots=True,
+        n_cols=2,
+        n_rows=2,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/regression_residuals_subplots.png
+   :alt: Regression Residuals by Age Group (Subplots)
+   :align: center
+   :width: 600px
+
+.. raw:: html
+
+   <div style="height: 40px;"></div>
+
+
+The output displays each age group's residuals in its own subplot, allowing for a more granular examination of prediction errors. This layout can help identify specific groups that may require further investigation or targeted interventions.
 
 .. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.
+
+.. [2] Cortez, P. & Silva, A. (2008). *Student Performance Data Set*. UCI Machine Learning Repository.  
+   `https://archive.ics.uci.edu/ml/datasets/student+performance <https://archive.ics.uci.edu/ml/datasets/student+performance>`_

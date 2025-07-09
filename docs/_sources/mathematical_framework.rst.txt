@@ -122,3 +122,35 @@ This result represents the total area under the curve :math:`y = x^2 + 4x` over 
 .. raw:: html
 
     <div style="height: 40px;"></div>
+
+
+Regression Residuals
+=============================================
+
+.. _regression_residual_math:
+
+.. math::
+
+   \text{residual}_i = y_i - \hat{y}_i
+
+These residuals are used to compute various **point estimate metrics** that summarize model performance on a given dataset. Common examples include:
+
+- **Mean Absolute Error (MAE)**:
+
+  .. math::
+
+     \text{MAE} = \frac{1}{n} \sum_{i=1}^n \left| y_i - \hat{y}_i \right|
+
+- **Mean Squared Error (MSE)**:
+
+  .. math::
+
+     \text{MSE} = \frac{1}{n} \sum_{i=1}^n \left( y_i - \hat{y}_i \right)^2
+
+- **Root Mean Squared Error (RMSE)**:
+
+  .. math::
+
+     \text{RMSE} = \sqrt{\text{MSE}}
+
+These are considered **point estimates** because they provide single-value summaries of the model's residual error without incorporating uncertainty or sampling variability. To assess the stability or confidence of these estimates, techniques such as **bootstrapping** can be used to generate distributions over repeated samples.

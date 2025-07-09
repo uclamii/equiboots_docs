@@ -1,7 +1,13 @@
 from docutils import nodes
 from docutils.parsers.rst import roles
-
 import os, sys
+from unittest.mock import MagicMock
+
+import seaborn as sns
+
+# Mock sns.__version__ if it's not a string
+if not isinstance(sns.__version__, str):
+    sns.__version__ = "0.12.2"  # or whatever version you’re using
 
 sys.path.insert(0, os.path.abspath("../src"))
 

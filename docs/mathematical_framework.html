@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-point-plot">Group Metrics Point Plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#residual-based-point-estimates">Residual-Based Point Estimates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
 <ul>
@@ -87,6 +88,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#regression-residuals">Regression Residuals</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
 <ul>
@@ -178,6 +180,27 @@ toward their real-world interpretation in model evaluation.</p>
 </a>
 <div style="height: 40px;"></div></section>
 </section>
+</section>
+<section id="regression-residuals">
+<h1>Regression Residuals<a class="headerlink" href="#regression-residuals" title="Link to this heading"></a></h1>
+<div class="math notranslate nohighlight" id="regression-residual-math">
+\[\text{residual}_i = y_i - \hat{y}_i\]</div>
+<p>These residuals are used to compute various <strong>point estimate metrics</strong> that summarize model performance on a given dataset. Common examples include:</p>
+<ul>
+<li><p><strong>Mean Absolute Error (MAE)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\text{MAE} = \frac{1}{n} \sum_{i=1}^n \left| y_i - \hat{y}_i \right|\]</div>
+</li>
+<li><p><strong>Mean Squared Error (MSE)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\text{MSE} = \frac{1}{n} \sum_{i=1}^n \left( y_i - \hat{y}_i \right)^2\]</div>
+</li>
+<li><p><strong>Root Mean Squared Error (RMSE)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\text{RMSE} = \sqrt{\text{MSE}}\]</div>
+</li>
+</ul>
+<p>These are considered <strong>point estimates</strong> because they provide single-value summaries of the model’s residual error without incorporating uncertainty or sampling variability. To assess the stability or confidence of these estimates, techniques such as <strong>bootstrapping</strong> can be used to generate distributions over repeated samples.</p>
 </section>
 
 

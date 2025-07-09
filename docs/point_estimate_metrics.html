@@ -99,6 +99,12 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#residual-based-point-estimates">Residual-Based Point Estimates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#eq_plot_residuals_by_group"><code class="docutils literal notranslate"><span class="pre">eq_plot_residuals_by_group()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-residuals-by-age-group-overlayed">Example 1: Residuals by Age Group (Overlayed)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-2-residuals-by-age-group-subplots">Example 2: Residuals by Age Group (Subplots)</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
 <ul>
@@ -120,6 +126,7 @@
 <p class="caption" role="heading"><span class="caption-text">Mathematical Framework</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html">Calibration Curves and Area Under the Curve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html#regression-residuals">Regression Residuals</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About EquiBoots</span></p>
 <ul>
@@ -165,10 +172,10 @@ metrics for each group without resampling or bootstrapping.</p>
 for performance metrics across classification and regression tasks. These estimates
 form the basis for fairness auditing by revealing how models perform across
 different subpopulations or sensitive attributes.</p>
-<p>This section demonstrates how to compute group-wise performance metrics using
-model outputs and fairness variables from the Adult Income dataset <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. For
-bootstrapped confidence intervals, refer to the <a class="reference internal" href="bootstrapped_estimates.html#bootstrapped-estimates"><span class="std std-ref">bootstrapped metrics
-evaluation section</span></a>.</p>
+<p>The binary classification examples of this section demonstrate how to compute
+group-wise performance metrics using model outputs and fairness variables from
+the Adult Income dataset <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. For bootstrapped confidence intervals, refer to
+the <a class="reference internal" href="bootstrapped_estimates.html#bootstrapped-estimates"><span class="std std-ref">bootstrapped metrics evaluation section</span></a>.</p>
 <section id="supported-metrics">
 <h2>Supported Metrics<a class="headerlink" href="#supported-metrics" title="Link to this heading"></a></h2>
 <p>For classification tasks, the following metrics are supported:</p>
@@ -979,15 +986,112 @@ probability intervals.</p>
 </div>
 <div class="no-click"><a class="reference internal image-reference" href="_images/calibration_hist.png"><img alt="Calibration Curve with Histogram Overlay" class="align-center" src="_images/calibration_hist.png" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div></div><p>The <strong>histogram bars</strong> at the base of the plot show how frequently predictions fall into each probability bin, grouped by demographic subgroup. This combined view helps validate whether deviations from the ideal diagonal are meaningful and well-supported by the underlying data.</p>
+<div style="height: 40px;"></div><p>The <strong>histogram bars</strong> at the base of the plot show how frequently predictions fall into each probability bin, grouped by demographic subgroup. This combined view helps validate whether deviations from the ideal diagonal are meaningful and well-supported by the underlying data.</p>
 <p>For instance, if a group appears poorly calibrated in a region where very few predictions occur, the issue may be less impactful than one affecting densely populated bins. This visual diagnostic is especially valuable when auditing model behavior across real-world deployment scenarios.</p>
+<div style="height: 40px;"></div></div></section>
+</section>
+</section>
+<section id="residual-based-point-estimates">
+<h1>Residual-Based Point Estimates<a class="headerlink" href="#residual-based-point-estimates" title="Link to this heading"></a></h1>
+<p>In regression tasks, <strong>residuals</strong> represent the difference between observed values and model predictions.
+A detailed explanation of the underlying formulas and metrics is provided in the
+<a class="reference internal" href="mathematical_framework.html#regression-residual-math"><span class="std std-ref">regression residuals</span></a> section of the Mathemtical Framework.</p>
+<p>To visualize how these residuals vary across sensitive groups (e.g., race, sex, age group), you can use the following function:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="eq_plot_residuals_by_group">
+<span class="sig-name descname"><span class="pre">eq_plot_residuals_by_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_centroids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Residuals</span> <span class="pre">by</span> <span class="pre">Group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'residuals_by_group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subplots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_plot_residuals_by_group" title="Link to this definition"></a></dt>
+<dd><p>Plot residuals grouped by subgroup.</p>
+<p>This function visualizes regression residuals (i.e., the difference between actual and predicted values) across sensitive or analytical subgroups. It accepts a dictionary of group-level data and plots residual distributions, optionally showing centroids or overlaying all groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – Dictionary of the form <code class="docutils literal notranslate"><span class="pre">{group:</span> <span class="pre">{'y_true':</span> <span class="pre">...,</span> <span class="pre">'y_pred':</span> <span class="pre">...}}</span></code> or <code class="docutils literal notranslate"><span class="pre">{group:</span> <span class="pre">{'y_actual':</span> <span class="pre">...,</span> <span class="pre">'y_prob':</span> <span class="pre">...}}</span></code> depending on the naming convention used.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Transparency level for residual points (0.0 to 1.0).</p></li>
+<li><p><strong>show_centroids</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to display centroid markers for each group’s residuals.</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Title of the overall plot.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Base name for saving the figure.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Directory where the figure should be saved. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the figure is not saved.</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – Width and height of the figure in inches.</p></li>
+<li><p><strong>dpi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Resolution of the plot in dots per inch.</p></li>
+<li><p><strong>subplots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to plot each group in a separate subplot.</p></li>
+<li><p><strong>n_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of columns when using subplots.</p></li>
+<li><p><strong>n_rows</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>]</em>) – Number of rows when using subplots. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, rows are auto-computed.</p></li>
+<li><p><strong>group</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – If specified, only this group will be plotted (<code class="docutils literal notranslate"><span class="pre">subplots</span></code> must be <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>color_by_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to assign colors uniquely per group.</p></li>
+<li><p><strong>exclude_groups</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>, </em><em>Set</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – Group(s) to exclude from the plot. Can be a single value or a list/set.</p></li>
+<li><p><strong>show_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to display a background grid on each axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can toggle centroid markers using the <code class="docutils literal notranslate"><span class="pre">show_centroids</span></code> parameter.
+When <code class="docutils literal notranslate"><span class="pre">show_centroids=True</span></code>, a centroid marker is added for each group to indicate the average residual.
+This helps identify whether a group is systematically over- or under-predicted.
+Centroids offer directional insight but do not reflect the full distribution or spread of residuals within a group.</p>
+</div>
+<p>This section demonstrates how to visualize group-level residuals using the
+<a class="reference internal" href="#eq_plot_residuals_by_group" title="eq_plot_residuals_by_group"><code class="xref py py-func docutils literal notranslate"><span class="pre">eq_plot_residuals_by_group()</span></code></a> function from the EquiBoots package.</p>
+<p>We use the <strong>UCI Student Performance dataset</strong> <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, which contains academic, demographic, and behavioral data from Portuguese secondary school students.
+The goal is to evaluate how model residuals vary across sensitive groups when predicting final grades using a linear regression model.</p>
+<section id="example-1-residuals-by-age-group-overlayed">
+<h2>Example 1: Residuals by Age Group (Overlayed)<a class="headerlink" href="#example-1-residuals-by-age-group-overlayed" title="Link to this heading"></a></h2>
+<p>The following example shows residuals plotted across age groups in a single overlayed axis.
+This allows for visual comparison of prediction errors across subgroups, with centroids included to indicate average residual positions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_residuals_by_group</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">sliced_age_data</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Residuals by Age Group&quot;</span><span class="p">,</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">show_centroids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/regression_residuals_overlayed.png"><img alt="Regression Residuals Overlayed" class="align-center" src="_images/regression_residuals_overlayed.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div><p>The output shows all groups together for side-by-side visual inspection of error spread and potential bias.
+To separate groups into distinct plots, use <code class="docutils literal notranslate"><span class="pre">subplots=True</span></code>.</p>
+</section>
+<section id="example-2-residuals-by-age-group-subplots">
+<h2>Example 2: Residuals by Age Group (Subplots)<a class="headerlink" href="#example-2-residuals-by-age-group-subplots" title="Link to this heading"></a></h2>
+<p>In this example, we create separate subplots for each age group to facilitate
+individual analysis. This is particularly useful when the number of groups is large,
+as it prevents overcrowding in a single plot.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_residuals_by_group</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">sliced_age_data</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Residuals by Age Group (Subplots)&quot;</span><span class="p">,</span>
+    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">show_centroids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">n_rows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/regression_residuals_subplots.png"><img alt="Regression Residuals by Age Group (Subplots)" class="align-center" src="_images/regression_residuals_subplots.png" style="width: 600px;" />
+</a>
+<div style="height: 40px;"></div><p>The output displays each age group’s residuals in its own subplot, allowing for a more granular examination of prediction errors. This layout can help identify specific groups that may require further investigation or targeted interventions.</p>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id2" role="doc-footnote">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Kohavi, R. (1996). <em>Census Income</em>. UCI Machine Learning Repository. <a class="reference external" href="https://doi.org/10.24432/C5GP7S">https://doi.org/10.24432/C5GP7S</a>.</p>
 </aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Cortez, P. &amp; Silva, A. (2008). <em>Student Performance Data Set</em>. UCI Machine Learning Repository.
+<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/student+performance">https://archive.ics.uci.edu/ml/datasets/student+performance</a></p>
 </aside>
-</section>
+</aside>
 </section>
 </section>
 
