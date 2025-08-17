@@ -16,7 +16,7 @@
 Citing EquiBoots
 ======================
 
-Shpaner, L., Funnell, A., Petousis, P., Rahrooh, A., & Beam, C. (2025). EquiBoots (0.0.0a9) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15086941
+Shpaner, L., Funnell, A., Rahrooh, A., Beam, C. & Petousis, P. (2025). EquiBoots (0.0.1a1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15086941
 
 .. code:: text
 
@@ -30,7 +30,7 @@ Shpaner, L., Funnell, A., Petousis, P., Rahrooh, A., & Beam, C. (2025). EquiBoot
       month        = mar,
       year         = 2025,
       publisher    = {Zenodo},
-      version      = {0.0.0a9},
+      version      = {0.0.1a1},
       doi          = {10.5281/zenodo.15086941},
       url          = {https://doi.org/10.5281/zenodo.15086941}
    }

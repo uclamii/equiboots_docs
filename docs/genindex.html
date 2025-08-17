@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; EquiBoots 0.0.0a9 documentation</title>
+  <title>Index &mdash; EquiBoots 0.0.1a1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9756ebf1"></script>
+      <script src="_static/documentation_options.js?v=c51092a7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,6 +55,8 @@
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-point-plot">Group Metrics Point Plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-forest-plot">Group Metrics Forest Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#effect-size">Effect Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#residual-based-point-estimates">Residual-Based Point Estimates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
@@ -123,6 +125,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
  
 </div>
@@ -186,19 +189,27 @@
       <ul>
         <li><a href="point_estimate_metrics.html#analyze_statistical_significance">analyze_statistical_significance()</a>
 </li>
+        <li><a href="bootstrapped_estimates.html#calculate_bootstrap_stats">calculate_bootstrap_stats()</a>
+</li>
         <li><a href="bootstrapped_estimates.html#eq_group_metrics_plot">eq_group_metrics_plot()</a>
 </li>
         <li><a href="point_estimate_metrics.html#eq_group_metrics_point_plot">eq_group_metrics_point_plot()</a>
 </li>
+        <li><a href="bootstrapped_estimates.html#eq_plot_bootstrap_forest">eq_plot_bootstrap_forest()</a>
+</li>
         <li><a href="bootstrapped_estimates.html#eq_plot_bootstrapped_group_curves">eq_plot_bootstrapped_group_curves()</a>
 </li>
         <li><a href="point_estimate_metrics.html#eq_plot_group_curves">eq_plot_group_curves()</a>
+</li>
+        <li><a href="point_estimate_metrics.html#eq_plot_metrics_forest">eq_plot_metrics_forest()</a>
 </li>
         <li><a href="point_estimate_metrics.html#eq_plot_residuals_by_group">eq_plot_residuals_by_group()</a>
 </li>
         <li><a href="point_estimate_metrics.html#metrics_dataframe">metrics_dataframe()</a>
 </li>
         <li><a href="point_estimate_metrics.html#metrics_table">metrics_table()</a>
+</li>
+        <li><a href="point_estimate_metrics.html#plot_effect_sizes">plot_effect_sizes()</a>
 </li>
       </ul></li>
   </ul></td>
@@ -211,6 +222,13 @@
 
       <ul>
         <li><a href="equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester.calc_p_value_bootstrap">(equiboots.StatisticalTester.StatisticalTester method)</a>
+</li>
+      </ul></li>
+      <li>
+    calculate_bootstrap_stats()
+
+      <ul>
+        <li><a href="bootstrapped_estimates.html#calculate_bootstrap_stats">built-in function</a>
 </li>
       </ul></li>
       <li><a href="equiboots_stats_classes.html#equiboots.EquiBootsClass.EquiBoots.calculate_differences">calculate_differences() (equiboots.EquiBootsClass.EquiBoots method)</a>
@@ -237,14 +255,14 @@
         <li><a href="equiboots_stats_classes.html#equiboots.EquiBootsClass.calculate_groups_disparities">(in module equiboots.EquiBootsClass)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="equiboots_stats_classes.html#equiboots.EquiBootsClass.EquiBoots.check_classification_task">check_classification_task() (equiboots.EquiBootsClass.EquiBoots method)</a>
 
       <ul>
         <li><a href="equiboots_stats_classes.html#equiboots.EquiBootsClass.check_classification_task">(in module equiboots.EquiBootsClass)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="equiboots_stats_classes.html#equiboots.EquiBootsClass.EquiBoots.check_fairness_vars">check_fairness_vars() (equiboots.EquiBootsClass.EquiBoots method)</a>
 
       <ul>
@@ -296,6 +314,13 @@
 </li>
       </ul></li>
       <li>
+    eq_plot_bootstrap_forest()
+
+      <ul>
+        <li><a href="bootstrapped_estimates.html#eq_plot_bootstrap_forest">built-in function</a>
+</li>
+      </ul></li>
+      <li>
     eq_plot_bootstrapped_group_curves()
 
       <ul>
@@ -309,6 +334,13 @@
 
       <ul>
         <li><a href="point_estimate_metrics.html#eq_plot_group_curves">built-in function</a>
+</li>
+      </ul></li>
+      <li>
+    eq_plot_metrics_forest()
+
+      <ul>
+        <li><a href="point_estimate_metrics.html#eq_plot_metrics_forest">built-in function</a>
 </li>
       </ul></li>
       <li>
@@ -404,6 +436,19 @@
 
       <ul>
         <li><a href="equiboots_stats_classes.html#module-equiboots.EquiBootsClass">equiboots.EquiBootsClass</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    plot_effect_sizes()
+
+      <ul>
+        <li><a href="point_estimate_metrics.html#plot_effect_sizes">built-in function</a>
 </li>
       </ul></li>
   </ul></td>

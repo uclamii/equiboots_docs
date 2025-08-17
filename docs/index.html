@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Table of Contents &mdash; EquiBoots 0.0.0a9 documentation</title>
+  <title>Table of Contents &mdash; EquiBoots 0.0.1a1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9756ebf1"></script>
+      <script src="_static/documentation_options.js?v=c51092a7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,6 +57,8 @@
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-point-plot">Group Metrics Point Plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-forest-plot">Group Metrics Forest Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#effect-size">Effect Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#residual-based-point-estimates">Residual-Based Point Estimates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
@@ -175,6 +177,15 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-forest-plot">Group Metrics Forest Plot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="point_estimate_metrics.html#eq_plot_metrics_forest"><code class="docutils literal notranslate"><span class="pre">eq_plot_metrics_forest()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="point_estimate_metrics.html#example-1-prevalance">Example 1: Prevalance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#effect-size">Effect Size</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="point_estimate_metrics.html#plot_effect_sizes"><code class="docutils literal notranslate"><span class="pre">plot_effect_sizes()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#residual-based-point-estimates">Residual-Based Point Estimates</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="point_estimate_metrics.html#eq_plot_residuals_by_group"><code class="docutils literal notranslate"><span class="pre">eq_plot_residuals_by_group()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="point_estimate_metrics.html#example-1-residuals-by-age-group-overlayed">Example 1: Residuals by Age Group (Overlayed)</a></li>
@@ -210,6 +221,14 @@
 <li class="toctree-l3"><a class="reference internal" href="bootstrapped_estimates.html#roc-auc-curves">ROC AUC Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bootstrapped_estimates.html#precision-recall-curves">Precision-Recall Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bootstrapped_estimates.html#calibration-curves">Calibration Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bootstrapped_estimates.html#bootstrapped-forest-plots">Bootstrapped Forest Plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bootstrapped_estimates.html#eq_plot_bootstrap_forest"><code class="docutils literal notranslate"><span class="pre">eq_plot_bootstrap_forest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstrapped_estimates.html#tabular-breakdown-of-bootstrapped-metrics">Tabular Breakdown of Bootstrapped Metrics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bootstrapped_estimates.html#calculate_bootstrap_stats"><code class="docutils literal notranslate"><span class="pre">calculate_bootstrap_stats()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="bootstrapped_estimates.html#summary">Summary</a></li>
@@ -357,6 +376,16 @@
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citations.html">Citing EquiBoots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-1a1">Version 0.0.1a1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-1a">Version 0.0.1a</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-0a10">Version 0.0.0a10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#add-histogram-only-mode-to-calibration-curves-plot-hist-flag">Add histogram-only mode to calibration curves (<code class="docutils literal notranslate"><span class="pre">plot_hist</span></code> flag)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#handle-seaborn-0-13-2-legend-errors-for-boxplot-violinplot">Handle Seaborn <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.13.2</span></code> legend errors for boxplot/violinplot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#add-lowess-kwargs-support-show-lowess-auc-in-legend">Add <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</span></code> support &amp; show LOWESS AUC in legend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-0a9">Version 0.0.0a9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#what-s-changed">What’s Changed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-0a8">Version 0.0.0a8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-0a7">Version 0.0.0a7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-0-0a6">Version 0.0.0a6</a></li>

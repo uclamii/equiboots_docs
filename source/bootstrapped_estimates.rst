@@ -714,6 +714,158 @@ Using subplots offers a focused view of calibration accuracy for each group,
 allowing nuanced inspection of where the model’s confidence aligns or diverges from observed outcomes.
 
 
+Bootstrapped Forest Plots
+-------------------------------
+
+Use a bootstrapped forest plot to visualize groupwise point estimates with 95% confidence intervals. This shows the mean of a chosen metric for each subgroup with error bars and optional significance flags. It pairs naturally with subgroup metrics produced in :ref:`Step 2: Slice Groups and Compute Point Estimates <step2_slice_groups>`.
+
+.. function:: eq_plot_bootstrap_forest(group_boot_metrics, metric='Accuracy', reference_group=None, figsize=(6, 4), save_path=None, filename='bootstrap_forest', title=None, statistical_tests=None)
+
+   Create a forest plot of a bootstrap metric with 95% CI for each group. If a ``reference_group`` is provided, draw a vertical dotted line through its mean. Add asterisks to group labels when significance tests indicate a difference.
+
+   :param group_boot_metrics: List of bootstrap samples. Each sample is a dict mapping group names to dicts of metric values. Expected shape: ``List[Dict[str, Dict[str, np.ndarray]]]``.
+   :type group_boot_metrics: list[dict[str, dict[str, numpy.ndarray]]]
+
+   :param metric: The metric to summarize and plot, for example ``'Accuracy'`` or ``'ROC AUC'``.
+   :type metric: str
+
+   :param reference_group: Group name used for the vertical reference line. If ``None``, no line is drawn.
+   :type reference_group: str or None
+
+   :param figsize: Figure size as ``(width, height)``.
+   :type figsize: tuple[float, float]
+
+   :param save_path: Directory to save the plot. If ``None``, the plot is shown.
+   :type save_path: str or None
+
+   :param filename: Filename stem for saving the plot, without extension.
+   :type filename: str
+
+   :param title: Optional plot title. If ``None``, a default is generated.
+   :type title: str or None
+
+   :param statistical_tests: Optional mapping with significance results per group. Keys are group names. Values are dicts keyed by ``f"{metric}_diff"`` that hold an object with ``.is_significant``. Used to annotate group labels with an asterisk.
+   :type statistical_tests: dict or None
+
+
+**Example**
+
+.. code:: python
+
+    eqb.eq_plot_bootstrap_forest(
+        group_boot_metrics=boots_race_data,
+        metric="ROC AUC",
+        reference_group="White",
+        title="AUROC - Bootstrapped Race Metrics",
+        figsize=(8, 6),
+    )
+
+.. important::
+
+   ``metric`` can be any metric produced in your pipeline, for example:
+   ``'Accuracy'``, ``'Precision'``, ``'Recall'``, ``'F1 Score'``, ``'Specificity'``,
+   ``'TP Rate'``, ``'FP Rate'``, ``'FN Rate'``, ``'TN Rate'``, ``'TP'``, ``'FP'``,
+   ``'FN'``, ``'TN'``, ``'Prevalence'``, ``'Predicted Prevalence'``, ``'ROC AUC'``,
+   ``'Average Precision Score'``, ``'Log Loss'``, ``'Brier Score'``, ``'Calibration AUC'``.
+   These come from the same subgroup computations referenced in Step 2.
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/bootstrapped_roc_auc_race_metrics.png
+   :alt: Bootstrapped Forest Plot of Group Metrics with 95% CI
+   :align: center
+   :width: 550px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div></div>
+
+
+Tabular Breakdown of Bootstrapped Metrics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While bootstrapped forest plots provide a visual summary of uncertainty across groups, 
+the same information can also be broken down in tabular format.  
+The helper function ``calculate_bootstrap_stats`` takes the list of bootstrapped samples 
+and computes summary statistics for each group and metric.
+
+.. function:: calculate_bootstrap_stats(group_boot_metrics, metric)
+
+   Calculate mean, standard deviation, and 95% confidence intervals for a given metric 
+   across all groups and bootstrap samples. Returns a tidy DataFrame suitable for 
+   inspection or export.
+
+   :param group_boot_metrics: List of bootstrap samples. Each sample is a nested dictionary mapping group names to their metric values.
+   :type group_boot_metrics: list[dict[str, dict[str, float]]]
+
+   :param metric: Name of the metric to analyze (e.g., ``'Accuracy'``, ``'Precision'``).
+   :type metric: str
+
+   :returns: DataFrame with columns:  
+             - ``group``: Group name  
+             - ``mean``: Average bootstrapped metric value  
+             - ``ci_lower``: 2.5th percentile (lower bound of 95% CI)  
+             - ``ci_upper``: 97.5th percentile (upper bound of 95% CI)  
+             - ``std``: Standard deviation of bootstrapped samples  
+             - ``n_samples``: Number of bootstrap samples used  
+   :rtype: pandas.DataFrame
+
+
+**Example**
+
+.. code:: python
+
+    eqb.calculate_bootstrap_stats(
+        group_boot_metrics=boots_race_data,
+        metric="ROC AUC"
+    )
+
+**Output (sample)**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 20 20 20 15 15
+
+   * - group
+     - mean
+     - ci_lower
+     - ci_upper
+     - std
+     - n_samples
+   * - White
+     - 0.915083
+     - 0.908539
+     - 0.921298
+     - 0.003250
+     - 5001
+   * - Black
+     - 0.956088
+     - 0.936282
+     - 0.972532
+     - 0.009244
+     - 5001
+   * - Asian-Pac-Islander
+     - 0.910970
+     - 0.872990
+     - 0.944444
+     - 0.018353
+     - 5001
+
+
+.. note::
+
+   These tabular summaries complement the forest plots:  
+
+   - The **plot** highlights differences visually, with confidence intervals.  
+   - The **table** provides exact numerical values, which are useful for reporting 
+     in papers, dashboards, or statistical summaries.  
+
+
+
 Summary
 -------------
 

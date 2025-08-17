@@ -14,6 +14,91 @@
 Changelog
 ===============
 
+`Version 0.0.1a1`_
+----------------------
+
+- minor change to address author consistency and updated documentation link within ``__init__.py``
+
+`Version 0.0.1a`_
+----------------------
+
+**What's Changed**
+
+* Add ``plot_effect_sizes`` helper, update adult income notebook, tests, ``.gitignore``, and requirements by @lshpaner in https://github.com/uclamii/equiboots/pull/61
+* (+) forest plot; (-) duplicated lines by @lshpaner in https://github.com/uclamii/equiboots/pull/62
+* Adding point estimate forest plots by @elemets in https://github.com/uclamii/equiboots/pull/63
+
+
+**Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.0a10...0.0.1a
+
+`Version 0.0.0a10`_
+----------------------
+
+Add histogram-only mode to calibration curves (``plot_hist`` flag)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here, we introduce a new boolean parameter, ``plot_hist``, to ``eq_plot_group_curves`` (and propagate it down into ``_plot_group_curve_ax``). When ``plot_hist`=True``, we:
+
+- Automatically switch into ``"subplots"`` mode (one axis per group), regardless of the caller’s subplots setting.
+- Skip the regular calibration‐curve drawing and render a simple histogram of ``y_prob`` instead.
+- Color each histogram with the exact same per‐group color from ``curve_kwgs`` (or the default color map).
+
+.. code:: python 
+
+   eqb.eq_plot_group_curves(
+      sliced_data,
+      curve_type="calibration",
+      title="Calibration by Race Group",
+      n_bins=10,
+      show_grid=False,
+      plot_hist=True,
+      # subplots=True,
+      # exclude_groups="white",
+   )
+
+Handle Seaborn ``< 0.13.2`` legend errors for boxplot/violinplot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This patch adds a runtime version check so that, on Seaborn 0.12.x, we don’t pass the unsupported legend kwarg and then explicitly remove the auto‐drawn legend. On 0.13.2+ we keep using ``legend=False`` as before.
+
+- We import ``version`` from ``packaging`` and check ``sns.__version__`` once at module load.
+- Inside the loop we only add ``legend=False`` when Seaborn ≥ 0.13.2.
+- For older versions we catch the ``TypeError``, retry without ``legend``, then drop any stray legend.
+
+**Unit Test Updates:** 
+
+- Switch tests from ``plot_kind`` to ``plot_type`` based on correct code.
+- Add seaborn version‐specific legend tests 
+
+Add ``lowess_kwargs`` support & show LOWESS AUC in legend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Introduce new ``lowess_kwargs`` arg (merged with curve_kwargs --> defaults)
+- Compute lowess_auc = calibration_auc(x_s, y_s) and plot LOWESS with:
+
+.. code:: python
+
+   ax.plot(
+      x_s, y_s,
+      label=f"LOWESS (AUC={lowess_auc:.3f})",
+      **smooth_kwargs
+   )
+
+- No breaking changes; existing calls without ``lowess_kwargs`` continue to work.
+
+
+
+`Version 0.0.0a9`_
+----------------------
+
+What's Changed
+------------------
+
+* Control Threshold Line, Multiple ``y_lims`` inside ``eq_group_metrics_point_plot`` by @lshpaner in https://github.com/uclamii/equiboots/pull/52
+
+**Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.0a8...0.0.0a9
+
+
 `Version 0.0.0a8`_
 ----------------------
 

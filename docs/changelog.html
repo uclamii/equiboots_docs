@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; EquiBoots 0.0.0a9 documentation</title>
+  <title>Changelog &mdash; EquiBoots 0.0.1a1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9756ebf1"></script>
+      <script src="_static/documentation_options.js?v=c51092a7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,8 @@
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-point-plot">Group Metrics Point Plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-forest-plot">Group Metrics Forest Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#effect-size">Effect Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#residual-based-point-estimates">Residual-Based Point Estimates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
@@ -88,6 +90,16 @@
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citations.html">Citing EquiBoots</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a1">Version 0.0.1a1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a">Version 0.0.1a</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a10">Version 0.0.0a10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#add-histogram-only-mode-to-calibration-curves-plot-hist-flag">Add histogram-only mode to calibration curves (<code class="docutils literal notranslate"><span class="pre">plot_hist</span></code> flag)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#handle-seaborn-0-13-2-legend-errors-for-boxplot-violinplot">Handle Seaborn <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.13.2</span></code> legend errors for boxplot/violinplot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-lowess-kwargs-support-show-lowess-auc-in-legend">Add <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</span></code> support &amp; show LOWESS AUC in legend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a9">Version 0.0.0a9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-changed">What’s Changed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a8">Version 0.0.0a8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a7">Version 0.0.0a7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a6">Version 0.0.0a6</a></li>
@@ -137,6 +149,87 @@
 </a>
 <div style="height: 130px;"></div></div><section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
+<section id="version-0-0-1a1">
+<h2><a class="reference internal" href="#version-0-0-1a1">Version 0.0.1a1</a><a class="headerlink" href="#version-0-0-1a1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>minor change to address author consistency and updated documentation link within <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a">
+<h2><a class="reference internal" href="#version-0-0-1a">Version 0.0.1a</a><a class="headerlink" href="#version-0-0-1a" title="Link to this heading"></a></h2>
+<p><strong>What’s Changed</strong></p>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">plot_effect_sizes</span></code> helper, update adult income notebook, tests, <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, and requirements by &#64;lshpaner in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/61">https://github.com/uclamii/equiboots/pull/61</a></p></li>
+<li><p>(+) forest plot; (-) duplicated lines by &#64;lshpaner in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/62">https://github.com/uclamii/equiboots/pull/62</a></p></li>
+<li><p>Adding point estimate forest plots by &#64;elemets in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/63">https://github.com/uclamii/equiboots/pull/63</a></p></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.0a10...0.0.1a">https://github.com/uclamii/equiboots/compare/0.0.0a10…0.0.1a</a></p>
+</section>
+<section id="version-0-0-0a10">
+<h2><a class="reference internal" href="#version-0-0-0a10">Version 0.0.0a10</a><a class="headerlink" href="#version-0-0-0a10" title="Link to this heading"></a></h2>
+<section id="add-histogram-only-mode-to-calibration-curves-plot-hist-flag">
+<h3>Add histogram-only mode to calibration curves (<code class="docutils literal notranslate"><span class="pre">plot_hist</span></code> flag)<a class="headerlink" href="#add-histogram-only-mode-to-calibration-curves-plot-hist-flag" title="Link to this heading"></a></h3>
+<p>Here, we introduce a new boolean parameter, <code class="docutils literal notranslate"><span class="pre">plot_hist</span></code>, to <code class="docutils literal notranslate"><span class="pre">eq_plot_group_curves</span></code> (and propagate it down into <code class="docutils literal notranslate"><span class="pre">_plot_group_curve_ax</span></code>). When <code class="docutils literal notranslate"><span class="pre">plot_hist`=True</span></code>, we:</p>
+<ul class="simple">
+<li><p>Automatically switch into <code class="docutils literal notranslate"><span class="pre">&quot;subplots&quot;</span></code> mode (one axis per group), regardless of the caller’s subplots setting.</p></li>
+<li><p>Skip the regular calibration‐curve drawing and render a simple histogram of <code class="docutils literal notranslate"><span class="pre">y_prob</span></code> instead.</p></li>
+<li><p>Color each histogram with the exact same per‐group color from <code class="docutils literal notranslate"><span class="pre">curve_kwgs</span></code> (or the default color map).</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_group_curves</span><span class="p">(</span>
+   <span class="n">sliced_data</span><span class="p">,</span>
+   <span class="n">curve_type</span><span class="o">=</span><span class="s2">&quot;calibration&quot;</span><span class="p">,</span>
+   <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Calibration by Race Group&quot;</span><span class="p">,</span>
+   <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+   <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+   <span class="n">plot_hist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="c1"># subplots=True,</span>
+   <span class="c1"># exclude_groups=&quot;white&quot;,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="handle-seaborn-0-13-2-legend-errors-for-boxplot-violinplot">
+<h3>Handle Seaborn <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.13.2</span></code> legend errors for boxplot/violinplot<a class="headerlink" href="#handle-seaborn-0-13-2-legend-errors-for-boxplot-violinplot" title="Link to this heading"></a></h3>
+<p>This patch adds a runtime version check so that, on Seaborn 0.12.x, we don’t pass the unsupported legend kwarg and then explicitly remove the auto‐drawn legend. On 0.13.2+ we keep using <code class="docutils literal notranslate"><span class="pre">legend=False</span></code> as before.</p>
+<ul class="simple">
+<li><p>We import <code class="docutils literal notranslate"><span class="pre">version</span></code> from <code class="docutils literal notranslate"><span class="pre">packaging</span></code> and check <code class="docutils literal notranslate"><span class="pre">sns.__version__</span></code> once at module load.</p></li>
+<li><p>Inside the loop we only add <code class="docutils literal notranslate"><span class="pre">legend=False</span></code> when Seaborn ≥ 0.13.2.</p></li>
+<li><p>For older versions we catch the <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>, retry without <code class="docutils literal notranslate"><span class="pre">legend</span></code>, then drop any stray legend.</p></li>
+</ul>
+<p><strong>Unit Test Updates:</strong></p>
+<ul class="simple">
+<li><p>Switch tests from <code class="docutils literal notranslate"><span class="pre">plot_kind</span></code> to <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> based on correct code.</p></li>
+<li><p>Add seaborn version‐specific legend tests</p></li>
+</ul>
+</section>
+<section id="add-lowess-kwargs-support-show-lowess-auc-in-legend">
+<h3>Add <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</span></code> support &amp; show LOWESS AUC in legend<a class="headerlink" href="#add-lowess-kwargs-support-show-lowess-auc-in-legend" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Introduce new <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</span></code> arg (merged with curve_kwargs –&gt; defaults)</p></li>
+<li><p>Compute lowess_auc = calibration_auc(x_s, y_s) and plot LOWESS with:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+   <span class="n">x_s</span><span class="p">,</span> <span class="n">y_s</span><span class="p">,</span>
+   <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;LOWESS (AUC=</span><span class="si">{</span><span class="n">lowess_auc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+   <span class="o">**</span><span class="n">smooth_kwargs</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>No breaking changes; existing calls without <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</span></code> continue to work.</p></li>
+</ul>
+</section>
+</section>
+<section id="version-0-0-0a9">
+<h2><a class="reference internal" href="#version-0-0-0a9">Version 0.0.0a9</a><a class="headerlink" href="#version-0-0-0a9" title="Link to this heading"></a></h2>
+</section>
+<section id="what-s-changed">
+<h2>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Control Threshold Line, Multiple <code class="docutils literal notranslate"><span class="pre">y_lims</span></code> inside <code class="docutils literal notranslate"><span class="pre">eq_group_metrics_point_plot</span></code> by &#64;lshpaner in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/52">https://github.com/uclamii/equiboots/pull/52</a></p></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.0a8...0.0.0a9">https://github.com/uclamii/equiboots/compare/0.0.0a8…0.0.0a9</a></p>
+</section>
 <section id="version-0-0-0a8">
 <h2><a class="reference internal" href="#version-0-0-0a8">Version 0.0.0a8</a><a class="headerlink" href="#version-0-0-0a8" title="Link to this heading"></a></h2>
 <ul class="simple">

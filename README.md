@@ -51,16 +51,18 @@ If you use `model_tuner` in your research or projects, please consider citing it
 
 ```bibtex
 @software{shpaner_2025_15086941,
-  author       = {Shpaner, Leonid and
-                  Funnell, Arthur and
-                  Petousis, Panayiotis},
-  title        = {EquiBoots},
-  month        = mar,
-  year         = 2025,
-  publisher    = {Zenodo},
-  version      = {0.0.0a2},
-  doi          = {10.5281/zenodo.15086941},
-  url          = {https://doi.org/10.5281/zenodo.15086941}
+   author       = {Shpaner, Leonid and
+                   Funnell, Arthur and
+                   Rahrooh, Al and
+                   Beam, Colin and
+                   Petousis, Panayiotis},
+   title        = {EquiBoots},
+   month        = mar,
+   year         = 2025,
+   publisher    = {Zenodo},
+   version      = {0.0.1a1},
+   doi          = {10.5281/zenodo.15086941},
+   url          = {https://doi.org/10.5281/zenodo.15086941}
 }
 ```
 

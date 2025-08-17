@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bootstrap Estimate Evaluation &mdash; EquiBoots 0.0.0a9 documentation</title>
+  <title>Bootstrap Estimate Evaluation &mdash; EquiBoots 0.0.1a1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9756ebf1"></script>
+      <script src="_static/documentation_options.js?v=c51092a7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,6 +59,8 @@
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html">Point Estimate Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-point-plot">Group Metrics Point Plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-curve-plots">Group Curve Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#group-metrics-forest-plot">Group Metrics Forest Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#effect-size">Effect Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="point_estimate_metrics.html#residual-based-point-estimates">Residual-Based Point Estimates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Bootstrap Estimate Metrics</span></p>
@@ -87,6 +89,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#roc-auc-curves">ROC AUC Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#precision-recall-curves">Precision-Recall Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#calibration-curves">Calibration Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bootstrapped-forest-plots">Bootstrapped Forest Plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eq_plot_bootstrap_forest"><code class="docutils literal notranslate"><span class="pre">eq_plot_bootstrap_forest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tabular-breakdown-of-bootstrapped-metrics">Tabular Breakdown of Bootstrapped Metrics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calculate_bootstrap_stats"><code class="docutils literal notranslate"><span class="pre">calculate_bootstrap_stats()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
@@ -620,6 +630,146 @@ while <code class="docutils literal notranslate"><span class="pre">subplots=True
 </a>
 <div style="height: 40px;"></div><p>Using subplots offers a focused view of calibration accuracy for each group,
 allowing nuanced inspection of where the model’s confidence aligns or diverges from observed outcomes.</p>
+</section>
+</section>
+<section id="bootstrapped-forest-plots">
+<h2>Bootstrapped Forest Plots<a class="headerlink" href="#bootstrapped-forest-plots" title="Link to this heading"></a></h2>
+<p>Use a bootstrapped forest plot to visualize groupwise point estimates with 95% confidence intervals. This shows the mean of a chosen metric for each subgroup with error bars and optional significance flags. It pairs naturally with subgroup metrics produced in <a class="reference internal" href="point_estimate_metrics.html#step2-slice-groups"><span class="std std-ref">Step 2: Slice Groups and Compute Point Estimates</span></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="eq_plot_bootstrap_forest">
+<span class="sig-name descname"><span class="pre">eq_plot_bootstrap_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_boot_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Accuracy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bootstrap_forest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistical_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_plot_bootstrap_forest" title="Link to this definition"></a></dt>
+<dd><p>Create a forest plot of a bootstrap metric with 95% CI for each group. If a <code class="docutils literal notranslate"><span class="pre">reference_group</span></code> is provided, draw a vertical dotted line through its mean. Add asterisks to group labels when significance tests indicate a difference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group_boot_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><em>numpy.ndarray</em></a><em>]</em><em>]</em><em>]</em>) – List of bootstrap samples. Each sample is a dict mapping group names to dicts of metric values. Expected shape: <code class="docutils literal notranslate"><span class="pre">List[Dict[str,</span> <span class="pre">Dict[str,</span> <span class="pre">np.ndarray]]]</span></code>.</p></li>
+<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The metric to summarize and plot, for example <code class="docutils literal notranslate"><span class="pre">'Accuracy'</span></code> or <code class="docutils literal notranslate"><span class="pre">'ROC</span> <span class="pre">AUC'</span></code>.</p></li>
+<li><p><strong>reference_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Group name used for the vertical reference line. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no line is drawn.</p></li>
+<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – Figure size as <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code>.</p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Directory to save the plot. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the plot is shown.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename stem for saving the plot, without extension.</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Optional plot title. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a default is generated.</p></li>
+<li><p><strong>statistical_tests</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em> or </em><em>None</em>) – Optional mapping with significance results per group. Keys are group names. Values are dicts keyed by <code class="docutils literal notranslate"><span class="pre">f&quot;{metric}_diff&quot;</span></code> that hold an object with <code class="docutils literal notranslate"><span class="pre">.is_significant</span></code>. Used to annotate group labels with an asterisk.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_bootstrap_forest</span><span class="p">(</span>
+    <span class="n">group_boot_metrics</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;ROC AUC&quot;</span><span class="p">,</span>
+    <span class="n">reference_group</span><span class="o">=</span><span class="s2">&quot;White&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AUROC - Bootstrapped Race Metrics&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code class="docutils literal notranslate"><span class="pre">metric</span></code> can be any metric produced in your pipeline, for example:
+<code class="docutils literal notranslate"><span class="pre">'Accuracy'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Precision'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Recall'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F1</span> <span class="pre">Score'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Specificity'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'TP</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FP</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FN</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'TN</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'TP'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FP'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'FN'</span></code>, <code class="docutils literal notranslate"><span class="pre">'TN'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Prevalence'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Predicted</span> <span class="pre">Prevalence'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ROC</span> <span class="pre">AUC'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'Average</span> <span class="pre">Precision</span> <span class="pre">Score'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Log</span> <span class="pre">Loss'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Brier</span> <span class="pre">Score'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Calibration</span> <span class="pre">AUC'</span></code>.
+These come from the same subgroup computations referenced in Step 2.</p>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/bootstrapped_roc_auc_race_metrics.png"><img alt="Bootstrapped Forest Plot of Group Metrics with 95% CI" class="align-center" src="_images/bootstrapped_roc_auc_race_metrics.png" style="width: 550px;" />
+</a>
+<div style="height: 40px;"></div></div><section id="tabular-breakdown-of-bootstrapped-metrics">
+<h3>Tabular Breakdown of Bootstrapped Metrics<a class="headerlink" href="#tabular-breakdown-of-bootstrapped-metrics" title="Link to this heading"></a></h3>
+<p>While bootstrapped forest plots provide a visual summary of uncertainty across groups,
+the same information can also be broken down in tabular format.
+The helper function <code class="docutils literal notranslate"><span class="pre">calculate_bootstrap_stats</span></code> takes the list of bootstrapped samples
+and computes summary statistics for each group and metric.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="calculate_bootstrap_stats">
+<span class="sig-name descname"><span class="pre">calculate_bootstrap_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_boot_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calculate_bootstrap_stats" title="Link to this definition"></a></dt>
+<dd><p>Calculate mean, standard deviation, and 95% confidence intervals for a given metric
+across all groups and bootstrap samples. Returns a tidy DataFrame suitable for
+inspection or export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group_boot_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em><em>]</em>) – List of bootstrap samples. Each sample is a nested dictionary mapping group names to their metric values.</p></li>
+<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the metric to analyze (e.g., <code class="docutils literal notranslate"><span class="pre">'Accuracy'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Precision'</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with columns:
+- <code class="docutils literal notranslate"><span class="pre">group</span></code>: Group name
+- <code class="docutils literal notranslate"><span class="pre">mean</span></code>: Average bootstrapped metric value
+- <code class="docutils literal notranslate"><span class="pre">ci_lower</span></code>: 2.5th percentile (lower bound of 95% CI)
+- <code class="docutils literal notranslate"><span class="pre">ci_upper</span></code>: 97.5th percentile (upper bound of 95% CI)
+- <code class="docutils literal notranslate"><span class="pre">std</span></code>: Standard deviation of bootstrapped samples
+- <code class="docutils literal notranslate"><span class="pre">n_samples</span></code>: Number of bootstrap samples used</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">calculate_bootstrap_stats</span><span class="p">(</span>
+    <span class="n">group_boot_metrics</span><span class="o">=</span><span class="n">boots_race_data</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;ROC AUC&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output (sample)</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14.3%" />
+<col style="width: 19.0%" />
+<col style="width: 19.0%" />
+<col style="width: 19.0%" />
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>group</p></th>
+<th class="head"><p>mean</p></th>
+<th class="head"><p>ci_lower</p></th>
+<th class="head"><p>ci_upper</p></th>
+<th class="head"><p>std</p></th>
+<th class="head"><p>n_samples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>White</p></td>
+<td><p>0.915083</p></td>
+<td><p>0.908539</p></td>
+<td><p>0.921298</p></td>
+<td><p>0.003250</p></td>
+<td><p>5001</p></td>
+</tr>
+<tr class="row-odd"><td><p>Black</p></td>
+<td><p>0.956088</p></td>
+<td><p>0.936282</p></td>
+<td><p>0.972532</p></td>
+<td><p>0.009244</p></td>
+<td><p>5001</p></td>
+</tr>
+<tr class="row-even"><td><p>Asian-Pac-Islander</p></td>
+<td><p>0.910970</p></td>
+<td><p>0.872990</p></td>
+<td><p>0.944444</p></td>
+<td><p>0.018353</p></td>
+<td><p>5001</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These tabular summaries complement the forest plots:</p>
+<ul class="simple">
+<li><p>The <strong>plot</strong> highlights differences visually, with confidence intervals.</p></li>
+<li><p>The <strong>table</strong> provides exact numerical values, which are useful for reporting
+in papers, dashboards, or statistical summaries.</p></li>
+</ul>
+</div>
 </section>
 </section>
 <section id="summary">

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Point Estimate Evaluation &mdash; EquiBoots 0.0.0a9 documentation</title>
+  <title>Point Estimate Evaluation &mdash; EquiBoots 0.0.1a1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9756ebf1"></script>
+      <script src="_static/documentation_options.js?v=c51092a7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -97,6 +97,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#example-4-calibration-histograms">Example 4 (Calibration Histograms)</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#group-metrics-forest-plot">Group Metrics Forest Plot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#eq_plot_metrics_forest"><code class="docutils literal notranslate"><span class="pre">eq_plot_metrics_forest()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-prevalance">Example 1: Prevalance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#effect-size">Effect Size</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#plot_effect_sizes"><code class="docutils literal notranslate"><span class="pre">plot_effect_sizes()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#residual-based-point-estimates">Residual-Based Point Estimates</a><ul>
@@ -229,7 +238,7 @@ for each subgroup.</p>
 </div>
 </section>
 <section id="step-2-slice-groups-and-compute-point-estimates">
-<h3><strong>Step 2: Slice Groups and Compute Point Estimates</strong><a class="headerlink" href="#step-2-slice-groups-and-compute-point-estimates" title="Link to this heading"></a></h3>
+<span id="step2-slice-groups"></span><h3><strong>Step 2: Slice Groups and Compute Point Estimates</strong><a class="headerlink" href="#step-2-slice-groups-and-compute-point-estimates" title="Link to this heading"></a></h3>
 <p>Once the class is initialized, we slice the dataset into subgroups and compute
 performance metrics for each group. This step is critical for assessing whether
 model performance varies by group.</p>
@@ -525,19 +534,19 @@ via omnibus and pairwise statistical tests.</p>
 <li><p><strong>category_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Names of each category corresponding to group_metrics (one per column).</p></li>
 <li><p><strong>include_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to display the legend on the plot.</p></li>
 <li><p><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Colormap used to distinguish groups.</p></li>
-<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Directory path where the plot should be saved. If None, the plot is shown.</p></li>
+<li><p><strong>save_path</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Directory path where the plot should be saved. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the plot is shown.</p></li>
 <li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename for saving the plot (without extension).</p></li>
 <li><p><strong>strict_layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to apply tight layout spacing.</p></li>
-<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] or </em><em>None</em>) – Tuple for figure size (width, height).</p></li>
+<li><p><strong>figsize</strong> (tuple[float, float] or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Tuple for figure size (width, height).</p></li>
 <li><p><strong>show_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Toggle for showing gridlines on plots.</p></li>
 <li><p><strong>plot_thresholds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – A tuple (lower, upper) for pass/fail thresholds.</p></li>
 <li><p><strong>show_pass_fail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to color points based on pass/fail evaluation rather than group color.</p></li>
-<li><p><strong>y_lim</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] or </em><em>None</em>) – Y-axis limits as a (min, max) tuple.</p></li>
+<li><p><strong>y_lim</strong> (tuple[float, float] or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Y-axis limits as a (min, max) tuple.</p></li>
 <li><p><strong>leg_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of columns in the group legend.</p></li>
 <li><p><strong>raw_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the input metrics are raw values (True) or already calculated disparities (False).</p></li>
-<li><p><strong>statistical_tests</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em> or </em><em>None</em>) – Dictionary mapping categories to their statistical test results, used for annotating groups with significance markers.</p></li>
+<li><p><strong>statistical_tests</strong> (dict or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Dictionary mapping categories to their statistical test results, used for annotating groups with significance markers.</p></li>
 <li><p><strong>show_reference</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to plot the horizontal reference line (e.g., y=1 for ratios).</p></li>
-<li><p><strong>plot_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em>) – Additional keyword arguments passed to <cite>sns.scatterplot</cite>.</p></li>
+<li><p><strong>plot_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em>) – Additional keyword arguments passed to <code class="docutils literal notranslate"><span class="pre">sns.scatterplot</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -802,14 +811,14 @@ customize curve aesthetics, exclude small or irrelevant groups, and optionally s
 <li><p><strong>line_kwgs</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional styling for the reference line (e.g., diagonal in ROC or calibration).</p></li>
 <li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Title of the entire figure.</p></li>
 <li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename prefix for saving the figure (without file extension).</p></li>
-<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – Directory path where the figure will be saved. If None, the plot is only displayed.</p></li>
+<li><p><strong>save_path</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Directory path where the figure will be saved. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the plot is only displayed.</p></li>
 <li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – Tuple specifying the figure size in inches (width, height).</p></li>
 <li><p><strong>dpi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Resolution of the output figure in dots per inch.</p></li>
-<li><p><strong>subplots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to generate a subplot per group. If False, all curves are overlaid.</p></li>
+<li><p><strong>subplots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to generate a subplot per group. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, all curves are overlaid.</p></li>
 <li><p><strong>n_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of columns in the subplot grid.</p></li>
-<li><p><strong>n_rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><em>None</em>) – Number of rows in the subplot grid. If None, it’s inferred automatically.</p></li>
-<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>None</em>) – If set, plots only the specified group.</p></li>
-<li><p><strong>color_by_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If True, assigns a different color to each group.</p></li>
+<li><p><strong>n_rows</strong> (int or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Number of rows in the subplot grid. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, it’s inferred automatically.</p></li>
+<li><p><strong>group</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – If set, plots only the specified group.</p></li>
+<li><p><strong>color_by_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, assigns a different color to each group.</p></li>
 <li><p><strong>exclude_groups</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>, </em><em>Set</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – Optionally exclude specific groups by name or by minimum sample size.</p></li>
 <li><p><strong>show_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to display background gridlines in the plots.</p></li>
 <li><p><strong>lowess</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Smoothing factor (0–1) for LOWESS calibration curves. Set to 0 to disable.</p></li>
@@ -819,10 +828,10 @@ customize curve aesthetics, exclude small or irrelevant groups, and optionally s
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None. Displays or saves the plot depending on the <code class="docutils literal notranslate"><span class="pre">save_path</span></code> argument.</p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code>. Displays or saves the plot depending on the <code class="docutils literal notranslate"><span class="pre">save_path</span></code> argument.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -991,6 +1000,120 @@ probability intervals.</p>
 <div style="height: 40px;"></div></div></section>
 </section>
 </section>
+<section id="group-metrics-forest-plot">
+<h1>Group Metrics Forest Plot<a class="headerlink" href="#group-metrics-forest-plot" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="eq_plot_metrics_forest">
+<span class="sig-name descname"><span class="pre">eq_plot_metrics_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'points_forest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascending</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistical_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_plot_metrics_forest" title="Link to this definition"></a></dt>
+<dd><p>Create a forest plot of point estimates for a specific metric across groups. Each group is plotted as a point along the horizontal axis, optionally compared against a reference group. Statistical significance markers can be displayed if test results are provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em>) – Dictionary mapping group names to their metric values.</p></li>
+<li><p><strong>metric_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The metric to visualize (e.g., “Accuracy”, “AUC”).</p></li>
+<li><p><strong>reference_group</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Optional group name used as the vertical reference line in the plot.</p></li>
+<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – Tuple for figure size (width, height).</p></li>
+<li><p><strong>save_path</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Directory path where the plot should be saved. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the plot is shown.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename for saving the plot (without extension).</p></li>
+<li><p><strong>sort_groups</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to sort groups by their metric values.</p></li>
+<li><p><strong>ascending</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Sort order for groups if sorting is enabled.</p></li>
+<li><p><strong>title</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Optional custom title for the plot. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a default is generated.</p></li>
+<li><p><strong>statistical_tests</strong> (dict or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Dictionary mapping groups or omnibus test results to significance flags.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">metric_name</span></code> parameter can be set to any metric returned by
+<code class="xref py py-func docutils literal notranslate"><span class="pre">eq.get_metrics()</span></code> after slicing by a sensitive attribute
+(see <a class="reference internal" href="#step2-slice-groups"><span class="std std-ref">Step 2: Slice Groups and Compute Point Estimates</span></a>).</p>
+<p>Available metrics: <code class="docutils literal notranslate"><span class="pre">'Accuracy'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Precision'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Recall'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F1</span> <span class="pre">Score'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'Specificity'</span></code>, <code class="docutils literal notranslate"><span class="pre">'TP</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FP</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FN</span> <span class="pre">Rate'</span></code>, <code class="docutils literal notranslate"><span class="pre">'TN</span> <span class="pre">Rate'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'TP'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FP'</span></code>, <code class="docutils literal notranslate"><span class="pre">'FN'</span></code>, <code class="docutils literal notranslate"><span class="pre">'TN'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Prevalence'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Predicted</span> <span class="pre">Prevalence'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'ROC</span> <span class="pre">AUC'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Average</span> <span class="pre">Precision</span> <span class="pre">Score'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Log</span> <span class="pre">Loss'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Brier</span> <span class="pre">Score'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'Calibration</span> <span class="pre">AUC'</span></code>.</p>
+<p>In practice, pass any of these from <code class="docutils literal notranslate"><span class="pre">race_metrics</span></code>, <code class="docutils literal notranslate"><span class="pre">sex_metrics</span></code>,
+or any subgroup dictionary produced by <code class="docutils literal notranslate"><span class="pre">eq.get_metrics()</span></code>.</p>
+</div>
+<p>Once tests are computed, the <code class="docutils literal notranslate"><span class="pre">eq_plot_metrics_forest</span></code> function can
+visualize point estimates along with statistical annotations:</p>
+<section id="example-1-prevalance">
+<h2>Example 1: Prevalance<a class="headerlink" href="#example-1-prevalance" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_metrics_forest</span><span class="p">(</span>
+    <span class="n">group_metrics</span><span class="o">=</span><span class="n">race_metrics</span><span class="p">,</span>
+    <span class="n">metric_name</span><span class="o">=</span><span class="s2">&quot;Prevalence&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Forest Plot: Race Group Point Estimates&quot;</span><span class="p">,</span>
+    <span class="n">reference_group</span><span class="o">=</span><span class="s2">&quot;White&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">sort_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">statistical_tests</span><span class="o">=</span><span class="n">stat_test_results_race</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/prev_forest_point_est_race.png"><img alt="Forest Plot of Group Metrics" class="align-center" src="_images/prev_forest_point_est_race.png" style="width: 550px;" />
+</a>
+<div style="height: 40px;"></div></div></section>
+</section>
+<section id="effect-size">
+<h1>Effect Size<a class="headerlink" href="#effect-size" title="Link to this heading"></a></h1>
+<p>EquiBoots also calculates effect size when working with point estimates.
+Effect size helps quantify the strength of the relationship or difference, beyond
+just whether it is statistically significant. For example, in one analysis we observed
+that all effect sizes were low (under 0.2), with the highest being 0.11. This suggests
+that while statistical significance was found, the findings were not necessarily strong.</p>
+<p>According to <a class="reference external" href="https://www.ibm.com/docs/en/cognos-analytics/12.0.x">IBM Cognos documentation</a>,
+for Cramer’s V:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ES</span> <span class="pre">≤</span> <span class="pre">0.2</span></code> is interpreted as a <strong>weak</strong> result.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0.2</span> <span class="pre">&lt;</span> <span class="pre">ES</span> <span class="pre">≤</span> <span class="pre">0.6</span></code> is interpreted as a <strong>moderate</strong> result.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ES</span> <span class="pre">&gt;</span> <span class="pre">0.6</span></code> is interpreted as a <strong>strong</strong> result.</p></li>
+</ul>
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_effect_sizes">
+<span class="sig-name descname"><span class="pre">plot_effect_sizes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stat_test_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Category'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Effect</span> <span class="pre">size'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Effect</span> <span class="pre">Sizes</span> <span class="pre">by</span> <span class="pre">Group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'effect_sizes'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plot_effect_sizes" title="Link to this definition"></a></dt>
+<dd><p>Generate a bar chart of effect sizes by group. Bars are annotated with numeric values,
+and horizontal reference lines are added at 0.2 and 0.6 to guide interpretation
+(weak, moderate, strong).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stat_test_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><em>object</em></a><em>]</em>) – Mapping of group/category names to statistical test result objects containing <code class="docutils literal notranslate"><span class="pre">.effect_size</span></code> attributes.</p></li>
+<li><p><strong>xlabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Label for the x-axis.</p></li>
+<li><p><strong>ylabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Label for the y-axis.</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Title of the plot.</p></li>
+<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – Tuple specifying figure size (width, height).</p></li>
+<li><p><strong>rotation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Angle (in degrees) to rotate x-axis labels.</p></li>
+<li><p><strong>save_path</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Directory path where the plot should be saved. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the plot is shown.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Filename for saving the plot (without extension).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_effect_sizes</span>
+
+<span class="c1"># Assume stat_results is a dict of group -&gt; test results with .effect_size</span>
+<span class="n">plot_effect_sizes</span><span class="p">(</span>
+    <span class="n">stat_test_results</span><span class="o">=</span><span class="n">stat_results</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Attribute&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Effect size&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Effect Sizes by Group&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;effect_sizes_demo&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output</strong></p>
+<div class="no-click"><a class="reference internal image-reference" href="_images/race_effect_size.png"><img alt="Effect Size Bar Plot" class="align-center" src="_images/race_effect_size.png" style="width: 700px;" />
+</a>
+<div style="height: 40px;"></div></div></section>
 <section id="residual-based-point-estimates">
 <h1>Residual-Based Point Estimates<a class="headerlink" href="#residual-based-point-estimates" title="Link to this heading"></a></h1>
 <p>In regression tasks, <strong>residuals</strong> represent the difference between observed values and model predictions.

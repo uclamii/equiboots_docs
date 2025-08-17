@@ -96,6 +96,8 @@ for each subgroup.
         fairness_vars=["race", "sex"],
     )
 
+.. _step2_slice_groups:
+
 **Step 2: Slice Groups and Compute Point Estimates**  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -412,8 +414,8 @@ Group Metrics Point Plot
    :param cmap: Colormap used to distinguish groups.
    :type cmap: str
 
-   :param save_path: Directory path where the plot should be saved. If None, the plot is shown.
-   :type save_path: str or None
+   :param save_path: Directory path where the plot should be saved. If ``None``, the plot is shown.
+   :type save_path: str or ``None``
 
    :param filename: Filename for saving the plot (without extension).
    :type filename: str
@@ -422,7 +424,7 @@ Group Metrics Point Plot
    :type strict_layout: bool
 
    :param figsize: Tuple for figure size (width, height).
-   :type figsize: tuple[float, float] or None
+   :type figsize: tuple[float, float] or ``None``
 
    :param show_grid: Toggle for showing gridlines on plots.
    :type show_grid: bool
@@ -434,7 +436,7 @@ Group Metrics Point Plot
    :type show_pass_fail: bool
 
    :param y_lim: Y-axis limits as a (min, max) tuple.
-   :type y_lim: tuple[float, float] or None
+   :type y_lim: tuple[float, float] or ``None``
 
    :param leg_cols: Number of columns in the group legend.
    :type leg_cols: int
@@ -443,12 +445,12 @@ Group Metrics Point Plot
    :type raw_metrics: bool
 
    :param statistical_tests: Dictionary mapping categories to their statistical test results, used for annotating groups with significance markers.
-   :type statistical_tests: dict or None
+   :type statistical_tests: dict or ``None``
 
    :param show_reference: Whether to plot the horizontal reference line (e.g., y=1 for ratios).
    :type show_reference: bool
 
-   :param plot_kwargs: Additional keyword arguments passed to `sns.scatterplot`.
+   :param plot_kwargs: Additional keyword arguments passed to ``sns.scatterplot``.
    :type plot_kwargs: dict[str, Union[str, float]]
 
 
@@ -757,8 +759,8 @@ After slicing your data using the ``slicer()`` method and organizing group-speci
     :param filename: Filename prefix for saving the figure (without file extension).
     :type filename: str
 
-    :param save_path: Directory path where the figure will be saved. If None, the plot is only displayed.
-    :type save_path: str or None
+    :param save_path: Directory path where the figure will be saved. If ``None``, the plot is only displayed.
+    :type save_path: str or ``None``
 
     :param figsize: Tuple specifying the figure size in inches (width, height).
     :type figsize: Tuple[float, float]
@@ -766,19 +768,19 @@ After slicing your data using the ``slicer()`` method and organizing group-speci
     :param dpi: Resolution of the output figure in dots per inch.
     :type dpi: int
 
-    :param subplots: Whether to generate a subplot per group. If False, all curves are overlaid.
+    :param subplots: Whether to generate a subplot per group. If ``False``, all curves are overlaid.
     :type subplots: bool
 
     :param n_cols: Number of columns in the subplot grid.
     :type n_cols: int
 
-    :param n_rows: Number of rows in the subplot grid. If None, it's inferred automatically.
-    :type n_rows: int or None
+    :param n_rows: Number of rows in the subplot grid. If ``None``, it's inferred automatically.
+    :type n_rows: int or ``None``
 
     :param group: If set, plots only the specified group.
-    :type group: str or None
+    :type group: str or ``None``
 
-    :param color_by_group: If True, assigns a different color to each group.
+    :param color_by_group: If ``True``, assigns a different color to each group.
     :type color_by_group: bool
 
     :param exclude_groups: Optionally exclude specific groups by name or by minimum sample size.
@@ -799,8 +801,8 @@ After slicing your data using the ``slicer()`` method and organizing group-speci
     :param plot_hist: If True, displays a histogram of predicted probability counts beneath each calibration curve. Automatically enables ``subplots=True``.
     :type plot_hist: bool
 
-    :returns: None. Displays or saves the plot depending on the ``save_path`` argument.
-    :rtype: None
+    :returns: ``None``. Displays or saves the plot depending on the ``save_path`` argument.
+    :rtype: ``None``
 
 .. note::
 
@@ -1064,10 +1066,179 @@ For instance, if a group appears poorly calibrated in a region where very few pr
 .. raw:: html
 
     <div style="height: 40px;"></div></div>
-    
-    
+
+Group Metrics Forest Plot
+================================
+
+.. function:: eq_plot_metrics_forest(group_metrics, metric_name, reference_group=None, figsize=(6, 4), save_path=None, filename='points_forest', sort_groups=True, ascending=True, title=None, statistical_tests=None)
+
+   Create a forest plot of point estimates for a specific metric across groups. Each group is plotted as a point along the horizontal axis, optionally compared against a reference group. Statistical significance markers can be displayed if test results are provided.
+
+   :param group_metrics: Dictionary mapping group names to their metric values.
+   :type group_metrics: dict[str, dict[str, float]]
+
+   :param metric_name: The metric to visualize (e.g., "Accuracy", "AUC").
+   :type metric_name: str
+
+   :param reference_group: Optional group name used as the vertical reference line in the plot.
+   :type reference_group: str or ``None``
+
+   :param figsize: Tuple for figure size (width, height).
+   :type figsize: tuple[float, float]
+
+   :param save_path: Directory path where the plot should be saved. If ``None``, the plot is shown.
+   :type save_path: str or ``None``
+
+   :param filename: Filename for saving the plot (without extension).
+   :type filename: str
+
+   :param sort_groups: Whether to sort groups by their metric values.
+   :type sort_groups: bool
+
+   :param ascending: Sort order for groups if sorting is enabled.
+   :type ascending: bool
+
+   :param title: Optional custom title for the plot. If ``None``, a default is generated.
+   :type title: str or ``None``
+
+   :param statistical_tests: Dictionary mapping groups or omnibus test results to significance flags.
+   :type statistical_tests: dict or ``None``
+
+.. important::
+
+   The ``metric_name`` parameter can be set to any metric returned by
+   :func:`eq.get_metrics` after slicing by a sensitive attribute
+   (see :ref:`Step 2: Slice Groups and Compute Point Estimates <step2_slice_groups>`).
+
+   Available metrics: ``'Accuracy'``, ``'Precision'``, ``'Recall'``, ``'F1 Score'``,
+   ``'Specificity'``, ``'TP Rate'``, ``'FP Rate'``, ``'FN Rate'``, ``'TN Rate'``,
+   ``'TP'``, ``'FP'``, ``'FN'``, ``'TN'``, ``'Prevalence'``, ``'Predicted Prevalence'``,
+   ``'ROC AUC'``, ``'Average Precision Score'``, ``'Log Loss'``, ``'Brier Score'``,
+   ``'Calibration AUC'``.
+
+   In practice, pass any of these from ``race_metrics``, ``sex_metrics``,
+   or any subgroup dictionary produced by ``eq.get_metrics()``.
+
+Once tests are computed, the ``eq_plot_metrics_forest`` function can 
+visualize point estimates along with statistical annotations:
+
+Example 1: Prevalance
+-------------------------
+
+.. code:: python
+
+    eqb.eq_plot_metrics_forest(
+        group_metrics=race_metrics,
+        metric_name="Prevalence",
+        title="Forest Plot: Race Group Point Estimates",
+        reference_group="White",
+        figsize=(8, 6),
+        sort_groups=True,
+        ascending=False,
+        statistical_tests=stat_test_results_race,
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/prev_forest_point_est_race.png
+   :alt: Forest Plot of Group Metrics
+   :align: center
+   :width: 550px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div></div>
+
+
+Effect Size
+================================
+
+EquiBoots also calculates effect size when working with point estimates.  
+Effect size helps quantify the strength of the relationship or difference, beyond 
+just whether it is statistically significant. For example, in one analysis we observed 
+that all effect sizes were low (under 0.2), with the highest being 0.11. This suggests 
+that while statistical significance was found, the findings were not necessarily strong.  
+
+According to `IBM Cognos documentation <https://www.ibm.com/docs/en/cognos-analytics/12.0.x>`_, 
+for Cramer's V:
+
+- ``ES ≤ 0.2`` is interpreted as a **weak** result.  
+- ``0.2 < ES ≤ 0.6`` is interpreted as a **moderate** result.  
+- ``ES > 0.6`` is interpreted as a **strong** result.  
+
+
+.. function:: plot_effect_sizes(stat_test_results, xlabel='Category', ylabel='Effect size', title='Effect Sizes by Group', figsize=(8, 6), rotation=0, save_path=None, filename='effect_sizes')
+
+   Generate a bar chart of effect sizes by group. Bars are annotated with numeric values, 
+   and horizontal reference lines are added at 0.2 and 0.6 to guide interpretation 
+   (weak, moderate, strong).  
+
+   :param stat_test_results: Mapping of group/category names to statistical test result objects containing ``.effect_size`` attributes.  
+   :type stat_test_results: dict[str, object]  
+
+   :param xlabel: Label for the x-axis.  
+   :type xlabel: str  
+
+   :param ylabel: Label for the y-axis.  
+   :type ylabel: str  
+
+   :param title: Title of the plot.  
+   :type title: str  
+
+   :param figsize: Tuple specifying figure size (width, height).  
+   :type figsize: tuple[float, float]  
+
+   :param rotation: Angle (in degrees) to rotate x-axis labels.  
+   :type rotation: int  
+
+   :param save_path: Directory path where the plot should be saved. If ``None``, the plot is shown.  
+   :type save_path: str or ``None``  
+
+   :param filename: Filename for saving the plot (without extension).  
+   :type filename: str  
+
+
+**Example**
+
+.. code:: python
+
+    from equiboots import plot_effect_sizes
+
+    # Assume stat_results is a dict of group -> test results with .effect_size
+    plot_effect_sizes(
+        stat_test_results=stat_results,
+        xlabel="Attribute",
+        ylabel="Effect size",
+        title="Effect Sizes by Group",
+        figsize=(8, 6),
+        rotation=30,
+        save_path="./images",
+        filename="effect_sizes_demo"
+    )
+
+**Output**
+
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/race_effect_size.png
+   :alt: Effect Size Bar Plot
+   :align: center
+   :width: 700px
+
+.. raw:: html
+
+    <div style="height: 40px;"></div></div>
+
+
+
 Residual-Based Point Estimates
-==============================
+===============================
 
 In regression tasks, **residuals** represent the difference between observed values and model predictions.  
 A detailed explanation of the underlying formulas and metrics is provided in the 
