@@ -11,7 +11,7 @@
 
 .. raw:: html
    
-   <div style="height: 130px;"></div>
+   <div style="height: 130px;"></div></div>
 
 
 Bootstrap Estimate Evaluation
@@ -41,7 +41,6 @@ attributes like ``race`` or ``sex``.
 .. note::
 
     ``y_pred``, ``y_prob``, ``y_test`` are defined inside the :ref:`modeling generation section <Modeling_Generation>`.
-
 
 
 .. note::
@@ -806,6 +805,7 @@ and computes summary statistics for each group and metric.
    :type metric: str
 
    :returns: DataFrame with columns:  
+   
              - ``group``: Group name  
              - ``mean``: Average bootstrapped metric value  
              - ``ci_lower``: 2.5th percentile (lower bound of 95% CI)  
