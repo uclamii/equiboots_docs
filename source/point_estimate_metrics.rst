@@ -249,7 +249,7 @@ This yields a structured and readable table of group-level performance for use i
     </tr>
     <tr>
         <td class="tg-8d8j">3</td>
-        <td class="tg-2b7s">Amer-Indian-Eskimo</td>
+        <td class="tg-2b7s">Native American or Inuit</td>
         <td class="tg-2b7s">0.879</td>
         <td class="tg-2b7s">0.444</td>
         <td class="tg-2b7s">0.364</td>
@@ -485,7 +485,7 @@ visualize point estimates along with statistical significance annotations:
 
    <div class="no-click">
 
-.. image:: ../assets/stats_based_point_estimates_plot.png
+.. image:: ../assets/point_est_stats_metrics_by_race_and_sex.png
    :alt: Statistically-Based Point Estimate Plot
    :align: center
    :width: 550px
@@ -503,7 +503,7 @@ Each **subplot** corresponds to a single metric, plotted separately for race (le
 Here's how to read the plot:
 
 - Each **point** shows the average metric score for a demographic group.
-- **Letters (A–G)** label the groups (e.g., A = Amer-Indian-Eskimo, B = Asian-Pac-Islander), with the full mapping provided in the legend.
+- **Letters (A–G)** label the groups (e.g., A = Native American or Inuit, B = Asian-Pac-Islander), with the full mapping provided in the legend.
 - The **star symbol (★)** below a group axis label indicates that the **omnibus test** for the corresponding fairness attribute (e.g., race or sex) was statistically significant overall.
 - The **triangle symbol (▲)** denotes groups that differ **significantly from the reference group**, as determined by pairwise statistical tests (e.g., Bonferroni-adjusted chi-square).
 - Color-coding helps distinguish categories and corresponds to the legend at the top.
@@ -593,7 +593,7 @@ This format provides a concise, interpretable snapshot of where disparities are 
         <th class="tg-kex3">White *</th>
         <th class="tg-kex3">Black * ▲</th>
         <th class="tg-kex3">Asian-Pac-Islander *</th>
-        <th class="tg-kex3">Amer-Indian-Eskimo * ▲</th>
+        <th class="tg-kex3">Native American or Inuit * ▲</th>
         <th class="tg-kex3">Other * ▲</th>
     </tr></thead>
     <tbody>
@@ -832,7 +832,7 @@ representation can be excluded using the ``exclude_groups`` parameter, as shown 
         figsize=(7, 7),
         decimal_places=2,
         subplots=False,
-        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+        exclude_groups=["Other"]
     )
 
 
@@ -841,7 +841,7 @@ representation can be excluded using the ``exclude_groups`` parameter, as shown 
 
    <div class="no-click">
 
-.. image:: ../assets/roc_auc_curves.png
+.. image:: ../assets/AUC_sliced_race_data.png
    :alt: ROC AUC Curve
    :align: center
    :width: 600px
@@ -861,10 +861,10 @@ Precision-Recall Curves
         subplots=False,
         figsize=(7, 7),
         title="Precision-Recall by Race Group",
-        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+        exclude_groups=["Other"]
     )
 
-.. image:: ../assets/pr_curves.png
+.. image:: ../assets/PR_sliced_race_data.png
    :alt: Precision-Recall Curves
    :align: center
    :width: 600px
@@ -903,14 +903,14 @@ Example 1 (Calibration Overlay)
         figsize=(7, 7),
         decimal_places=2,
         subplots=False,
-        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+        exclude_groups=["Other"]
     )
 
 .. raw:: html
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_plot.png
+.. image:: ../assets/calibration_by_sliced_race_data.png
    :alt: Calibration Plot Overlay
    :align: center
    :width: 600px
@@ -942,7 +942,7 @@ allowing easier inspection of group-specific trends.
         subplots=True,
         shade_area=True,
         n_cols=3,
-        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+        exclude_groups=["Other"]
     )
 
 
@@ -951,7 +951,7 @@ allowing easier inspection of group-specific trends.
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_sub_plots.png
+.. image:: ../assets/calibration_subplots_by_sliced_race_data.png
    :alt: Calibration Subplots
    :align: center
    :width: 600px
@@ -993,14 +993,14 @@ class imbalance.
         lowess=0.6,
         lowess_kwargs={"linestyle": "--", "linewidth": 2, "alpha": 0.6},
         n_cols=3,
-        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+        exclude_groups=["Other"]
     )
 
 .. raw:: html
 
    <div class="no-click">
 
-.. image:: ../assets/lowess_calibration.png
+.. image:: ../assets/calibration_lowess_by_sliced_race_data.png
    :alt: LOWESS-smoothed Calibration Subplots
    :align: center
    :width: 600px
@@ -1040,7 +1040,7 @@ regions of the probability spectrum or in sparse areas with few predictions.
         title="Calibration by Race Group",
         n_bins=10,
         show_grid=False,
-        exclude_groups=["Amer-Indian-Eskimo", "Other"]
+        exclude_groups=["Other"]
         plot_hist=True,
 
     )
@@ -1049,7 +1049,7 @@ regions of the probability spectrum or in sparse areas with few predictions.
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_hist.png
+.. image:: ../assets/calibration_hist_by_sliced_race_data.png
    :alt: Calibration Curve with Histogram Overlay
    :align: center
    :width: 600px

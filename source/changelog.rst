@@ -14,6 +14,17 @@
 Changelog
 ===============
 
+`Version 0.0.1a2`_
+----------------------
+
+* Add group-specific threshold utilities for model healing by @lshpaner in https://github.com/uclamii/equiboots/pull/69
+* Forest plot example with differences by @elemets in https://github.com/uclamii/equiboots/pull/70
+* Minor Fix for x-axis labels not being centered under bars in ``plot_effect_sizes()`` by @lshpaner in https://github.com/uclamii/equiboots/pull/72
+
+
+**Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.0a9...0.0.1a2
+
+
 `Version 0.0.1a1`_
 ----------------------
 

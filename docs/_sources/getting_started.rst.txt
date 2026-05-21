@@ -44,7 +44,7 @@ Project Links
 
 2. `GitHub Repository <https://github.com/uclamii/equiboots>`_
 
-3. `Google Colab Example Notebook <https://drive.google.com/file/d/1BrPCOO84nRYssX9JvQcAAC9azVmmGKjB/view?usp=sharing>`_
+3. `Google Colab Example Notebook <https://colab.research.google.com/drive/1BrPCOO84nRYssX9JvQcAAC9azVmmGKjB>`_
 
 Prerequisites
 -------------
