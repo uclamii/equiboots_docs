@@ -1,6 +1,8 @@
 from .EquiBootsClass import *
 from .metrics import *
 from .plots import *
+from .healer import *
+from .tables import *
 from .logo import *
 
 import sys
@@ -21,9 +23,9 @@ transparency, bias mitigation, and outcome fairness are critical for responsible
 deployment.
 
 PyPI: https://pypi.org/project/equiboots  
-Documentation: https://uclamii.github.io/equiboots/
+Documentation: https://uclamii.github.io/equiboots_docs/
 
-Version: 0.0.0a9
+Version: 0.0.1a13
 """
 
 
@@ -31,9 +33,11 @@ Version: 0.0.0a9
 __doc__ = detailed_doc
 
 
-__version__ = "0.0.0a9"
-__author__ = "Leonid Shpaner, Arthur Funnell, Al Rahrooh, Panayiotis Petousis"
-__email__ = "lshpaner@ucla.edu; alafunnell@gmail.com; arahrooh@ucla.edu; pp89@ucla.edu"
+__version__ = "0.0.1a13"
+__author__ = (
+    "Leonid Shpaner, Arthur Funnell, Al Rahrooh, Colin Beam, Panayiotis Petousis"
+)
+__email__ = "lshpaner@ucla.edu; alafunnell@gmail.com; arahrooh@ucla.edu; CBeam@mednet.ucla.edu; pp89@ucla.edu"
 
 
 # Define the custom help function

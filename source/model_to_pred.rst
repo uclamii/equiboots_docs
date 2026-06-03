@@ -188,7 +188,7 @@ These are the core inputs required by EquiBoots.
     y_prob = model.predict_proba(X_test)[:, 1]
 
     ## Convert ground truth labels to NumPy array
-    y_true = y_test.to_numpy()
+    y_test = y_test.to_numpy()
 
 
 .. [1] Kohavi, R. (1996). *Census Income*. UCI Machine Learning Repository. `https://doi.org/10.24432/C5GP7S <https://doi.org/10.24432/C5GP7S>`_.

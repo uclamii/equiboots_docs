@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>equiboots.StatisticalTester &mdash; EquiBoots 0.0.1a1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6010b176" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6010b176" />
@@ -17,7 +17,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=c51092a7"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=a0ccc04e"></script>
@@ -76,6 +76,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../mathematical_framework.html">Calibration Curves and Area Under the Curve</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mathematical_framework.html#regression-residuals">Regression Residuals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mathematical_framework.html#chi-square-tests-and-cochran-s-rule">Chi-Square Tests and Cochran’s Rule</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">iPython Notebooks</span></p>
 <ul>
@@ -168,9 +169,17 @@
             <span class="s2">&quot;chi_square&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi_square_test</span><span class="p">,</span>
             <span class="s2">&quot;bootstrap_test&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_test</span><span class="p">,</span>
         <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">METRIC_LIST</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Recall&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Precision&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;F1 Score&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Specificity&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;FP Rate&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;FN Rate&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Predicted Prevalence&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
 
-<div class="viewcode-block" id="StatisticalTester._bootstrap_test">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._bootstrap_test">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_bootstrap_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 
         <span class="c1">### assumption that with sufficiently large data we can assume the bootstrapped samples are normal</span>
@@ -221,8 +230,7 @@
             <span class="n">test_name</span><span class="o">=</span><span class="s2">&quot;bootstrap_mean&quot;</span><span class="p">,</span>
             <span class="n">confidence_interval</span><span class="o">=</span><span class="p">(</span><span class="n">ci_lower</span><span class="p">,</span> <span class="n">ci_upper</span><span class="p">),</span>
             <span class="c1"># effect_size=effect_size,</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="StatisticalTester.get_ci_bounds">
 <a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester.get_ci_bounds">[docs]</a>
@@ -264,8 +272,6 @@
         <span class="k">return</span> <span class="n">p_value</span></div>
 
 
-<div class="viewcode-block" id="StatisticalTester._chi_square_test">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._chi_square_test">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_chi_square_test</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
@@ -282,35 +288,98 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Convert to numpy arrays</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
-        <span class="c1"># Create contingency table</span>
-        <span class="n">contingency_table</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">statistical_test_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">T</span>
 
-        <span class="c1"># Use scipy&#39;s implementation</span>
-        <span class="n">chi2</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">contingency_table</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">METRIC_LIST</span><span class="p">:</span>
+            <span class="n">contingency_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_contingency_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span>
+            <span class="n">chi2</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">contingency_table</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">StatTestResult</span><span class="p">(</span>
-            <span class="n">statistic</span><span class="o">=</span><span class="n">chi2</span><span class="p">,</span>
-            <span class="n">p_value</span><span class="o">=</span><span class="n">p_value</span><span class="p">,</span>
-            <span class="n">is_significant</span><span class="o">=</span><span class="n">p_value</span> <span class="o">&lt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span>
-            <span class="n">test_name</span><span class="o">=</span><span class="s2">&quot;Chi-Square Test&quot;</span><span class="p">,</span>
-        <span class="p">)</span></div>
+            <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;Chi-Square Test&quot;</span>
 
+            <span class="c1"># Cochran&#39;s rule: chi-square approximation is unreliable when more</span>
+            <span class="c1"># than 20% of expected cell counts are &lt; 5. Use Fisher&#39;s exact (2x2)</span>
+            <span class="c1"># or warn (larger).</span>
+            <span class="c1"># See Kim HY (2017), &quot;Statistical notes for clinical researchers:</span>
+            <span class="c1"># Chi-squared test and Fisher&#39;s exact test.&quot; Restor Dent Endod</span>
+            <span class="c1"># 42(2):152-155. https://pmc.ncbi.nlm.nih.gov/articles/PMC5426219/</span>
+            <span class="n">n_cells</span> <span class="o">=</span> <span class="n">expected</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">low_expected_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">expected</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n_cells</span>
 
-<div class="viewcode-block" id="StatisticalTester._calculate_effect_size">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._calculate_effect_size">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_effect_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">low_expected_pct</span> <span class="o">&gt;</span> <span class="mf">0.20</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">contingency_table</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                    <span class="c1"># Fisher&#39;s exact is well-defined for 2x2, swap in transparently</span>
+                    <span class="n">_</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">(</span><span class="n">contingency_table</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;Fisher&#39;s Exact Test&quot;</span>
+                    <span class="n">chi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># not a chi2 statistic anymore</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Metric &#39;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">low_expected_pct</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">% of &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;expected cell counts &lt; 5 (min expected = &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">). Chi-square approximation may be &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;unreliable for this </span><span class="si">{</span><span class="n">contingency_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> x &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">contingency_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> table per Cochran&#39;s rule. &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;Consider Fisher&#39;s exact test.&quot;</span>
+                    <span class="p">)</span>
+            <span class="n">statistical_test_dict</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatTestResult</span><span class="p">(</span>
+                <span class="n">statistic</span><span class="o">=</span><span class="n">chi2</span><span class="p">,</span>
+                <span class="n">p_value</span><span class="o">=</span><span class="n">p_value</span><span class="p">,</span>
+                <span class="n">is_significant</span><span class="o">=</span><span class="n">p_value</span> <span class="o">&lt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="n">test_name</span><span class="o">=</span><span class="n">test_name</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">statistical_test_dict</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contingency_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="p">):</span>
+        <span class="c1">## Accuracy contingency table example   ## Recall contingency table example</span>
+        <span class="c1">##       |TP + FN| FN + TN |            ##       |TP | FN |</span>
+        <span class="c1">##       |-------|---------|            ##       |---|----|</span>
+        <span class="c1">##  GRP1 |       |         |            ##  GRP1 |   |    |</span>
+        <span class="c1">##  GRP2 |       |         |            ##  GRP2 |   |    |</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;TP + TN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;TN&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;TP&quot;</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FP + FN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FP&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FN&quot;</span><span class="p">]</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TP + TN&quot;</span><span class="p">,</span> <span class="s2">&quot;FP + FN&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;Precision&quot;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TP&quot;</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;Recall&quot;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TP&quot;</span><span class="p">,</span> <span class="s2">&quot;FN&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;F1 Score&quot;</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FP + FN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FP&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FN&quot;</span><span class="p">]</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TP&quot;</span><span class="p">,</span> <span class="s2">&quot;FP + FN&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;Specificity&quot;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TN&quot;</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;FN Rate&quot;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;FN&quot;</span><span class="p">,</span> <span class="s2">&quot;TP&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;FP Rate&quot;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;FP&quot;</span><span class="p">,</span> <span class="s2">&quot;TN&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;Predicted Prevalence&quot;</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;TP + FP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;TP&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FP&quot;</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FN + TN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FN&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;TN&quot;</span><span class="p">]</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TP + FP&quot;</span><span class="p">,</span> <span class="s2">&quot;FN + TN&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;Negative Predictive Value&quot;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;TN&quot;</span><span class="p">,</span> <span class="s2">&quot;FN&quot;</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">table</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_effect_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the Cramer&#39;s V effect size using scipy.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float: Cramer&#39;s V effect size</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">coningency_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">coningency_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_contingency_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span>
         <span class="n">effect_size</span> <span class="o">=</span> <span class="n">association</span><span class="p">(</span><span class="n">coningency_table</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cramer&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">effect_size</span></div>
+        <span class="k">return</span> <span class="n">effect_size</span>
 
-
-<div class="viewcode-block" id="StatisticalTester._adjust_p_values">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._adjust_p_values">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_adjust_p_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StatTestResult</span><span class="p">]],</span>
@@ -319,48 +388,60 @@
         <span class="n">boot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StatTestResult</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjusts p-values for multiple comparisons using specified method.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;bonferroni&quot;</span><span class="p">,</span> <span class="s2">&quot;fdr_bh&quot;</span><span class="p">,</span> <span class="s2">&quot;holm&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">results</span>
 
         <span class="k">if</span> <span class="n">boot</span><span class="p">:</span>
             <span class="c1"># When boot=True, results has nested structure: results[group][test_type]</span>
+            <span class="c1"># Adjust across all group/test pairs together (existing behavior)</span>
             <span class="n">p_values</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">group_test_pairs</span> <span class="o">=</span> <span class="p">[]</span>
-
-            <span class="c1"># Collect all p-values and their corresponding group/test pairs</span>
             <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">group_results</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">for</span> <span class="n">test_type</span><span class="p">,</span> <span class="n">test_result</span> <span class="ow">in</span> <span class="n">group_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="n">p_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_result</span><span class="o">.</span><span class="n">p_value</span><span class="p">)</span>
                     <span class="n">group_test_pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">group</span><span class="p">,</span> <span class="n">test_type</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Original behavior: results[group] contains StatTestResult directly</span>
-            <span class="n">p_values</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">group_result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">p_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group_result</span><span class="o">.</span><span class="n">p_value</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bonferroni&quot;</span><span class="p">:</span>
-            <span class="n">adjusted_p_values</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span>
-                <span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bonferroni&quot;</span>
-            <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;fdr_bh&quot;</span><span class="p">:</span>
-            <span class="n">adjusted_p_values</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;fdr_bh&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;holm&quot;</span><span class="p">:</span>
-            <span class="n">adjusted_p_values</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;holm&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">results</span>
+            <span class="n">adjusted_p_values</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">boot</span><span class="p">:</span>
-            <span class="c1"># Update nested structure</span>
             <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">test_type</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group_test_pairs</span><span class="p">):</span>
                 <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">test_type</span><span class="p">]</span><span class="o">.</span><span class="n">p_value</span> <span class="o">=</span> <span class="n">adjusted_p_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
                 <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">test_type</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">adjusted_p_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">alpha</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">p_value</span> <span class="o">=</span> <span class="n">adjusted_p_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-                <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span> <span class="o">=</span> <span class="n">adjusted_p_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">alpha</span>
+            <span class="c1"># Non-bootstrapped: adjust per metric across pairwise (non-omnibus) groups only</span>
+            <span class="n">pairwise_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">g</span> <span class="o">!=</span> <span class="s2">&quot;omnibus&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pairwise_groups</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">results</span>
 
-        <span class="k">return</span> <span class="n">results</span></div>
+            <span class="c1"># Collect all metrics present across the pairwise groups</span>
+            <span class="n">metrics</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">pairwise_groups</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
+            <span class="c1"># Adjust p-values per metric, across race groups</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+                <span class="n">p_values</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">groups_for_metric</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">pairwise_groups</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]:</span>
+                        <span class="n">p_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">p_value</span><span class="p">)</span>
+                        <span class="n">groups_for_metric</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">p_values</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">adjusted_p_values</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)[</span>
+                    <span class="mi">1</span>
+                <span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">groups_for_metric</span><span class="p">):</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">p_value</span> <span class="o">=</span> <span class="n">adjusted_p_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">adjusted_p_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">alpha</span>
+                    <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span>
 
 <div class="viewcode-block" id="StatisticalTester.analyze_metrics">
 <a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester.analyze_metrics">[docs]</a>
@@ -419,8 +500,6 @@
             <span class="k">return</span> <span class="n">results</span></div>
 
 
-<div class="viewcode-block" id="StatisticalTester._validate_config">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._validate_config">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Validates the configuration dictionary for required keys and values.&quot;&quot;&quot;</span>
         <span class="n">required_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;test_type&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">]</span>
@@ -436,8 +515,7 @@
         <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;adjust_method&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ADJUSTMENT_METHODS</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Invalid adjustment method: </span><span class="si">{</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;adjust_method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">. Available methods: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ADJUSTMENT_METHODS</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span></div>
-
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="StatisticalTester.cohens_d">
 <a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester.cohens_d">[docs]</a>
@@ -445,13 +523,11 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate Cohen&#39;s d&quot;&quot;&quot;</span>
         <span class="n">mean_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_1</span><span class="p">)</span>
         <span class="n">mean_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_2</span><span class="p">)</span>
-        <span class="n">mean_sum</span> <span class="o">=</span> <span class="n">mean_1</span> <span class="o">+</span> <span class="n">mean_2</span>
+        <span class="n">mean_sum</span> <span class="o">=</span> <span class="n">mean_1</span> <span class="o">-</span> <span class="n">mean_2</span>
         <span class="n">pooled_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data_1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data_2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mean_sum</span> <span class="o">/</span> <span class="n">pooled_std</span> <span class="k">if</span> <span class="n">pooled_std</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span></div>
 
 
-<div class="viewcode-block" id="StatisticalTester._analyze_single_metrics">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._analyze_single_metrics">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_single_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">reference_group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StatTestResult</span><span class="p">]]:</span>
@@ -471,39 +547,51 @@
 
         <span class="n">ref_metrics</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">reference_group</span><span class="p">]}</span>
 
-        <span class="c1"># omnibus test</span>
+        <span class="c1"># 1) omnibus test</span>
         <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_func</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span><span class="p">:</span>
-            <span class="n">effect_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_effect_size</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="n">effect_size</span>
-            <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1">#### 2) Pairwise once per non-reference group gated on whether we see any signficance across omnibus</span>
+        <span class="n">omnibus_results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omnibus&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">any_omnibus_significant</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">is_significant</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">omnibus_results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">any_omnibus_significant</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="n">reference_group</span><span class="p">:</span>
                     <span class="k">continue</span>
-
                 <span class="n">comp_metrics</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">group</span><span class="p">]}</span>
-
                 <span class="n">ref_comp_metrics</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">ref_metrics</span><span class="p">,</span> <span class="o">**</span><span class="n">comp_metrics</span><span class="p">}</span>
-
                 <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_func</span><span class="p">(</span><span class="n">ref_comp_metrics</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span><span class="p">:</span>
-                    <span class="n">effect_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_effect_size</span><span class="p">(</span><span class="n">ref_comp_metrics</span><span class="p">)</span>
-                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="n">effect_size</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
 
-            <span class="k">return</span> <span class="n">results</span>
+        <span class="c1"># 3) Annotate effect sizes per metric, gated on omnibus significance</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">METRIC_LIST</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_effect_size</span><span class="p">(</span>
+                    <span class="n">metrics</span><span class="p">,</span> <span class="n">metric</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s2">&quot;omnibus&quot;</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">is_significant</span><span class="p">:</span>
+                        <span class="n">pair</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">ref_metrics</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">metrics</span><span class="p">[</span><span class="n">group</span><span class="p">]}</span>
+                        <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_effect_size</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="c1"># Clear pairwise for this metric too since the omnibus gate failed</span>
+                <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s2">&quot;omnibus&quot;</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">else</span><span class="p">:</span>  <span class="c1"># no need to calculate effect size</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">effect_size</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;omnibus&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="c1"># no need for pairwise test</span>
-            <span class="k">return</span> <span class="n">results</span></div>
+        <span class="k">return</span> <span class="n">results</span>
 
-
-<div class="viewcode-block" id="StatisticalTester._analyze_bootstrapped_metrics">
-<a class="viewcode-back" href="../../equiboots_stats_classes.html#equiboots.StatisticalTester.StatisticalTester._analyze_bootstrapped_metrics">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_bootstrapped_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">metrics_diff</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span> <span class="n">reference_group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StatTestResult</span><span class="p">]]:</span>
@@ -541,7 +629,6 @@
                 <span class="n">results</span><span class="p">[</span><span class="n">group_key</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_result</span>
 
         <span class="k">return</span> <span class="n">results</span></div>
-</div>
 
 </pre></div>
 

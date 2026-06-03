@@ -18,7 +18,7 @@ Welcome to the EquiBoots Documentation!
 ==========================================
 
 .. note::
-   This documentation is for ``equiboots`` version ``0.0.0a8``.
+   This documentation is for ``equiboots`` version ``0.0.0a13``.
 
 EquiBoots is a fairness-aware model evaluation toolkit for auditing performance 
 disparities across demographic groups in machine learning models. It provides robust, 
@@ -44,7 +44,16 @@ Project Links
 
 2. `GitHub Repository <https://github.com/uclamii/equiboots>`_
 
-3. `Google Colab Example Notebook <https://colab.research.google.com/drive/1BrPCOO84nRYssX9JvQcAAC9azVmmGKjB>`_
+3. `Classification: Google Colab Example Notebook <https://colab.research.google.com/drive/1BrPCOO84nRYssX9JvQcAAC9azVmmGKjB>`_
+
+4. `Regression: Google Colab Example Notebook <https://colab.research.google.com/drive/1VTZLCeuSwTtH9gbHPkCeXm-ovTqFmv6F#scrollTo=-iwzgLeE2_Aj>`_
+
+
+.. note::
+   The examples in this documentation use the adult income dataset with
+   ``xgboost`` version ``2.1.4``. The Colab example notebook, however, runs the up-to-date version of
+   ``xgboost`` (version ``3.2.0`` as of June 26, 2026), so you may see minor differences in the
+   results between the documentation and the Colab notebook due to changes in the underlying library. 
 
 Prerequisites
 -------------

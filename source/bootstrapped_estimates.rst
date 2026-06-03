@@ -62,7 +62,7 @@ You must specify:
     import numpy as np
     import equiboots as eqb
 
-    int_list = np.linspace(0, 100, num=10, dtype=int).tolist()
+    int_list = np.linspace(0, len(y_test), num=len(y_test), dtype=int).tolist()
 
     eq2 = eqb.EquiBoots(
         y_true=y_test,
@@ -75,11 +75,14 @@ You must specify:
         task="binary_classification",
         bootstrap_flag=True,
         num_bootstraps=5001,
-        boot_sample_size=1000,
-        group_min_size=150,
-        balanced=False,
-        stratify_by_outcome=False,
+        boot_sample_size=len(y_test), 
+        balanced=False,  
+        group_min_size=20,
+        stratify_by_outcome=True,  
     )
+
+    # Set seeds after initialization
+    eq2.set_fix_seeds(int_list)
 
 
 **Step 1.2: Slice by Group and Compute Metrics**
@@ -215,15 +218,21 @@ Plot Disparity Ratios
     eqb.eq_group_metrics_plot(
         group_metrics=dispa,
         metric_cols=[
-            "Accuracy_Ratio", "Precision_Ratio", "Predicted_Prevalence_Ratio",
-            "Prevalence_Ratio", "FP_Rate_Ratio", "TN_Rate_Ratio", "Recall_Ratio",
+            "Accuracy_Ratio", 
+            "Precision_Ratio", 
+            "Predicted_Prevalence_Ratio",
+            "Prevalence_Ratio", 
+            "FP_Rate_Ratio", 
+            "TN_Rate_Ratio", 
+            "Recall_Ratio",
         ],
         name="race",
         categories="all",
         plot_type="violinplot",
         color_by_group=True,
         strict_layout=True,
-        figsize=(15, 8),
+        figsize=(12, 6),
+        show_grid=False,
         leg_cols=7,
         max_cols=4,
     )
@@ -234,7 +243,7 @@ Plot Disparity Ratios
 
     <div class="no-click">
 
-.. image:: ../assets/disparity_ratio_plots.png
+.. image:: ../assets/race_metrics_violin_plot.svg
     :alt: Disparity Ratio Plot
     :align: center
     :width: 900px
@@ -292,6 +301,7 @@ the Predicted Prevalence Disparity Difference for a group (e.g., "Black") compar
         color_by_group=True,
         strict_layout=True,
         figsize=(15, 8),
+        show_grid=False,
         leg_cols=7,
         max_cols=4,
     )
@@ -302,7 +312,7 @@ the Predicted Prevalence Disparity Difference for a group (e.g., "Black") compar
 
    <div class="no-click">
 
-.. image:: ../assets/disparity_differences_plots.png
+.. image:: ../assets/race_diff_violin_plot.svg
    :alt: Statistically-Based Point Estimate Plot
    :align: center
    :width: 900px
@@ -366,6 +376,7 @@ You can summarize bootstrap-based statistical significance using ``metrics_table
 
 **Output**
 
+
 .. raw:: html
 
     <style type="text/css">
@@ -389,31 +400,30 @@ You can summarize bootstrap-based statistical significance using ``metrics_table
     <thead>
         <tr>
             <th>Metric</th>
-            <th>Black</th>
             <th>Asian-Pac-Islander</th>
+            <th>Black</th>
+            <th>Native American or Inuit</th>
         </tr>
     </thead>
     <tbody>
-        <tr><td>Accuracy_diff</td><td>0.070 *</td><td>-0.050</td></tr>
-        <tr><td>Precision_diff</td><td>0.141 *</td><td>0.016</td></tr>
-        <tr><td>Recall_diff</td><td>-0.111</td><td>-0.119</td></tr>
-        <tr><td>F1_Score_diff</td><td>-0.050</td><td>-0.080</td></tr>
-        <tr><td>Specificity_diff</td><td>0.056 *</td><td>-0.002</td></tr>
-        <tr><td>TP_Rate_diff</td><td>-0.111</td><td>-0.119</td></tr>
-        <tr><td>FP_Rate_diff</td><td>-0.056 *</td><td>0.002</td></tr>
-        <tr><td>FN_Rate_diff</td><td>0.111</td><td>0.119</td></tr>
-        <tr><td>TN_Rate_diff</td><td>0.056 *</td><td>-0.002</td></tr>
-        <tr><td>Prevalence_diff</td><td>-0.122 *</td><td>0.035</td></tr>
-        <tr><td>Predicted_Prevalence_diff</td><td>-0.133 *</td><td>-0.016</td></tr>
-        <tr><td>ROC_AUC_diff</td><td>0.035</td><td>-0.041</td></tr>
-        <tr><td>Average_Precision_Score_diff</td><td>-0.005</td><td>-0.044</td></tr>
-        <tr><td>Log_Loss_diff</td><td>-0.131 *</td><td>0.113</td></tr>
-        <tr><td>Brier_Score_diff</td><td>-0.043 *</td><td>0.036</td></tr>
-        <tr><td>Calibration_AUC_diff</td><td>0.148 *</td><td>0.215 *</td></tr>
+        <tr><td>Accuracy_diff</td><td>-0.014</td><td>0.084 *</td><td>0.023</td></tr>
+        <tr><td>Precision_diff</td><td>0.024</td><td>0.150 *</td><td>-0.316</td></tr>
+        <tr><td>Recall_diff</td><td>-0.060</td><td>-0.070</td><td>-0.285</td></tr>
+        <tr><td>F1_Score_diff</td><td>-0.030</td><td>0.005</td><td>-0.310</td></tr>
+        <tr><td>Specificity_diff</td><td>0.010</td><td>0.062 *</td><td>0.013</td></tr>
+        <tr><td>TP_Rate_diff</td><td>-0.060</td><td>-0.070</td><td>-0.285</td></tr>
+        <tr><td>FP_Rate_diff</td><td>-0.010</td><td>-0.062 *</td><td>-0.013</td></tr>
+        <tr><td>FN_Rate_diff</td><td>0.060</td><td>0.070</td><td>0.285</td></tr>
+        <tr><td>TN_Rate_diff</td><td>0.010</td><td>0.062 *</td><td>0.013</td></tr>
+        <tr><td>Prevalence_diff</td><td>0.014 *</td><td>-0.134 *</td><td>-0.151 *</td></tr>
+        <tr><td>Predicted_Prevalence_diff</td><td>-0.015</td><td>-0.140 *</td><td>-0.131 *</td></tr>
+        <tr><td>ROC_AUC_diff</td><td>-0.000</td><td>0.043 *</td><td>-0.055</td></tr>
+        <tr><td>Average_Precision_Score_diff</td><td>-0.003</td><td>0.018</td><td>-0.254</td></tr>
+        <tr><td>Log_Loss_diff</td><td>0.036</td><td>-0.156 *</td><td>-0.049</td></tr>
+        <tr><td>Brier_Score_diff</td><td>0.011</td><td>-0.054 *</td><td>-0.020</td></tr>
+        <tr><td>Calibration_AUC_diff</td><td>0.131 *</td><td>0.102 *</td><td>0.311 *</td></tr>
     </tbody>
     </table></div>
-
-
 
 .. raw:: html
 
@@ -436,7 +446,7 @@ Finally, plot the statistically tested metric differences:
         plot_type="violinplot",
         color_by_group=True,
         show_grid=True,
-        max_cols=6,
+        max_cols=4,
         strict_layout=True,
         show_pass_fail=False,
         statistical_tests=stat_test_results,
@@ -449,7 +459,7 @@ Finally, plot the statistically tested metric differences:
 
    <div class="no-click">
 
-.. image:: ../assets/differences_stat_sig_plot.png
+.. image:: ../assets/race_diff_statsig_violin_plot.svg
    :alt: Statistical Signficance of Differences
    :align: center
    :width: 1000px
@@ -555,7 +565,7 @@ depending on the desired layout.
 
    <div class="no-click">
 
-.. image:: ../assets/roc_auc_bootstrapped.png
+.. image:: ../assets/race_boots_roc_curve.svg
    :alt: Statistical Signficance of Differences
    :align: center
    :width: 550px
@@ -579,7 +589,6 @@ can be excluded using ``exclude_groups``.
         title="Bootstrapped ROC Curve by Race",
         bar_every=100,
         subplots=True,
-        dpi=100,
         n_bins=10,
         figsize=(6, 6),
         color_by_group=True,
@@ -591,7 +600,7 @@ can be excluded using ``exclude_groups``.
 
    <div class="no-click">
 
-.. image:: ../assets/roc_auc_subplots_bootstrapped.png
+.. image:: ../assets/race_boots_roc_curve_subplots.svg
    :alt: Bootstrapped ROC AUC Curves by Race (subplots)
    :align: center
    :width: 550px
@@ -600,26 +609,8 @@ can be excluded using ``exclude_groups``.
 
     <div style="height: 40px;"></div>
 
-This multi‐panel layout makes side-by-side comparison of each group’s uncertainty bands straightforward.
+This multi‐panel layout makes side-by-side comparison of each group's uncertainty bands straightforward.
 
-
-.. code:: python
-
-    eqb.eq_plot_bootstrapped_group_curves(
-        boot_sliced_data=boots_race_data,
-        curve_type="pr",
-        title="Bootstrapped PR Curve by Race",
-        filename="boot_roc_race",
-        save_path="./images",
-        subplots=True,
-        bar_every=100,
-        # n_rows=1,
-        n_cols=1,
-        dpi=100,
-        n_bins=10,
-        figsize=(6, 6),
-        color_by_group=True,
-    )
 
 Precision-Recall Curves
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -640,9 +631,9 @@ for each group to better visualize variations in precision across recall levels.
         title="Bootstrapped PR Curve by Race",
         subplots=True,
         bar_every=100,
-        n_cols=1,
         dpi=100,
         n_bins=10,
+        n_cols=1,
         figsize=(6, 6),
         color_by_group=True,
     )
@@ -653,7 +644,7 @@ for each group to better visualize variations in precision across recall levels.
 
    <div class="no-click">
 
-.. image:: ../assets/pr_curves_subplots_bootstrapped.png
+.. image:: ../assets/race_boots_pr_curve_subplots.svg
    :alt: Bootstrapped PR Curves by Race (subplots)
    :align: center
    :width: 550px
@@ -689,6 +680,7 @@ while ``subplots=True`` generates a separate panel for each group.
         bar_every=10,
         dpi=100,
         n_bins=10,
+        n_cols=1,
         figsize=(6, 6),
         color_by_group=True,
     )
@@ -699,7 +691,7 @@ while ``subplots=True`` generates a separate panel for each group.
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_bootstrapped.png
+.. image:: ../assets/race_boots_calibration_curve_subplots.svg
    :alt: Bootstrapped Calibration Curves by Race (overlayed)
    :align: center
    :width: 550px
@@ -752,11 +744,12 @@ Use a bootstrapped forest plot to visualize groupwise point estimates with 95% c
 .. code:: python
 
     eqb.eq_plot_bootstrap_forest(
-        group_boot_metrics=boots_race_data,
+        group_boot_metrics=race_metrics,
         metric="ROC AUC",
         reference_group="White",
         title="AUROC - Bootstrapped Race Metrics",
         figsize=(8, 6),
+        statistical_tests= stat_test_results
     )
 
 .. important::
@@ -774,10 +767,10 @@ Use a bootstrapped forest plot to visualize groupwise point estimates with 95% c
 
    <div class="no-click">
 
-.. image:: ../assets/bootstrapped_roc_auc_race_metrics.png
+.. image:: ../assets/race_boots_auroc_forest_plot.svg
    :alt: Bootstrapped Forest Plot of Group Metrics with 95% CI
    :align: center
-   :width: 550px
+   :width: 900px
 
 .. raw:: html
 
@@ -820,7 +813,7 @@ and computes summary statistics for each group and metric.
 .. code:: python
 
     eqb.calculate_bootstrap_stats(
-        group_boot_metrics=boots_race_data,
+        group_boot_metrics=race_metrics,
         metric="ROC AUC"
     )
 
@@ -837,22 +830,22 @@ and computes summary statistics for each group and metric.
      - std
      - n_samples
    * - White
-     - 0.915083
-     - 0.908539
-     - 0.921298
-     - 0.003250
+     - 0.915324
+     - 0.909182
+     - 0.921382
+     - 0.003169
      - 5001
    * - Black
-     - 0.956088
-     - 0.936282
-     - 0.972532
-     - 0.009244
+     - 0.958521
+     - 0.939731
+     - 0.974095
+     - 0.008805
      - 5001
    * - Asian-Pac-Islander
-     - 0.910970
-     - 0.872990
-     - 0.944444
-     - 0.018353
+     - 0.914896
+     - 0.880016
+     - 0.945980
+     - 0.016948
      - 5001
 
 

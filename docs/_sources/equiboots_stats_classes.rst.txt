@@ -151,8 +151,8 @@ Main Methods
 
    **Returns**
 
-   dict  
-     Statistical test results per group.
+   dict of dict  
+     Nested results of the form ``{outer_key: {metric_name: StatTestResult}}``, where ``outer_key`` is either ``"omnibus"`` or a group name, and ``metric_name`` is one of the metrics in ``StatisticalTester.METRIC_LIST``.
 
 .. py:method:: set_fix_seeds(seeds)
 
@@ -448,7 +448,11 @@ Module: ``equiboots.StatisticalTester``
 Overview
 --------
 
-This module provides statistical significance testing utilities, including bootstrapped and chi-square tests, with support for multiple comparison corrections and effect size calculations.
+This module provides statistical significance testing utilities for fairness audits, including bootstrapped tests and per-metric chi-square tests with support for multiple comparison corrections and effect size calculations.
+
+For chi-square testing on binary classification metrics, each metric in ``METRIC_LIST`` is tested using a metric-specific 2-cell contingency built by ``get_contingency_table`` (for example Recall uses ``[TP, FN]``, Precision uses ``[TP, FP]``). When expected cell counts are small, Cochran's rule is applied: if more than 20% of expected cells are below 5 the test falls back to Fisher's exact for 2x2 tables, or emits a warning for K x 2 tables. See Kim HY (2017), https://pmc.ncbi.nlm.nih.gov/articles/PMC5426219/.
+
+Results are returned as a nested dictionary of the form ``{outer_key: {metric_name: StatTestResult}}``, where ``outer_key`` is either ``"omnibus"`` or a non-reference group name.
 
 Classes
 -------
@@ -467,6 +471,22 @@ StatisticalTester
     :members:
     :show-inheritance:
 
+Class Attributes
+----------------
+
+.. py:attribute:: METRIC_LIST
+
+   List of binary-classification metrics tested by ``_chi_square_test``. Each metric is tested via a metric-specific 2-cell contingency table built by ``get_contingency_table``:
+
+   - ``Recall`` (``[TP, FN]``)
+   - ``Precision`` (``[TP, FP]``)
+   - ``Accuracy`` (``[TP+TN, FP+FN]``)
+   - ``F1 Score`` (``[TP, FP+FN]``)
+   - ``Specificity`` (``[TN, FP]``)
+   - ``FP Rate`` (``[FP, TN]``)
+   - ``FN Rate`` (``[FN, TP]``)
+   - ``Predicted Prevalence`` (``[TP+FP, TN+FN]``)
+
 Function Signatures
 -------------------
 
@@ -484,11 +504,21 @@ Function Signatures
 
     .. py:method:: calc_p_value_bootstrap(data: list, config: dict) -> float
 
-    .. py:method:: _chi_square_test(metrics: Dict[str, Any], config: Dict[str, Any]) -> StatTestResult
+    .. py:method:: _chi_square_test(metrics: Dict[str, Any], config: Dict[str, Any]) -> Dict[str, StatTestResult]
 
-    .. py:method:: _calculate_effect_size(metrics: Dict) -> float
+       Runs one chi-square test per metric in ``METRIC_LIST``, using a metric-specific 2-cell contingency table. Returns a dictionary keyed by metric name. Falls back to Fisher's exact test when Cochran's rule is violated on a 2x2 table.
+
+    .. py:method:: get_contingency_table(data: pd.DataFrame, metric: str) -> pd.DataFrame
+
+       Build the metric-specific 2-cell contingency table from a DataFrame of per-group confusion matrix counts. ``data`` is expected to have one row per group and columns ``TP``, ``FP``, ``TN``, ``FN``. ``metric`` must be one of the entries in ``METRIC_LIST``.
+
+    .. py:method:: _calculate_effect_size(metrics: Dict, metric: str) -> float
+
+       Compute Cramer's V on the same K x 2 contingency slice used by the chi-square test for the given metric.
 
     .. py:method:: _adjust_p_values(results: Dict[str, Dict[str, StatTestResult]], method: str, alpha: float, boot: bool = False) -> Dict[str, Dict[str, StatTestResult]]
+
+       Adjust p-values for multiple comparisons. For non-bootstrapped results, adjustment is applied per metric across pairwise (non-omnibus) groups only.
 
     .. py:method:: analyze_metrics(metrics_data: Union[Dict, List[Dict]], reference_group: str, test_config: Dict[str, Any], task: Optional[str] = None, differences: Optional[dict] = None) -> Dict[str, Dict[str, StatTestResult]]
 
@@ -498,7 +528,11 @@ Function Signatures
 
     .. py:method:: cohens_d(data_1, data_2)
 
+       Standardized mean difference: ``(mean(data_1) - mean(data_2)) / pooled_std``. Returns 0 when the pooled standard deviation is 0.
+
     .. py:method:: _analyze_single_metrics(metrics: Dict, reference_group: str, config: Dict[str, Any]) -> Dict[str, Dict[str, StatTestResult]]
+
+       Three-phase pipeline for non-bootstrapped metrics: (1) run the omnibus chi-square across all groups, (2) for each non-reference group, run a pairwise comparison against the reference (gated on any omnibus significance), (3) annotate effect sizes per (group, metric) where both the omnibus and the pairwise test are significant.
 
     .. py:method:: _analyze_bootstrapped_metrics(metrics_diff: list[Dict], reference_group: str, config: Dict[str, Any]) -> Dict[str, Dict[str, StatTestResult]]
 
@@ -529,6 +563,13 @@ Usage Example
       task="binary_classification",
   )
 
-  for group, result in results.items():
-      print(f"{group}: p-value={result.p_value}, significant={result.is_significant}")
-
+  # Results are nested: {outer_key: {metric_name: StatTestResult}}
+  # outer_key is either "omnibus" or a non-reference group name.
+  for outer_key, metric_results in results.items():
+      for metric, result in metric_results.items():
+          print(
+              f"{outer_key} / {metric}: "
+              f"p-value={result.p_value:.4f}, "
+              f"significant={result.is_significant}, "
+              f"test={result.test_name}"
+          )

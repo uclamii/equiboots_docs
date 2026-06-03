@@ -6,9 +6,9 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Point Estimate Evaluation &mdash; EquiBoots 0.0.1a1 documentation</title>
+  <title>Point Estimate Evaluation &mdash; EquiBoots 0.0.0a13 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
@@ -17,8 +17,8 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c51092a7"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/documentation_options.js?v=1677d8f4"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=a0ccc04e"></script>
@@ -101,7 +101,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#group-metrics-forest-plot">Group Metrics Forest Plot</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#eq_plot_metrics_forest"><code class="docutils literal notranslate"><span class="pre">eq_plot_metrics_forest()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example-1-prevalance">Example 1: Prevalance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-prevalence">Example 1: Prevalence</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#effect-size">Effect Size</a><ul>
@@ -110,8 +110,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#residual-based-point-estimates">Residual-Based Point Estimates</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#eq_plot_residuals_by_group"><code class="docutils literal notranslate"><span class="pre">eq_plot_residuals_by_group()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example-1-residuals-by-age-group-overlayed">Example 1: Residuals by Age Group (Overlayed)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example-2-residuals-by-age-group-subplots">Example 2: Residuals by Age Group (Subplots)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#residual-plot-examples">Residual Plot Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-1-residuals-by-age-group-overlayed">Example 1: Residuals by Age Group (Overlayed)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -132,6 +134,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html">Calibration Curves and Area Under the Curve</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html#regression-residuals">Regression Residuals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html#chi-square-tests-and-cochran-s-rule">Chi-Square Tests and Cochran’s Rule</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">iPython Notebooks</span></p>
 <ul>
@@ -244,6 +247,8 @@ performance metrics for each group. This step is critical for assessing whether
 model performance varies by group.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
 
+<span class="n">eq</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">])</span>
+
 <span class="n">sliced_race_data</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;race&quot;</span><span class="p">)</span>
 <span class="n">race_metrics</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">sliced_race_data</span><span class="p">)</span>
 
@@ -289,18 +294,19 @@ function to transform the dictionary into a clean, filterable DataFrame.</p>
 </dl>
 </dd></dl>
 
-<blockquote id="note">
-<div><ul class="simple">
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
 <li><p>This function is used after computing metrics using <code class="docutils literal notranslate"><span class="pre">eqb.get_metrics()</span></code>.</p></li>
 <li><p>It flattens nested group-wise dictionaries into a readable table, enabling easy subsetting, filtering, and export.</p></li>
 <li><p>Common use cases include displaying fairness-related metrics such as Accuracy, Precision, Recall, Specificity, Calibration AUC, and others across different sensitive attribute groups (e.g., race, sex).</p></li>
 </ul>
-</div></blockquote>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">metrics_dataframe()</span></code> function simplifies post-processing and reporting by converting the raw output of group-level metrics into a tabular format. Each row corresponds to a demographic group, and each column represents a different metric.</p>
 <p>Below is an example of how this function is used in practice to format metrics by race:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
 
-<span class="n">race_metrics_df</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">(</span><span class="n">metrics_data</span><span class="o">=</span><span class="n">race_metrics</span><span class="p">)</span>
+<span class="n">race_metrics_df</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">(</span><span class="n">metrics_data</span><span class="o">=</span><span class="p">[</span><span class="n">race_metrics</span><span class="p">])</span>
 <span class="n">race_metrics_df</span> <span class="o">=</span> <span class="n">race_metrics_df</span><span class="p">[</span>
     <span class="p">[</span>
         <span class="s2">&quot;attribute_value&quot;</span><span class="p">,</span>
@@ -348,38 +354,38 @@ font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 <tr>
     <td class="tg-8d8j">0</td>
     <td class="tg-2b7s">White</td>
-    <td class="tg-2b7s">0.853</td>
-    <td class="tg-2b7s">0.761</td>
-    <td class="tg-2b7s">0.638</td>
-    <td class="tg-2b7s">0.694</td>
-    <td class="tg-2b7s">0.929</td>
-    <td class="tg-2b7s">0.638</td>
+    <td class="tg-2b7s">0.855</td>
+    <td class="tg-2b7s">0.766</td>
+    <td class="tg-2b7s">0.645</td>
+    <td class="tg-2b7s">0.700</td>
+    <td class="tg-2b7s">0.930</td>
+    <td class="tg-2b7s">0.645</td>
     <td class="tg-2b7s">0.262</td>
-    <td class="tg-2b7s">0.040</td>
+    <td class="tg-2b7s">0.033</td>
 </tr>
 <tr>
     <td class="tg-8d8j">1</td>
     <td class="tg-2b7s">Black</td>
-    <td class="tg-2b7s">0.931</td>
-    <td class="tg-2b7s">0.861</td>
-    <td class="tg-2b7s">0.549</td>
-    <td class="tg-2b7s">0.670</td>
-    <td class="tg-2b7s">0.987</td>
-    <td class="tg-2b7s">0.549</td>
+    <td class="tg-2b7s">0.939</td>
+    <td class="tg-2b7s">0.915</td>
+    <td class="tg-2b7s">0.575</td>
+    <td class="tg-2b7s">0.707</td>
+    <td class="tg-2b7s">0.992</td>
+    <td class="tg-2b7s">0.575</td>
     <td class="tg-2b7s">0.128</td>
-    <td class="tg-2b7s">0.054</td>
+    <td class="tg-2b7s">0.122</td>
 </tr>
 <tr>
     <td class="tg-8d8j">2</td>
     <td class="tg-2b7s">Asian-Pac-Islander</td>
-    <td class="tg-2b7s">0.826</td>
-    <td class="tg-2b7s">0.760</td>
-    <td class="tg-2b7s">0.543</td>
-    <td class="tg-2b7s">0.633</td>
-    <td class="tg-2b7s">0.934</td>
-    <td class="tg-2b7s">0.543</td>
+    <td class="tg-2b7s">0.842</td>
+    <td class="tg-2b7s">0.788</td>
+    <td class="tg-2b7s">0.586</td>
+    <td class="tg-2b7s">0.672</td>
+    <td class="tg-2b7s">0.940</td>
+    <td class="tg-2b7s">0.586</td>
     <td class="tg-2b7s">0.277</td>
-    <td class="tg-2b7s">0.140</td>
+    <td class="tg-2b7s">0.121</td>
 </tr>
 <tr>
     <td class="tg-8d8j">3</td>
@@ -391,19 +397,19 @@ font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
     <td class="tg-2b7s">0.943</td>
     <td class="tg-2b7s">0.364</td>
     <td class="tg-2b7s">0.111</td>
-    <td class="tg-2b7s">0.323</td>
+    <td class="tg-2b7s">0.340</td>
 </tr>
 <tr>
     <td class="tg-8d8j">4</td>
     <td class="tg-2b7s">Other</td>
-    <td class="tg-2b7s">0.958</td>
+    <td class="tg-2b7s">0.972</td>
     <td class="tg-2b7s">1.000</td>
-    <td class="tg-2b7s">0.500</td>
     <td class="tg-2b7s">0.667</td>
+    <td class="tg-2b7s">0.800</td>
     <td class="tg-2b7s">1.000</td>
-    <td class="tg-2b7s">0.500</td>
+    <td class="tg-2b7s">0.667</td>
     <td class="tg-2b7s">0.083</td>
-    <td class="tg-2b7s">0.277</td>
+    <td class="tg-2b7s">0.247</td>
 </tr>
 </tbody></table></div><div style="height: 40px;"></div></section>
 <section id="statistical-tests">
@@ -414,7 +420,7 @@ This is particularly important when determining if disparities are due to random
 variation or reflect systematic bias.</p>
 <p>EquiBoots provides a method to conduct hypothesis testing across group-level metrics.
 The <code class="docutils literal notranslate"><span class="pre">analyze_statistical_significance</span></code> function performs appropriate statistical
-tests—such as Chi-square tests for classification tasks—while supporting multiple
+tests (such as Chi-square tests for classification tasks) while supporting multiple
 comparison adjustments.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="analyze_statistical_significance">
@@ -442,15 +448,15 @@ comparison adjustments.</p>
 <dd class="field-even"><p><p>A nested dictionary containing statistical test results for each metric, with each value being a <code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code> object that includes:</p>
 <ul class="simple">
 <li><p>test statistic</p></li>
-<li><p>raw and adjusted p-values</p></li>
+<li><p>raw and adjusted <em>p</em>-values</p></li>
 <li><p>confidence intervals</p></li>
 <li><p>significance flags (<code class="docutils literal notranslate"><span class="pre">True</span></code> / <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
-<li><p>effect sizes (e.g., Cohen’s d, rank-biserial correlation)</p></li>
+<li><p>effect sizes (Cramer’s V for chi-square; Cohen’s d for bootstrap, when enabled)</p></li>
 </ul>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference internal" href="equiboots_stats_classes.html#equiboots.StatisticalTester.StatTestResult" title="equiboots.StatisticalTester.StatTestResult">StatTestResult</a>]]</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference internal" href="equiboots_stats_classes.html#equiboots.StatisticalTester.StatTestResult" title="equiboots.StatisticalTester.StatTestResult">equiboots.StatisticalTester.StatTestResult</a>]]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">test_config</span></code> is not provided or is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
@@ -458,8 +464,7 @@ comparison adjustments.</p>
 </dl>
 </dd></dl>
 
-<p>This function returns a dictionary where each key is a metric name and the
-corresponding value is another dictionary mapping each group to its <code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code>.</p>
+<p>This function returns a nested dictionary where each outer key is either <code class="docutils literal notranslate"><span class="pre">&quot;omnibus&quot;</span></code> or a group name, and each inner value maps metric names to their <code class="docutils literal notranslate"><span class="pre">StatTestResult</span></code>.</p>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
 <p>The following example demonstrates how to configure and run these tests on
@@ -468,7 +473,6 @@ performance metrics for the <code class="docutils literal notranslate"><span cla
     <span class="s2">&quot;test_type&quot;</span><span class="p">:</span> <span class="s2">&quot;chi_square&quot;</span><span class="p">,</span>
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
     <span class="s2">&quot;adjust_method&quot;</span><span class="p">:</span> <span class="s2">&quot;bonferroni&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;confidence_level&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
     <span class="s2">&quot;classification_task&quot;</span><span class="p">:</span> <span class="s2">&quot;binary_classification&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="n">stat_test_results_race</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">analyze_statistical_significance</span><span class="p">(</span>
@@ -483,6 +487,14 @@ performance metrics for the <code class="docutils literal notranslate"><span cla
     <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="n">stat_test_results_sex</span><span class="p">,</span>
     <span class="s2">&quot;race&quot;</span><span class="p">:</span> <span class="n">stat_test_results_race</span><span class="p">,</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/StatisticalTester.py:187: UserWarning: Metric &#39;Recall&#39;: 30% of expected cell counts &lt; 5 (min expected = 2.17). Chi-square approximation may be unreliable for this 5 x 2 table per Cochran&#39;s rule. Consider Fisher&#39;s exact test.
+warnings.warn(
+/home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/StatisticalTester.py:187: UserWarning: Metric &#39;Precision&#39;: 30% of expected cell counts &lt; 5 (min expected = 0.92). Chi-square approximation may be unreliable for this 5 x 2 table per Cochran&#39;s rule. Consider Fisher&#39;s exact test.
+warnings.warn(
+/home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/StatisticalTester.py:187: UserWarning: Metric &#39;FN Rate&#39;: 30% of expected cell counts &lt; 5 (min expected = 2.17). Chi-square approximation may be unreliable for this 5 x 2 table per Cochran&#39;s rule. Consider Fisher&#39;s exact test.
+warnings.warn(
 </pre></div>
 </div>
 </section>
@@ -524,7 +536,7 @@ via omnibus and pairwise statistical tests.</p>
 <h1>Group Metrics Point Plot<a class="headerlink" href="#group-metrics-point-plot" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="eq_group_metrics_point_plot">
-<span class="sig-name descname"><span class="pre">eq_group_metrics_point_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab20c'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Point_Disparity_Metrics'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">2.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_pass_fail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leg_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistical_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plot_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_group_metrics_point_plot" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">eq_group_metrics_point_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab20c'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Point_Disparity_Metrics'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">2.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_pass_fail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leg_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistical_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plot_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eq_group_metrics_point_plot" title="Link to this definition"></a></dt>
 <dd><p>Creates a grid of point plots for visualizing metric values (or disparities) across sensitive groups and multiple categories (e.g., race, sex). Each subplot corresponds to one (metric, category) combination, and groups are colored or flagged based on significance or pass/fail criteria.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -542,6 +554,7 @@ via omnibus and pairwise statistical tests.</p>
 <li><p><strong>plot_thresholds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>]</em>) – A tuple (lower, upper) for pass/fail thresholds.</p></li>
 <li><p><strong>show_pass_fail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Whether to color points based on pass/fail evaluation rather than group color.</p></li>
 <li><p><strong>y_lim</strong> (tuple[float, float] or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Y-axis limits as a (min, max) tuple.</p></li>
+<li><p><strong>y_lims</strong> (dict[tuple[int, int], tuple[float, float]] or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Optional per-subplot y-axis override. Maps <code class="docutils literal notranslate"><span class="pre">(row_idx,</span> <span class="pre">col_idx)</span></code> tuples to <code class="docutils literal notranslate"><span class="pre">(min,</span> <span class="pre">max)</span></code> tuples. When provided, takes precedence over <code class="docutils literal notranslate"><span class="pre">y_lim</span></code> for the listed subplots; subplots not listed fall back to <code class="docutils literal notranslate"><span class="pre">y_lim</span></code>.</p></li>
 <li><p><strong>leg_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of columns in the group legend.</p></li>
 <li><p><strong>raw_metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Whether the input metrics are raw values (True) or already calculated disparities (False).</p></li>
 <li><p><strong>statistical_tests</strong> (dict or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Dictionary mapping categories to their statistical test results, used for annotating groups with significance markers.</p></li>
@@ -570,12 +583,12 @@ visualize point estimates along with statistical significance annotations:</p>
     <span class="n">statistical_tests</span><span class="o">=</span><span class="n">overall_stat_results</span><span class="p">,</span>
     <span class="n">show_pass_fail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">show_reference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">y_lims</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
+    <span class="n">y_lims</span><span class="o">=</span><span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/point_est_stats_metrics_by_race_and_sex.png"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/point_est_stats_metrics_by_race_and_sex.png" style="width: 550px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/Point_Disparity_Metrics.svg"><img alt="Statistically-Based Point Estimate Plot" class="align-center" src="_images/Point_Disparity_Metrics.svg" style="width: 850px;" />
 </a>
 <div style="height: 40px;"></div></div><p>The chart above summarizes how model performance varies across race and sex groups
 for three key metrics: <strong>Accuracy</strong>, <strong>Precision</strong>, and <strong>Recall</strong>.</p>
@@ -642,7 +655,7 @@ for three key metrics: <strong>Accuracy</strong>, <strong>Precision</strong>, an
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Table with metrics per group and statistical significance shown on</span>
 <span class="c1">## columns for omnibus and/or pairwise</span>
 
-<span class="n">stat_metrics_table_point</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">stat_metrics_table_point</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The resulting table displays one row per group and one column per metric. Symbols like <code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">▲</span></code> appear in the appropriate cells to indicate significance:</p>
@@ -673,115 +686,115 @@ font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 <tbody>
 <tr>
     <td class="tg-7zrl">Accuracy</td>
-    <td class="tg-2b7s">0.853</td>
-    <td class="tg-2b7s">0.931</td>
-    <td class="tg-2b7s">0.826</td>
+    <td class="tg-2b7s">0.855</td>
+    <td class="tg-2b7s">0.939</td>
+    <td class="tg-2b7s">0.842</td>
     <td class="tg-2b7s">0.879</td>
-    <td class="tg-2b7s">0.958</td>
+    <td class="tg-2b7s">0.972</td>
 </tr>
 <tr>
     <td class="tg-7zrl">Precision</td>
-    <td class="tg-2b7s">0.761</td>
-    <td class="tg-2b7s">0.861</td>
-    <td class="tg-2b7s">0.76</td>
+    <td class="tg-2b7s">0.766</td>
+    <td class="tg-2b7s">0.915</td>
+    <td class="tg-2b7s">0.788</td>
     <td class="tg-2b7s">0.444</td>
-    <td class="tg-2b7s">1</td>
+    <td class="tg-2b7s">1.000</td>
 </tr>
 <tr>
     <td class="tg-7zrl">Recall</td>
-    <td class="tg-2b7s">0.638</td>
-    <td class="tg-2b7s">0.549</td>
-    <td class="tg-2b7s">0.543</td>
+    <td class="tg-2b7s">0.645</td>
+    <td class="tg-2b7s">0.575</td>
+    <td class="tg-2b7s">0.586</td>
     <td class="tg-2b7s">0.364</td>
-    <td class="tg-2b7s">0.5</td>
-</tr>
-<tr>
-    <td class="tg-7zrl">F1 Score</td>
-    <td class="tg-2b7s">0.694</td>
-    <td class="tg-2b7s">0.67</td>
-    <td class="tg-2b7s">0.633</td>
-    <td class="tg-2b7s">0.4</td>
     <td class="tg-2b7s">0.667</td>
 </tr>
 <tr>
+    <td class="tg-7zrl">F1 Score</td>
+    <td class="tg-2b7s">0.700</td>
+    <td class="tg-2b7s">0.707</td>
+    <td class="tg-2b7s">0.672</td>
+    <td class="tg-2b7s">0.400</td>
+    <td class="tg-2b7s">0.800</td>
+</tr>
+<tr>
     <td class="tg-7zrl">Specificity</td>
-    <td class="tg-2b7s">0.929</td>
-    <td class="tg-2b7s">0.987</td>
-    <td class="tg-2b7s">0.934</td>
+    <td class="tg-2b7s">0.930</td>
+    <td class="tg-2b7s">0.992</td>
+    <td class="tg-2b7s">0.940</td>
     <td class="tg-2b7s">0.943</td>
-    <td class="tg-2b7s">1</td>
+    <td class="tg-2b7s">1.000</td>
 </tr>
 <tr>
     <td class="tg-7zrl">TP Rate</td>
-    <td class="tg-2b7s">0.638</td>
-    <td class="tg-2b7s">0.549</td>
-    <td class="tg-2b7s">0.543</td>
+    <td class="tg-2b7s">0.645</td>
+    <td class="tg-2b7s">0.575</td>
+    <td class="tg-2b7s">0.586</td>
     <td class="tg-2b7s">0.364</td>
-    <td class="tg-2b7s">0.5</td>
+    <td class="tg-2b7s">0.667</td>
 </tr>
 <tr>
     <td class="tg-7zrl">FP Rate</td>
-    <td class="tg-2b7s">0.071</td>
-    <td class="tg-2b7s">0.013</td>
-    <td class="tg-2b7s">0.066</td>
+    <td class="tg-2b7s">0.070</td>
+    <td class="tg-2b7s">0.008</td>
+    <td class="tg-2b7s">0.060</td>
     <td class="tg-2b7s">0.057</td>
-    <td class="tg-2b7s">0</td>
+    <td class="tg-2b7s">0.000</td>
 </tr>
 <tr>
     <td class="tg-7zrl">FN Rate</td>
-    <td class="tg-2b7s">0.362</td>
-    <td class="tg-2b7s">0.451</td>
-    <td class="tg-2b7s">0.457</td>
+    <td class="tg-2b7s">0.355</td>
+    <td class="tg-2b7s">0.425</td>
+    <td class="tg-2b7s">0.414</td>
     <td class="tg-2b7s">0.636</td>
-    <td class="tg-2b7s">0.5</td>
+    <td class="tg-2b7s">0.333</td>
 </tr>
 <tr>
     <td class="tg-7zrl">TN Rate</td>
-    <td class="tg-2b7s">0.929</td>
-    <td class="tg-2b7s">0.987</td>
-    <td class="tg-2b7s">0.934</td>
+    <td class="tg-2b7s">0.930</td>
+    <td class="tg-2b7s">0.992</td>
+    <td class="tg-2b7s">0.940</td>
     <td class="tg-2b7s">0.943</td>
-    <td class="tg-2b7s">1</td>
+    <td class="tg-2b7s">1.000</td>
 </tr>
 <tr>
     <td class="tg-7zrl">TP</td>
-    <td class="tg-2b7s">1375</td>
-    <td class="tg-2b7s">62</td>
-    <td class="tg-2b7s">38</td>
+    <td class="tg-2b7s">1390</td>
+    <td class="tg-2b7s">65</td>
+    <td class="tg-2b7s">41</td>
     <td class="tg-2b7s">4</td>
-    <td class="tg-2b7s">3</td>
+    <td class="tg-2b7s">4</td>
 </tr>
 <tr>
     <td class="tg-7zrl">FP</td>
-    <td class="tg-2b7s">432</td>
-    <td class="tg-2b7s">10</td>
-    <td class="tg-2b7s">12</td>
+    <td class="tg-2b7s">425</td>
+    <td class="tg-2b7s">6</td>
+    <td class="tg-2b7s">11</td>
     <td class="tg-2b7s">5</td>
     <td class="tg-2b7s">0</td>
 </tr>
 <tr>
     <td class="tg-7zrl">FN</td>
-    <td class="tg-2b7s">780</td>
-    <td class="tg-2b7s">51</td>
-    <td class="tg-2b7s">32</td>
+    <td class="tg-2b7s">765</td>
+    <td class="tg-2b7s">48</td>
+    <td class="tg-2b7s">29</td>
     <td class="tg-2b7s">7</td>
-    <td class="tg-2b7s">3</td>
+    <td class="tg-2b7s">2</td>
 </tr>
 <tr>
     <td class="tg-7zrl">TN</td>
-    <td class="tg-2b7s">5631</td>
-    <td class="tg-2b7s">760</td>
-    <td class="tg-2b7s">171</td>
+    <td class="tg-2b7s">5638</td>
+    <td class="tg-2b7s">764</td>
+    <td class="tg-2b7s">172</td>
     <td class="tg-2b7s">83</td>
     <td class="tg-2b7s">66</td>
 </tr>
 <tr>
     <td class="tg-7zrl">Predicted Prevalence</td>
-    <td class="tg-2b7s">0.22</td>
-    <td class="tg-2b7s">0.082</td>
-    <td class="tg-2b7s">0.198</td>
+    <td class="tg-2b7s">0.221</td>
+    <td class="tg-2b7s">0.080</td>
+    <td class="tg-2b7s">0.206</td>
     <td class="tg-2b7s">0.091</td>
-    <td class="tg-2b7s">0.042</td>
+    <td class="tg-2b7s">0.056</td>
 </tr>
 </tbody></table></div><div style="height: 40px;"></div></section>
 </section>
@@ -864,7 +877,7 @@ representation can be excluded using the <code class="docutils literal notransla
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="no-click"><a class="reference internal image-reference" href="_images/AUC_sliced_race_data.png"><img alt="ROC AUC Curve" class="align-center" src="_images/AUC_sliced_race_data.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/ROC_AUC_race_group.svg"><img alt="ROC AUC Curve" class="align-center" src="_images/ROC_AUC_race_group.svg" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div></section>
 <section id="precision-recall-curves">
@@ -879,9 +892,9 @@ representation can be excluded using the <code class="docutils literal notransla
 <span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/PR_sliced_race_data.png"><img alt="Precision-Recall Curves" class="align-center" src="_images/PR_sliced_race_data.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/PR_race_group.svg"><img alt="Precision-Recall Curves" class="align-center" src="_images/PR_race_group.svg" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div></section>
+<div style="height: 40px;"></div></div></section>
 <section id="calibration-plots">
 <h2>Calibration Plots<a class="headerlink" href="#calibration-plots" title="Link to this heading"></a></h2>
 <p>Calibration plots compare predicted probabilities to actual outcomes, showing
@@ -907,7 +920,7 @@ calibration performance.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_by_sliced_race_data.png"><img alt="Calibration Plot Overlay" class="align-center" src="_images/calibration_by_sliced_race_data.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_race_group.svg"><img alt="Calibration Plot Overlay" class="align-center" src="_images/calibration_race_group.svg" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div></section>
 <section id="example-2-calibration-subplots">
@@ -927,12 +940,12 @@ allowing easier inspection of group-specific trends.</p>
     <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">shade_area</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">n_cols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Other&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_subplots_by_sliced_race_data.png"><img alt="Calibration Subplots" class="align-center" src="_images/calibration_subplots_by_sliced_race_data.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_race_group_subplots.svg"><img alt="Calibration Subplots" class="align-center" src="_images/calibration_race_group_subplots.svg" style="width: 650px;" />
 </a>
 <div style="height: 40px;"></div></div><div style="height: 40px;"></div></section>
 <section id="example-3-lowess-calibration">
@@ -956,12 +969,12 @@ via <code class="docutils literal notranslate"><span class="pre">lowess_kwargs</
     <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">lowess</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
     <span class="n">lowess_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidth&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">},</span>
-    <span class="n">n_cols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Other&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_lowess_by_sliced_race_data.png"><img alt="LOWESS-smoothed Calibration Subplots" class="align-center" src="_images/calibration_lowess_by_sliced_race_data.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_race_group_lowess.svg"><img alt="LOWESS-smoothed Calibration Subplots" class="align-center" src="_images/calibration_race_group_lowess.svg" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div><p>LOWESS produces smoother and more flexible calibration curves compared to binning.
 It is particularly useful for identifying subtle trends in over or under-confidence
@@ -987,13 +1000,14 @@ probability intervals.</p>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Calibration by Race Group&quot;</span><span class="p">,</span>
     <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Other&quot;</span><span class="p">]</span>
+    <span class="n">exclude_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Other&quot;</span><span class="p">],</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">plot_hist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_hist_by_sliced_race_data.png"><img alt="Calibration Curve with Histogram Overlay" class="align-center" src="_images/calibration_hist_by_sliced_race_data.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/calibration_race_group_hist.svg"><img alt="Calibration Curve with Histogram Overlay" class="align-center" src="_images/calibration_race_group_hist.svg" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div><p>The <strong>histogram bars</strong> at the base of the plot show how frequently predictions fall into each probability bin, grouped by demographic subgroup. This combined view helps validate whether deviations from the ideal diagonal are meaningful and well-supported by the underlying data.</p>
 <p>For instance, if a group appears poorly calibrated in a region where very few predictions occur, the issue may be less impactful than one affecting densely populated bins. This visual diagnostic is especially valuable when auditing model behavior across real-world deployment scenarios.</p>
@@ -1039,8 +1053,8 @@ or any subgroup dictionary produced by <code class="docutils literal notranslate
 </div>
 <p>Once tests are computed, the <code class="docutils literal notranslate"><span class="pre">eq_plot_metrics_forest</span></code> function can
 visualize point estimates along with statistical annotations:</p>
-<section id="example-1-prevalance">
-<h2>Example 1: Prevalance<a class="headerlink" href="#example-1-prevalance" title="Link to this heading"></a></h2>
+<section id="example-1-prevalence">
+<h2>Example 1: Prevalence<a class="headerlink" href="#example-1-prevalence" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_metrics_forest</span><span class="p">(</span>
     <span class="n">group_metrics</span><span class="o">=</span><span class="n">race_metrics</span><span class="p">,</span>
     <span class="n">metric_name</span><span class="o">=</span><span class="s2">&quot;Prevalence&quot;</span><span class="p">,</span>
@@ -1054,17 +1068,18 @@ visualize point estimates along with statistical annotations:</p>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/prev_forest_point_est_race.png"><img alt="Forest Plot of Group Metrics" class="align-center" src="_images/prev_forest_point_est_race.png" style="width: 550px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/forest_plot_race_group.svg"><img alt="Forest Plot of Group Metrics" class="align-center" src="_images/forest_plot_race_group.svg" style="width: 600px;" />
 </a>
 <div style="height: 40px;"></div></div></section>
 </section>
 <section id="effect-size">
 <h1>Effect Size<a class="headerlink" href="#effect-size" title="Link to this heading"></a></h1>
-<p>EquiBoots also calculates effect size when working with point estimates.
-Effect size helps quantify the strength of the relationship or difference, beyond
-just whether it is statistically significant. For example, in one analysis we observed
-that all effect sizes were low (under 0.2), with the highest being 0.11. This suggests
-that while statistical significance was found, the findings were not necessarily strong.</p>
+<p>Effect size helps quantify the strength of a relationship or difference, beyond
+just whether it is statistically significant. For example, if a chi-square test
+detects significant disparity across groups but the corresponding Cramer’s V
+values all fall under 0.2, the findings are statistically real but small in magnitude.
+Conversely, a Cramer’s V above 0.6 would indicate a strong effect even if the omnibus
+<em>p</em>-value is borderline.</p>
 <p>According to <a class="reference external" href="https://www.ibm.com/docs/en/cognos-analytics/12.0.x">IBM Cognos documentation</a>,
 for Cramer’s V:</p>
 <ul class="simple">
@@ -1099,26 +1114,24 @@ and horizontal reference lines are added at 0.2 and 0.6 to guide interpretation
 
 <span class="c1"># Assume stat_results is a dict of group -&gt; test results with .effect_size</span>
 <span class="n">plot_effect_sizes</span><span class="p">(</span>
-    <span class="n">stat_test_results</span><span class="o">=</span><span class="n">stat_results</span><span class="p">,</span>
+    <span class="n">stat_test_results</span><span class="o">=</span><span class="n">stat_test_results_race</span><span class="p">,</span>
     <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Attribute&quot;</span><span class="p">,</span>
     <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Effect size&quot;</span><span class="p">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Effect Sizes by Group&quot;</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
     <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./images&quot;</span><span class="p">,</span>
-    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;effect_sizes_demo&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/race_effect_size.png"><img alt="Effect Size Bar Plot" class="align-center" src="_images/race_effect_size.png" style="width: 700px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/race_effect_sizes_demo.svg"><img alt="Effect Size Bar Plot" class="align-center" src="_images/race_effect_sizes_demo.svg" style="width: 700px;" />
 </a>
 <div style="height: 40px;"></div></div></section>
 <section id="residual-based-point-estimates">
 <h1>Residual-Based Point Estimates<a class="headerlink" href="#residual-based-point-estimates" title="Link to this heading"></a></h1>
 <p>In regression tasks, <strong>residuals</strong> represent the difference between observed values and model predictions.
 A detailed explanation of the underlying formulas and metrics is provided in the
-<a class="reference internal" href="mathematical_framework.html#regression-residual-math"><span class="std std-ref">regression residuals</span></a> section of the Mathemtical Framework.</p>
+<a class="reference internal" href="mathematical_framework.html#regression-residual-math"><span class="std std-ref">regression residuals</span></a> section of the Mathematical Framework.</p>
 <p>To visualize how these residuals vary across sensitive groups (e.g., race, sex, age group), you can use the following function:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="eq_plot_residuals_by_group">
@@ -1158,52 +1171,100 @@ When <code class="docutils literal notranslate"><span class="pre">show_centroids
 This helps identify whether a group is systematically over- or under-predicted.
 Centroids offer directional insight but do not reflect the full distribution or spread of residuals within a group.</p>
 </div>
+<section id="residual-plot-examples">
+<h2>Residual Plot Examples<a class="headerlink" href="#residual-plot-examples" title="Link to this heading"></a></h2>
 <p>This section demonstrates how to visualize group-level residuals using the
 <a class="reference internal" href="#eq_plot_residuals_by_group" title="eq_plot_residuals_by_group"><code class="xref py py-func docutils literal notranslate"><span class="pre">eq_plot_residuals_by_group()</span></code></a> function from the EquiBoots package.</p>
 <p>We use the <strong>UCI Student Performance dataset</strong> <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, which contains academic, demographic, and behavioral data from Portuguese secondary school students.
 The goal is to evaluate how model residuals vary across sensitive groups when predicting final grades using a linear regression model.</p>
+<p>The setup below loads the dataset, trains a baseline linear regression model on the final grade <code class="docutils literal notranslate"><span class="pre">G3</span></code>, builds a fairness DataFrame with a binned <code class="docutils literal notranslate"><span class="pre">age_group</span></code>, and slices residuals by that group. The resulting <code class="docutils literal notranslate"><span class="pre">sliced_age_data</span></code> is what gets passed into the plotting examples that follow.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>ucimlrepo
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ucimlrepo</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_ucirepo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">equiboots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqb</span>
+
+<span class="c1"># Load dataset (UCI ID 320 = Student Performance)</span>
+<span class="n">student</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">320</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">student</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">student</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+
+<span class="c1"># Target: final grade G3. Drop G1, G2 to avoid trivial leakage.</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;G3&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;G1&quot;</span><span class="p">,</span> <span class="s2">&quot;G2&quot;</span><span class="p">,</span> <span class="s2">&quot;G3&quot;</span><span class="p">])</span>
+
+<span class="c1"># Encode string columns</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+
+<span class="c1"># Train-test split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Fit linear regression</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># Bin age into groups for fairness slicing</span>
+<span class="n">age_group</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span>
+    <span class="n">X_test</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+    <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;15-16&quot;</span><span class="p">,</span> <span class="s2">&quot;17-18&quot;</span><span class="p">,</span> <span class="s2">&quot;19&quot;</span><span class="p">],</span>
+    <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">include_lowest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">)</span>
+
+<span class="c1"># Build fairness DataFrame</span>
+<span class="n">fairness_df</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;Pstatus&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fairness_df</span><span class="p">[</span><span class="s2">&quot;age_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">age_group</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Initialize EquiBoots in regression mode</span>
+<span class="n">eq</span> <span class="o">=</span> <span class="n">eqb</span><span class="o">.</span><span class="n">EquiBoots</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+    <span class="n">fairness_df</span><span class="o">=</span><span class="n">fairness_df</span><span class="p">,</span>
+    <span class="n">fairness_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;Pstatus&quot;</span><span class="p">,</span> <span class="s2">&quot;age_group&quot;</span><span class="p">],</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">eq</span><span class="o">.</span><span class="n">grouper</span><span class="p">(</span><span class="n">groupings_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;Pstatus&quot;</span><span class="p">,</span> <span class="s2">&quot;age_group&quot;</span><span class="p">])</span>
+
+<span class="c1"># Slice residuals by age group</span>
+<span class="n">sliced_age_data</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="s2">&quot;age_group&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Groups created
+/home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/EquiBootsClass.py:99: UserWarning: Group &#39;19+&#39; for variable &#39;age_group&#39; has less than 10 samples. Skipping category of this group.
+warnings.warn(
+/home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/EquiBootsClass.py:332: UserWarning: Group &#39;19+&#39; for variable &#39;age_group&#39; has less than 10 samples. Skipping catategory of this group.
+warnings.warn(
+</pre></div>
+</div>
 <section id="example-1-residuals-by-age-group-overlayed">
-<h2>Example 1: Residuals by Age Group (Overlayed)<a class="headerlink" href="#example-1-residuals-by-age-group-overlayed" title="Link to this heading"></a></h2>
+<h3>Example 1: Residuals by Age Group (Overlayed)<a class="headerlink" href="#example-1-residuals-by-age-group-overlayed" title="Link to this heading"></a></h3>
 <p>The following example shows residuals plotted across age groups in a single overlayed axis.
 This allows for visual comparison of prediction errors across subgroups, with centroids included to indicate average residual positions.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_residuals_by_group</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">sliced_age_data</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Residuals by Age Group&quot;</span><span class="p">,</span>
-    <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-    <span class="n">show_centroids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/regression_residuals_overlayed.png"><img alt="Regression Residuals Overlayed" class="align-center" src="_images/regression_residuals_overlayed.png" style="width: 600px;" />
-</a>
-<div style="height: 40px;"></div><p>The output shows all groups together for side-by-side visual inspection of error spread and potential bias.
-To separate groups into distinct plots, use <code class="docutils literal notranslate"><span class="pre">subplots=True</span></code>.</p>
-</section>
-<section id="example-2-residuals-by-age-group-subplots">
-<h2>Example 2: Residuals by Age Group (Subplots)<a class="headerlink" href="#example-2-residuals-by-age-group-subplots" title="Link to this heading"></a></h2>
-<p>In this example, we create separate subplots for each age group to facilitate
-individual analysis. This is particularly useful when the number of groups is large,
-as it prevents overcrowding in a single plot.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eqb</span><span class="o">.</span><span class="n">eq_plot_residuals_by_group</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">sliced_age_data</span><span class="p">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Residuals by Age Group (Subplots)&quot;</span><span class="p">,</span>
     <span class="n">color_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
     <span class="n">show_centroids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">n_cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">n_rows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">n_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
-<div class="no-click"><a class="reference internal image-reference" href="_images/regression_residuals_subplots.png"><img alt="Regression Residuals by Age Group (Subplots)" class="align-center" src="_images/regression_residuals_subplots.png" style="width: 600px;" />
+<div class="no-click"><a class="reference internal image-reference" href="_images/residuals_by_age_group_subplots.svg"><img alt="Regression Residuals by Age Group (Subplots)" class="align-center" src="_images/residuals_by_age_group_subplots.svg" style="width: 600px;" />
 </a>
-<div style="height: 40px;"></div><p>The output displays each age group’s residuals in its own subplot, allowing for a more granular examination of prediction errors. This layout can help identify specific groups that may require further investigation or targeted interventions.</p>
+<div style="height: 40px;"></div></div><p>The output displays each age group’s residuals in its own subplot, allowing for a more granular examination of prediction errors. This layout can help identify specific groups that may require further investigation or targeted interventions.</p>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1215,6 +1276,7 @@ as it prevents overcrowding in a single plot.</p>
 <a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/student+performance">https://archive.ics.uci.edu/ml/datasets/student+performance</a></p>
 </aside>
 </aside>
+</section>
 </section>
 </section>
 

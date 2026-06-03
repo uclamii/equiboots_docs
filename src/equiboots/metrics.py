@@ -16,6 +16,7 @@ from sklearn.metrics import (
     r2_score,
     explained_variance_score,
     mean_squared_log_error,
+    get_scorer,
 )
 
 from sklearn.calibration import calibration_curve
@@ -33,7 +34,85 @@ except ImportError:  # < 1.4
 # ------------------------------------------------------------------------------
 
 from sklearn.preprocessing import MultiLabelBinarizer
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, List, Dict, Tuple, Iterable
+
+
+SCORE_MAP = {
+    "Accuracy": "accuracy",
+    "Precision": "precision",
+    "Recall": "recall",
+    "F1 Score": "f1",
+    "Specificity": None,
+    "TP Rate": None,
+    "FP Rate": None,
+    "FN Rate": None,
+    "TN Rate": None,
+    "TP": None,
+    "FP": None,
+    "FN": None,
+    "TN": None,
+    "Prevalence": None,
+    "Predicted Prevalence": None,
+    "ROC AUC": "roc_auc",
+    "Average Precision Score": "average_precision",
+    "Log Loss": "neg_log_loss",
+    "Brier Score": "brier_score_loss",
+    "Calibration AUC": None,   # custom handled below
+}
+
+CONFUSION_METRICS = {
+    "TP", "FP", "FN", "TN",
+    "TP Rate", "FP Rate", "FN Rate", "TN Rate",
+    "Specificity",
+    "Prevalence",
+    "Predicted Prevalence",
+}
+
+CUSTOM_PROBA_METRICS = {
+    "Calibration AUC",
+}
+
+def fast_confusion_counts(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+) -> tuple[int, int, int, int]:
+    """
+    Fast confusion-matrix counts using pure NumPy.
+
+    Returns
+    -------
+    tn, fp, fn, tp
+    """
+    y_true = y_true.astype(bool)
+    y_pred = y_pred.astype(bool)
+
+    tp = np.sum(y_true & y_pred)
+    tn = np.sum(~y_true & ~y_pred)
+    fp = np.sum(~y_true & y_pred)
+    fn = np.sum(y_true & ~y_pred)
+
+    return tn, fp, fn, tp
+
+
+def _confusion_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    tn, fp, fn, tp = fast_confusion_counts(y_true, y_pred)
+
+    tp_fn = tp + fn
+    fp_tn = fp + tn
+
+    return {
+        "TP": tp,
+        "FP": fp,
+        "FN": fn,
+        "TN": tn,
+        "TP Rate": tp / tp_fn if tp_fn > 0 else 0.0,
+        "FP Rate": fp / fp_tn if fp_tn > 0 else 0.0,
+        "FN Rate": fn / tp_fn if tp_fn > 0 else 0.0,
+        "TN Rate": tn / fp_tn if fp_tn > 0 else 0.0,
+        "Specificity": tn / (tn + fp) if (tn + fp) > 0 else 0.0,
+        "Prevalence": np.mean(y_true),
+        "Predicted Prevalence": np.mean(y_pred),
+    }
 
 
 def binary_classification_metrics(
@@ -91,6 +170,105 @@ def binary_classification_metrics(
             }
         )
     return metrics
+
+
+def _score_with_scorer(
+    metric_name: str,
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    y_proba: Optional[np.ndarray] = None,
+) -> float:
+    """
+    Compute one metric given raw arrays by introspecting a sklearn Scorer.
+
+    This follows sklearn's scorer pattern so we don't hardcode which metrics
+    need probabilities vs. thresholds vs. predictions.
+    """
+
+
+
+    scorer = get_scorer(metric_name)  # raises KeyError if unknown
+
+    # Access Scorer internals (stable enough across recent sklearn versions)
+    score_func = getattr(scorer, "_score_func", None)
+    needs_proba = getattr(scorer, "_needs_proba", False)
+    needs_threshold = getattr(scorer, "_needs_threshold", False)
+    kwargs = getattr(scorer, "_kwargs", {}) or {}
+    sign = getattr(scorer, "_sign", 1)
+
+    if score_func is None:
+        raise ValueError(f"Scorer for '{metric_name}' has no _score_func.")
+
+    if needs_proba:
+        if y_proba is None:
+            raise ValueError(
+                f"Metric '{metric_name}' requires probabilities (y_proba)."
+            )
+        y_score = y_proba
+        if y_proba.ndim == 2 and y_proba.shape[1] == 2:
+            y_score = y_proba[:, 1]
+        score = score_func(y_true, y_score, **kwargs)
+
+    else:
+        # Pure label-based metrics (accuracy, precision, recall, f1, etc.)
+        score = score_func(y_true, y_pred, **kwargs)
+
+    return float(sign * score)
+
+def get_custom_metrics(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    metric_list: Iterable[str],
+    y_proba: Optional[np.ndarray] = None,
+) -> Dict[str, float]:
+
+    results: Dict[str, float] = {}
+
+    metric_set = set(metric_list)
+
+    # ---- Decide what we need up front ----
+    needs_confusion = bool(metric_set & CONFUSION_METRICS)
+    needs_custom_proba = bool(metric_set & CUSTOM_PROBA_METRICS)
+
+    cm_metrics: Dict[str, float] = {}
+    if needs_confusion:
+        cm_metrics = _confusion_metrics(y_true, y_pred)
+
+    for display_name in metric_list:
+        try:
+            # 1. Confusion-matrix metrics
+            if display_name in CONFUSION_METRICS:
+                results[display_name] = cm_metrics.get(display_name, np.nan)
+                continue
+
+            # 2. Custom probability-based metrics
+            if display_name == "Calibration AUC":
+                if y_proba is None:
+                    results[display_name] = np.nan
+                else:
+                    prob_true, prob_pred = calibration_curve(
+                        y_true, y_proba, n_bins=10
+                    )
+                    results[display_name] = calibration_auc(prob_pred, prob_true)
+                continue
+
+            # 3. Sklearn scorers (via score_map)
+            scorer_name = SCORE_MAP.get(display_name)
+            if scorer_name is None:
+                results[display_name] = np.nan
+                continue
+
+            results[display_name] = _score_with_scorer(
+                scorer_name, y_true, y_pred, y_proba
+            )
+
+        except KeyError:
+            results[display_name] = np.nan
+        except ValueError:
+            results[display_name] = np.nan
+
+
+    return results
 
 
 def multi_class_prevalence(
@@ -173,6 +351,53 @@ def multi_class_classification_metrics(
         )
 
     return metrics
+
+
+def calculate_bootstrap_stats(
+    group_boot_metrics: List[Dict], metric: str
+) -> pd.DataFrame:
+    """
+    Calculate mean and 95% CI for a specific metric across all groups and bootstrap samples.
+
+    Parameters:
+    group_boot_metrics: List of nested dictionaries containing bootstrap samples
+    metric: String name of the metric to analyze (e.g., 'Accuracy', 'Precision')
+
+    Returns:
+    DataFrame with columns: group, mean, ci_lower, ci_upper, std
+    """
+
+    # Get all group names from first sample
+    groups = list(group_boot_metrics[0].keys())
+
+    results = []
+
+    for group in groups:
+        # Extract all values for this metric and group across bootstrap samples
+        values = []
+        for sample in group_boot_metrics:
+            if group in sample and metric in sample[group]:
+                values.append(sample[group][metric])
+
+        if values:  # If we have data for this group
+            values = np.array(values)
+            mean_val = np.mean(values)
+            std_val = np.std(values)
+            ci_lower = np.percentile(values, 2.5)
+            ci_upper = np.percentile(values, 97.5)
+
+            results.append(
+                {
+                    "group": group,
+                    "mean": mean_val,
+                    "ci_lower": ci_lower,
+                    "ci_upper": ci_upper,
+                    "std": std_val,
+                    "n_samples": len(values),
+                }
+            )
+
+    return pd.DataFrame(results)
 
 
 def multi_label_classification_metrics(

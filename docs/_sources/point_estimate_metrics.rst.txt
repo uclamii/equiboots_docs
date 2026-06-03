@@ -109,6 +109,8 @@ model performance varies by group.
 
     import equiboots as eqb
 
+    eq.grouper(groupings_vars=["race", "sex"])  
+
     sliced_race_data = eq.slicer("race")
     race_metrics = eq.get_metrics(sliced_race_data)
 
@@ -149,7 +151,7 @@ To keep the table concise and relevant, we subset the DataFrame to include only 
     :returns: A tidy DataFrame with one row per group and one column per metric. The group names are stored in the ``attribute_value`` column.
     :rtype: pd.DataFrame
 
-.. _note:
+.. note::
 
     - This function is used after computing metrics using ``eqb.get_metrics()``.
     - It flattens nested group-wise dictionaries into a readable table, enabling easy subsetting, filtering, and export.
@@ -163,7 +165,7 @@ Below is an example of how this function is used in practice to format metrics b
 
     import equiboots as eqb
 
-    race_metrics_df = eqb.metrics_dataframe(metrics_data=race_metrics)
+    race_metrics_df = eqb.metrics_dataframe(metrics_data=[race_metrics])
     race_metrics_df = race_metrics_df[
         [
             "attribute_value",
@@ -214,38 +216,38 @@ This yields a structured and readable table of group-level performance for use i
     <tr>
         <td class="tg-8d8j">0</td>
         <td class="tg-2b7s">White</td>
-        <td class="tg-2b7s">0.853</td>
-        <td class="tg-2b7s">0.761</td>
-        <td class="tg-2b7s">0.638</td>
-        <td class="tg-2b7s">0.694</td>
-        <td class="tg-2b7s">0.929</td>
-        <td class="tg-2b7s">0.638</td>
+        <td class="tg-2b7s">0.855</td>
+        <td class="tg-2b7s">0.766</td>
+        <td class="tg-2b7s">0.645</td>
+        <td class="tg-2b7s">0.700</td>
+        <td class="tg-2b7s">0.930</td>
+        <td class="tg-2b7s">0.645</td>
         <td class="tg-2b7s">0.262</td>
-        <td class="tg-2b7s">0.040</td>
+        <td class="tg-2b7s">0.033</td>
     </tr>
     <tr>
         <td class="tg-8d8j">1</td>
         <td class="tg-2b7s">Black</td>
-        <td class="tg-2b7s">0.931</td>
-        <td class="tg-2b7s">0.861</td>
-        <td class="tg-2b7s">0.549</td>
-        <td class="tg-2b7s">0.670</td>
-        <td class="tg-2b7s">0.987</td>
-        <td class="tg-2b7s">0.549</td>
+        <td class="tg-2b7s">0.939</td>
+        <td class="tg-2b7s">0.915</td>
+        <td class="tg-2b7s">0.575</td>
+        <td class="tg-2b7s">0.707</td>
+        <td class="tg-2b7s">0.992</td>
+        <td class="tg-2b7s">0.575</td>
         <td class="tg-2b7s">0.128</td>
-        <td class="tg-2b7s">0.054</td>
+        <td class="tg-2b7s">0.122</td>
     </tr>
     <tr>
         <td class="tg-8d8j">2</td>
         <td class="tg-2b7s">Asian-Pac-Islander</td>
-        <td class="tg-2b7s">0.826</td>
-        <td class="tg-2b7s">0.760</td>
-        <td class="tg-2b7s">0.543</td>
-        <td class="tg-2b7s">0.633</td>
-        <td class="tg-2b7s">0.934</td>
-        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.842</td>
+        <td class="tg-2b7s">0.788</td>
+        <td class="tg-2b7s">0.586</td>
+        <td class="tg-2b7s">0.672</td>
+        <td class="tg-2b7s">0.940</td>
+        <td class="tg-2b7s">0.586</td>
         <td class="tg-2b7s">0.277</td>
-        <td class="tg-2b7s">0.140</td>
+        <td class="tg-2b7s">0.121</td>
     </tr>
     <tr>
         <td class="tg-8d8j">3</td>
@@ -257,19 +259,19 @@ This yields a structured and readable table of group-level performance for use i
         <td class="tg-2b7s">0.943</td>
         <td class="tg-2b7s">0.364</td>
         <td class="tg-2b7s">0.111</td>
-        <td class="tg-2b7s">0.323</td>
+        <td class="tg-2b7s">0.340</td>
     </tr>
     <tr>
         <td class="tg-8d8j">4</td>
         <td class="tg-2b7s">Other</td>
-        <td class="tg-2b7s">0.958</td>
+        <td class="tg-2b7s">0.972</td>
         <td class="tg-2b7s">1.000</td>
-        <td class="tg-2b7s">0.500</td>
         <td class="tg-2b7s">0.667</td>
+        <td class="tg-2b7s">0.800</td>
         <td class="tg-2b7s">1.000</td>
-        <td class="tg-2b7s">0.500</td>
+        <td class="tg-2b7s">0.667</td>
         <td class="tg-2b7s">0.083</td>
-        <td class="tg-2b7s">0.277</td>
+        <td class="tg-2b7s">0.247</td>
     </tr>
     </tbody></table></div>
 
@@ -287,7 +289,7 @@ variation or reflect systematic bias.
 
 EquiBoots provides a method to conduct hypothesis testing across group-level metrics. 
 The ``analyze_statistical_significance`` function performs appropriate statistical 
-tests—such as Chi-square tests for classification tasks—while supporting multiple 
+tests (such as Chi-square tests for classification tasks) while supporting multiple 
 comparison adjustments.
 
 .. function:: analyze_statistical_significance(metric_dict, var_name, test_config, differences=None)
@@ -318,18 +320,17 @@ comparison adjustments.
     :returns: A nested dictionary containing statistical test results for each metric, with each value being a ``StatTestResult`` object that includes:
         
         - test statistic
-        - raw and adjusted p-values
+        - raw and adjusted *p*-values
         - confidence intervals
         - significance flags (``True`` / ``False``)
-        - effect sizes (e.g., Cohen’s d, rank-biserial correlation)
+        - effect sizes (Cramer's V for chi-square; Cohen's d for bootstrap, when enabled)
 
-    :rtype: Dict[str, Dict[str, StatTestResult]]
+    :rtype: Dict[str, Dict[str, equiboots.StatisticalTester.StatTestResult]]
 
     :raises ValueError: If ``test_config`` is not provided or is ``None``.
 
 
-This function returns a dictionary where each key is a metric name and the 
-corresponding value is another dictionary mapping each group to its ``StatTestResult``.
+This function returns a nested dictionary where each outer key is either ``"omnibus"`` or a group name, and each inner value maps metric names to their ``StatTestResult``.
 
 Example
 ~~~~~~~~~~~
@@ -343,7 +344,6 @@ performance metrics for the ``race`` and ``sex`` subgroups:
         "test_type": "chi_square",
         "alpha": 0.05,
         "adjust_method": "bonferroni",
-        "confidence_level": 0.95,
         "classification_task": "binary_classification",
     }
     stat_test_results_race = eq.analyze_statistical_significance(
@@ -359,6 +359,14 @@ performance metrics for the ``race`` and ``sex`` subgroups:
         "race": stat_test_results_race,
     }
 
+.. code:: text
+
+    /home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/StatisticalTester.py:187: UserWarning: Metric 'Recall': 30% of expected cell counts < 5 (min expected = 2.17). Chi-square approximation may be unreliable for this 5 x 2 table per Cochran's rule. Consider Fisher's exact test.
+    warnings.warn(
+    /home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/StatisticalTester.py:187: UserWarning: Metric 'Precision': 30% of expected cell counts < 5 (min expected = 0.92). Chi-square approximation may be unreliable for this 5 x 2 table per Cochran's rule. Consider Fisher's exact test.
+    warnings.warn(
+    /home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/StatisticalTester.py:187: UserWarning: Metric 'FN Rate': 30% of expected cell counts < 5 (min expected = 2.17). Chi-square approximation may be unreliable for this 5 x 2 table per Cochran's rule. Consider Fisher's exact test.
+    warnings.warn(
 
 Statistical Significance Plots
 --------------------------------
@@ -395,8 +403,8 @@ Test Setup
 Group Metrics Point Plot
 ================================
 
-.. function:: eq_group_metrics_point_plot(group_metrics, metric_cols, category_names, include_legend=True, cmap='tab20c', save_path=None, filename='Point_Disparity_Metrics', strict_layout=True, figsize=None, show_grid=True, plot_thresholds=(0.0, 2.0), show_pass_fail=False, y_lim=None, leg_cols=3, raw_metrics=False, statistical_tests=None, show_reference=True, **plot_kwargs)
-
+.. function:: eq_group_metrics_point_plot(group_metrics, metric_cols, category_names, include_legend=True, cmap='tab20c', save_path=None, filename='Point_Disparity_Metrics', strict_layout=True, figsize=None, show_grid=True, plot_thresholds=(0.0, 2.0), show_pass_fail=False, y_lim=None, leg_cols=3, raw_metrics=False, statistical_tests=None, show_reference=True, y_lims=None, **plot_kwargs)
+   
    Creates a grid of point plots for visualizing metric values (or disparities) across sensitive groups and multiple categories (e.g., race, sex). Each subplot corresponds to one (metric, category) combination, and groups are colored or flagged based on significance or pass/fail criteria.
 
    :param group_metrics: A list of dictionaries where each dictionary maps group names to their respective metric values for one category.
@@ -438,6 +446,9 @@ Group Metrics Point Plot
    :param y_lim: Y-axis limits as a (min, max) tuple.
    :type y_lim: tuple[float, float] or ``None``
 
+   :param y_lims: Optional per-subplot y-axis override. Maps ``(row_idx, col_idx)`` tuples to ``(min, max)`` tuples. When provided, takes precedence over ``y_lim`` for the listed subplots; subplots not listed fall back to ``y_lim``.
+   :type y_lims: dict[tuple[int, int], tuple[float, float]] or ``None``
+
    :param leg_cols: Number of columns in the group legend.
    :type leg_cols: int
 
@@ -476,7 +487,7 @@ visualize point estimates along with statistical significance annotations:
         statistical_tests=overall_stat_results,
         show_pass_fail=False,
         show_reference=False,
-        y_lims = {(0,0): (0.70, 1.0), (0,1): (0.70, 1.0)}
+        y_lims={(0, 0): (0.70, 1.0), (0, 1): (0.70, 1.0)}
     )
 
 **Output**
@@ -485,10 +496,10 @@ visualize point estimates along with statistical significance annotations:
 
    <div class="no-click">
 
-.. image:: ../assets/point_est_stats_metrics_by_race_and_sex.png
+.. image:: ../assets/Point_Disparity_Metrics.svg
    :alt: Statistically-Based Point Estimate Plot
    :align: center
-   :width: 550px
+   :width: 850px
 
 .. raw:: html
 
@@ -566,7 +577,7 @@ You can then display the table as follows:
     ## Table with metrics per group and statistical significance shown on 
     ## columns for omnibus and/or pairwise
 
-    stat_metrics_table_point
+    round(stat_metrics_table_point, 3)
 
 The resulting table displays one row per group and one column per metric. Symbols like ``*`` and ``▲`` appear in the appropriate cells to indicate significance:
 
@@ -599,115 +610,115 @@ This format provides a concise, interpretable snapshot of where disparities are 
     <tbody>
     <tr>
         <td class="tg-7zrl">Accuracy</td>
-        <td class="tg-2b7s">0.853</td>
-        <td class="tg-2b7s">0.931</td>
-        <td class="tg-2b7s">0.826</td>
+        <td class="tg-2b7s">0.855</td>
+        <td class="tg-2b7s">0.939</td>
+        <td class="tg-2b7s">0.842</td>
         <td class="tg-2b7s">0.879</td>
-        <td class="tg-2b7s">0.958</td>
+        <td class="tg-2b7s">0.972</td>
     </tr>
     <tr>
         <td class="tg-7zrl">Precision</td>
-        <td class="tg-2b7s">0.761</td>
-        <td class="tg-2b7s">0.861</td>
-        <td class="tg-2b7s">0.76</td>
+        <td class="tg-2b7s">0.766</td>
+        <td class="tg-2b7s">0.915</td>
+        <td class="tg-2b7s">0.788</td>
         <td class="tg-2b7s">0.444</td>
-        <td class="tg-2b7s">1</td>
+        <td class="tg-2b7s">1.000</td>
     </tr>
     <tr>
         <td class="tg-7zrl">Recall</td>
-        <td class="tg-2b7s">0.638</td>
-        <td class="tg-2b7s">0.549</td>
-        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.645</td>
+        <td class="tg-2b7s">0.575</td>
+        <td class="tg-2b7s">0.586</td>
         <td class="tg-2b7s">0.364</td>
-        <td class="tg-2b7s">0.5</td>
-    </tr>
-    <tr>
-        <td class="tg-7zrl">F1 Score</td>
-        <td class="tg-2b7s">0.694</td>
-        <td class="tg-2b7s">0.67</td>
-        <td class="tg-2b7s">0.633</td>
-        <td class="tg-2b7s">0.4</td>
         <td class="tg-2b7s">0.667</td>
     </tr>
     <tr>
+        <td class="tg-7zrl">F1 Score</td>
+        <td class="tg-2b7s">0.700</td>
+        <td class="tg-2b7s">0.707</td>
+        <td class="tg-2b7s">0.672</td>
+        <td class="tg-2b7s">0.400</td>
+        <td class="tg-2b7s">0.800</td>
+    </tr>
+    <tr>
         <td class="tg-7zrl">Specificity</td>
-        <td class="tg-2b7s">0.929</td>
-        <td class="tg-2b7s">0.987</td>
-        <td class="tg-2b7s">0.934</td>
+        <td class="tg-2b7s">0.930</td>
+        <td class="tg-2b7s">0.992</td>
+        <td class="tg-2b7s">0.940</td>
         <td class="tg-2b7s">0.943</td>
-        <td class="tg-2b7s">1</td>
+        <td class="tg-2b7s">1.000</td>
     </tr>
     <tr>
         <td class="tg-7zrl">TP Rate</td>
-        <td class="tg-2b7s">0.638</td>
-        <td class="tg-2b7s">0.549</td>
-        <td class="tg-2b7s">0.543</td>
+        <td class="tg-2b7s">0.645</td>
+        <td class="tg-2b7s">0.575</td>
+        <td class="tg-2b7s">0.586</td>
         <td class="tg-2b7s">0.364</td>
-        <td class="tg-2b7s">0.5</td>
+        <td class="tg-2b7s">0.667</td>
     </tr>
     <tr>
         <td class="tg-7zrl">FP Rate</td>
-        <td class="tg-2b7s">0.071</td>
-        <td class="tg-2b7s">0.013</td>
-        <td class="tg-2b7s">0.066</td>
+        <td class="tg-2b7s">0.070</td>
+        <td class="tg-2b7s">0.008</td>
+        <td class="tg-2b7s">0.060</td>
         <td class="tg-2b7s">0.057</td>
-        <td class="tg-2b7s">0</td>
+        <td class="tg-2b7s">0.000</td>
     </tr>
     <tr>
         <td class="tg-7zrl">FN Rate</td>
-        <td class="tg-2b7s">0.362</td>
-        <td class="tg-2b7s">0.451</td>
-        <td class="tg-2b7s">0.457</td>
+        <td class="tg-2b7s">0.355</td>
+        <td class="tg-2b7s">0.425</td>
+        <td class="tg-2b7s">0.414</td>
         <td class="tg-2b7s">0.636</td>
-        <td class="tg-2b7s">0.5</td>
+        <td class="tg-2b7s">0.333</td>
     </tr>
     <tr>
         <td class="tg-7zrl">TN Rate</td>
-        <td class="tg-2b7s">0.929</td>
-        <td class="tg-2b7s">0.987</td>
-        <td class="tg-2b7s">0.934</td>
+        <td class="tg-2b7s">0.930</td>
+        <td class="tg-2b7s">0.992</td>
+        <td class="tg-2b7s">0.940</td>
         <td class="tg-2b7s">0.943</td>
-        <td class="tg-2b7s">1</td>
+        <td class="tg-2b7s">1.000</td>
     </tr>
     <tr>
         <td class="tg-7zrl">TP</td>
-        <td class="tg-2b7s">1375</td>
-        <td class="tg-2b7s">62</td>
-        <td class="tg-2b7s">38</td>
+        <td class="tg-2b7s">1390</td>
+        <td class="tg-2b7s">65</td>
+        <td class="tg-2b7s">41</td>
         <td class="tg-2b7s">4</td>
-        <td class="tg-2b7s">3</td>
+        <td class="tg-2b7s">4</td>
     </tr>
     <tr>
         <td class="tg-7zrl">FP</td>
-        <td class="tg-2b7s">432</td>
-        <td class="tg-2b7s">10</td>
-        <td class="tg-2b7s">12</td>
+        <td class="tg-2b7s">425</td>
+        <td class="tg-2b7s">6</td>
+        <td class="tg-2b7s">11</td>
         <td class="tg-2b7s">5</td>
         <td class="tg-2b7s">0</td>
     </tr>
     <tr>
         <td class="tg-7zrl">FN</td>
-        <td class="tg-2b7s">780</td>
-        <td class="tg-2b7s">51</td>
-        <td class="tg-2b7s">32</td>
+        <td class="tg-2b7s">765</td>
+        <td class="tg-2b7s">48</td>
+        <td class="tg-2b7s">29</td>
         <td class="tg-2b7s">7</td>
-        <td class="tg-2b7s">3</td>
+        <td class="tg-2b7s">2</td>
     </tr>
     <tr>
         <td class="tg-7zrl">TN</td>
-        <td class="tg-2b7s">5631</td>
-        <td class="tg-2b7s">760</td>
-        <td class="tg-2b7s">171</td>
+        <td class="tg-2b7s">5638</td>
+        <td class="tg-2b7s">764</td>
+        <td class="tg-2b7s">172</td>
         <td class="tg-2b7s">83</td>
         <td class="tg-2b7s">66</td>
     </tr>
     <tr>
         <td class="tg-7zrl">Predicted Prevalence</td>
-        <td class="tg-2b7s">0.22</td>
-        <td class="tg-2b7s">0.082</td>
-        <td class="tg-2b7s">0.198</td>
+        <td class="tg-2b7s">0.221</td>
+        <td class="tg-2b7s">0.080</td>
+        <td class="tg-2b7s">0.206</td>
         <td class="tg-2b7s">0.091</td>
-        <td class="tg-2b7s">0.042</td>
+        <td class="tg-2b7s">0.056</td>
     </tr>
     </tbody></table></div>
 
@@ -841,7 +852,7 @@ representation can be excluded using the ``exclude_groups`` parameter, as shown 
 
    <div class="no-click">
 
-.. image:: ../assets/AUC_sliced_race_data.png
+.. image:: ../assets/ROC_AUC_race_group.svg
    :alt: ROC AUC Curve
    :align: center
    :width: 600px
@@ -864,14 +875,18 @@ Precision-Recall Curves
         exclude_groups=["Other"]
     )
 
-.. image:: ../assets/PR_sliced_race_data.png
+.. raw:: html
+
+   <div class="no-click">
+
+.. image:: ../assets/PR_race_group.svg
    :alt: Precision-Recall Curves
    :align: center
    :width: 600px
 
 .. raw:: html
 
-    <div style="height: 40px;"></div>
+    <div style="height: 40px;"></div></div>
 
 
 Calibration Plots
@@ -910,7 +925,7 @@ Example 1 (Calibration Overlay)
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_by_sliced_race_data.png
+.. image:: ../assets/calibration_race_group.svg
    :alt: Calibration Plot Overlay
    :align: center
    :width: 600px
@@ -941,7 +956,7 @@ allowing easier inspection of group-specific trends.
         decimal_places=2,
         subplots=True,
         shade_area=True,
-        n_cols=3,
+        n_cols=1,
         exclude_groups=["Other"]
     )
 
@@ -951,10 +966,10 @@ allowing easier inspection of group-specific trends.
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_subplots_by_sliced_race_data.png
+.. image:: ../assets/calibration_race_group_subplots.svg
    :alt: Calibration Subplots
    :align: center
-   :width: 600px
+   :width: 650px
 
 .. raw:: html
 
@@ -965,6 +980,7 @@ allowing easier inspection of group-specific trends.
 .. raw:: html
 
     <div style="height: 40px;"></div>
+
 
 Example 3 (LOWESS Calibration)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -992,7 +1008,7 @@ class imbalance.
         subplots=True,
         lowess=0.6,
         lowess_kwargs={"linestyle": "--", "linewidth": 2, "alpha": 0.6},
-        n_cols=3,
+        n_cols=1,
         exclude_groups=["Other"]
     )
 
@@ -1000,7 +1016,7 @@ class imbalance.
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_lowess_by_sliced_race_data.png
+.. image:: ../assets/calibration_race_group_lowess.svg
    :alt: LOWESS-smoothed Calibration Subplots
    :align: center
    :width: 600px
@@ -1040,7 +1056,8 @@ regions of the probability spectrum or in sparse areas with few predictions.
         title="Calibration by Race Group",
         n_bins=10,
         show_grid=False,
-        exclude_groups=["Other"]
+        exclude_groups=["Other"],
+        n_cols=1,
         plot_hist=True,
 
     )
@@ -1049,7 +1066,7 @@ regions of the probability spectrum or in sparse areas with few predictions.
 
    <div class="no-click">
 
-.. image:: ../assets/calibration_hist_by_sliced_race_data.png
+.. image:: ../assets/calibration_race_group_hist.svg
    :alt: Calibration Curve with Histogram Overlay
    :align: center
    :width: 600px
@@ -1122,7 +1139,7 @@ Group Metrics Forest Plot
 Once tests are computed, the ``eq_plot_metrics_forest`` function can 
 visualize point estimates along with statistical annotations:
 
-Example 1: Prevalance
+Example 1: Prevalence
 -------------------------
 
 .. code:: python
@@ -1144,10 +1161,10 @@ Example 1: Prevalance
 
    <div class="no-click">
 
-.. image:: ../assets/prev_forest_point_est_race.png
+.. image:: ../assets/forest_plot_race_group.svg
    :alt: Forest Plot of Group Metrics
    :align: center
-   :width: 550px
+   :width: 600px
 
 .. raw:: html
 
@@ -1157,11 +1174,12 @@ Example 1: Prevalance
 Effect Size
 ================================
 
-EquiBoots also calculates effect size when working with point estimates.  
-Effect size helps quantify the strength of the relationship or difference, beyond 
-just whether it is statistically significant. For example, in one analysis we observed 
-that all effect sizes were low (under 0.2), with the highest being 0.11. This suggests 
-that while statistical significance was found, the findings were not necessarily strong.  
+Effect size helps quantify the strength of a relationship or difference, beyond 
+just whether it is statistically significant. For example, if a chi-square test 
+detects significant disparity across groups but the corresponding Cramer's V 
+values all fall under 0.2, the findings are statistically real but small in magnitude. 
+Conversely, a Cramer's V above 0.6 would indicate a strong effect even if the omnibus 
+*p*-value is borderline. 
 
 According to `IBM Cognos documentation <https://www.ibm.com/docs/en/cognos-analytics/12.0.x>`_, 
 for Cramer's V:
@@ -1210,14 +1228,12 @@ for Cramer's V:
 
     # Assume stat_results is a dict of group -> test results with .effect_size
     plot_effect_sizes(
-        stat_test_results=stat_results,
+        stat_test_results=stat_test_results_race,
         xlabel="Attribute",
         ylabel="Effect size",
         title="Effect Sizes by Group",
         figsize=(8, 6),
         rotation=30,
-        save_path="./images",
-        filename="effect_sizes_demo"
     )
 
 **Output**
@@ -1226,7 +1242,7 @@ for Cramer's V:
 
    <div class="no-click">
 
-.. image:: ../assets/race_effect_size.png
+.. image:: ../assets/race_effect_sizes_demo.svg
    :alt: Effect Size Bar Plot
    :align: center
    :width: 700px
@@ -1242,7 +1258,7 @@ Residual-Based Point Estimates
 
 In regression tasks, **residuals** represent the difference between observed values and model predictions.  
 A detailed explanation of the underlying formulas and metrics is provided in the 
-:ref:`regression residuals <regression_residual_math>` section of the Mathemtical Framework.
+:ref:`regression residuals <regression_residual_math>` section of the Mathematical Framework.
 
 
 To visualize how these residuals vary across sensitive groups (e.g., race, sex, age group), you can use the following function:
@@ -1309,9 +1325,8 @@ To visualize how these residuals vary across sensitive groups (e.g., race, sex, 
    This helps identify whether a group is systematically over- or under-predicted.  
    Centroids offer directional insight but do not reflect the full distribution or spread of residuals within a group.
 
-
-Resdiaul Plot Examples
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Residual Plot Examples
+--------------------------
 
 This section demonstrates how to visualize group-level residuals using the  
 :func:`eq_plot_residuals_by_group` function from the EquiBoots package.
@@ -1319,9 +1334,82 @@ This section demonstrates how to visualize group-level residuals using the
 We use the **UCI Student Performance dataset** [2]_, which contains academic, demographic, and behavioral data from Portuguese secondary school students.  
 The goal is to evaluate how model residuals vary across sensitive groups when predicting final grades using a linear regression model.
 
+The setup below loads the dataset, trains a baseline linear regression model on the final grade ``G3``, builds a fairness DataFrame with a binned ``age_group``, and slices residuals by that group. The resulting ``sliced_age_data`` is what gets passed into the plotting examples that follow.
+
+.. code-block:: bash
+
+    pip install ucimlrepo
+
+.. code-block:: python
+
+    from ucimlrepo import fetch_ucirepo
+    import pandas as pd
+    import numpy as np
+    from sklearn.preprocessing import LabelEncoder
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LinearRegression
+    import equiboots as eqb
+
+    # Load dataset (UCI ID 320 = Student Performance)
+    student = fetch_ucirepo(id=320)
+    df = student.data.features.join(student.data.targets, how="inner")
+
+    # Target: final grade G3. Drop G1, G2 to avoid trivial leakage.
+    y = df["G3"]
+    X = df.drop(columns=["G1", "G2", "G3"])
+
+    # Encode string columns
+    for col in X.select_dtypes(include="object").columns:
+        X[col] = LabelEncoder().fit_transform(X[col])
+
+    # Train-test split
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42,
+    )
+
+    # Fit linear regression
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    y_test = y_test.to_numpy()
+
+    # Bin age into groups for fairness slicing
+    age_group = pd.cut(
+        X_test["age"],
+        bins=[14, 16, 18, 20],
+        labels=["15-16", "17-18", "19"],
+        right=False,
+        include_lowest=True,
+    ).astype("str")
+
+    # Build fairness DataFrame
+    fairness_df = X_test[["sex", "address", "Pstatus"]].reset_index(drop=True)
+    fairness_df["age_group"] = age_group.reset_index(drop=True)
+
+    # Initialize EquiBoots in regression mode
+    eq = eqb.EquiBoots(
+        y_true=y_test,
+        y_pred=y_pred,
+        fairness_df=fairness_df,
+        fairness_vars=["sex", "address", "Pstatus", "age_group"],
+        task="regression",
+    )
+    eq.grouper(groupings_vars=["sex", "address", "Pstatus", "age_group"])
+
+    # Slice residuals by age group
+    sliced_age_data = eq.slicer("age_group")
+
+.. code-block:: text
+
+    Groups created
+    /home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/EquiBootsClass.py:99: UserWarning: Group '19+' for variable 'age_group' has less than 10 samples. Skipping category of this group.
+    warnings.warn(
+    /home/lshpaner/Python_Projects/equiboots_docs/equidocs_venv/lib/python3.9/site-packages/equiboots/EquiBootsClass.py:332: UserWarning: Group '19+' for variable 'age_group' has less than 10 samples. Skipping catategory of this group.
+    warnings.warn(
+
 
 Example 1: Residuals by Age Group (Overlayed)
------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following example shows residuals plotted across age groups in a single overlayed axis.  
 This allows for visual comparison of prediction errors across subgroups, with centroids included to indicate average residual positions.
@@ -1330,51 +1418,12 @@ This allows for visual comparison of prediction errors across subgroups, with ce
 
     eqb.eq_plot_residuals_by_group(
         data=sliced_age_data,
-        title="Residuals by Age Group",
-        color_by_group=True,
-        figsize=(8, 6),
-        show_centroids=True,
-        show_grid=False,
-    )
-
-**Output**
-
-.. raw:: html
-
-   <div class="no-click">
-
-.. image:: ../assets/regression_residuals_overlayed.png
-   :alt: Regression Residuals Overlayed
-   :align: center
-   :width: 600px
-
-.. raw:: html
-
-   <div style="height: 40px;"></div>
-
-
-The output shows all groups together for side-by-side visual inspection of error spread and potential bias.  
-To separate groups into distinct plots, use ``subplots=True``.
-
-Example 2: Residuals by Age Group (Subplots)
------------------------------------------------
-
-In this example, we create separate subplots for each age group to facilitate 
-individual analysis. This is particularly useful when the number of groups is large, 
-as it prevents overcrowding in a single plot.
-
-.. code-block:: python
-
-    eqb.eq_plot_residuals_by_group(
-        data=sliced_age_data,
         title="Residuals by Age Group (Subplots)",
         color_by_group=True,
-        figsize=(12, 8),
         show_centroids=True,
         show_grid=False,
         subplots=True,
-        n_cols=2,
-        n_rows=2,
+        n_cols=1,
     )
 
 **Output**
@@ -1383,15 +1432,14 @@ as it prevents overcrowding in a single plot.
 
    <div class="no-click">
 
-.. image:: ../assets/regression_residuals_subplots.png
+.. image:: ../assets/residuals_by_age_group_subplots.svg
    :alt: Regression Residuals by Age Group (Subplots)
    :align: center
    :width: 600px
 
 .. raw:: html
 
-   <div style="height: 40px;"></div>
-
+   <div style="height: 40px;"></div></div>
 
 The output displays each age group's residuals in its own subplot, allowing for a more granular examination of prediction errors. This layout can help identify specific groups that may require further investigation or targeted interventions.
 

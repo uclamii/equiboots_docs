@@ -13,8 +13,8 @@ from scipy.interpolate import interp1d
 from matplotlib.lines import Line2D
 import seaborn as sns
 from packaging import version
-from .metrics import regression_metrics, calibration_auc, area_trap
-from typing import Dict, List, Optional, Union, Tuple, Set, Callable
+from .metrics import regression_metrics, calibration_auc, calculate_bootstrap_stats
+from typing import Dict, List, Optional, Union, Tuple, Set, Callable, Any
 
 SEABORN_OLD = version.parse(sns.__version__) < version.parse("0.13.2")
 
@@ -56,8 +56,9 @@ def save_or_show_plot(
 
     if save_path:
         os.makedirs(save_path, exist_ok=True)
+        out_name = filename if os.path.splitext(filename)[1] else f"{filename}.png"
         fig.savefig(
-            os.path.join(save_path, f"{filename}.png"),
+            os.path.join(save_path, out_name),
             bbox_inches="tight",
         )
     plt.show()
@@ -451,6 +452,23 @@ def compute_pass_fail(
     return group_status, lower, upper
 
 
+def _add_reference_group_at_zero(
+    group_metrics: List[Dict[str, Dict[str, float]]],
+    reference_group: str,
+    metric_cols: List[str],
+) -> List[Dict[str, Dict[str, float]]]:
+    """Return a copy of bootstrap difference metrics with reference values at zero."""
+    updated_metrics = []
+    for row in group_metrics:
+        updated_row = {group: dict(metrics) for group, metrics in row.items()}
+        reference_metrics = dict(updated_row.get(reference_group, {}))
+        for metric in metric_cols:
+            reference_metrics.setdefault(metric, 0.0)
+        updated_row[reference_group] = reference_metrics
+        updated_metrics.append(updated_row)
+    return updated_metrics
+
+
 def create_legend(
     fig: plt.Figure,
     group_list: List[str],
@@ -636,6 +654,7 @@ def _plot_group_curve_ax(
     lowess: float = 0,
     lowess_kwargs: Optional[Dict[str, Union[str, float]]] = None,
     shade_area: bool = False,
+    hist: bool = (False,),
 ) -> None:
     y_true = data[group]["y_true"]
     y_prob = data[group]["y_prob"]
@@ -690,7 +709,7 @@ def _plot_group_curve_ax(
 
         # 4) assign plotting vars
         x, y = mean_pred, frac_pos
-        x_label, y_label = "Mean Predicted Value", "Fraction of Positives"
+        x_label, y_label = "Mean Predicted Probability", "Fraction of Positives"
         ref_line = ([0, 1], [0, 1])
 
         # 5) custom label
@@ -720,6 +739,34 @@ def _plot_group_curve_ax(
                 alpha=0.2,
                 label="_nolegend_",
             )
+        # 7) draw a circle on each binned calibration point
+        ax.scatter(
+            x,
+            y,
+            marker="o",
+            s=40,
+            facecolor=curve_kwargs.get("color", color),
+            zorder=5,
+        )
+
+        # --- draw inset histogram under the curve if requested ---
+        # HISTOGRAM‐ONLY MODE: if requested, skip calibration curve
+        if hist:
+            ax.clear()
+            # pick the exact same color the curve would have used
+            hist_color = curve_kwargs.get("color", color)
+            ax.hist(
+                y_prob,
+                bins=n_bins,
+                range=(0, 1),
+                color=hist_color,
+                edgecolor="black",
+            )
+            ax.set_title(str(group))
+            ax.set_xlabel("Mean Predicted Probability")
+            ax.set_ylabel("Count")
+            ax.grid(False)
+            return
 
     else:
         raise ValueError("Unsupported curve_type")
@@ -731,7 +778,7 @@ def _plot_group_curve_ax(
         smoothed = sm.nonparametric.lowess(y, x, frac=lowess)
         x_s, y_s = smoothed[:, 0], smoothed[:, 1]
 
-        # reuse your helpers to measure area
+        # reuse helpers to measure area
         lowess_auc = calibration_auc(x_s, y_s)
 
         # build the style for LOWESS: prefer lowess_kwargs → curve_kwargs → hard defaults
@@ -803,6 +850,7 @@ def eq_plot_group_curves(
     lowess: float = 0,
     lowess_kwargs: Optional[Dict[str, Union[str, float]]] = None,
     shade_area: bool = False,
+    plot_hist: bool = False,
 ) -> None:
     """
     Plot ROC, PR, or calibration curves by group.
@@ -838,6 +886,9 @@ def eq_plot_group_curves(
         raise ValueError("Cannot use subplots=True when a specific group is selected.")
     valid_data = _filter_groups(data, exclude_groups)
 
+    if plot_hist:
+        subplots = True
+
     def curve_plot(ax, data, group_iter, color, overlay_mode=False):
         # In overlay mode (subplots=False, group=None), use "full" label mode
         # In subplot or single-group mode, use "simple" label mode
@@ -861,6 +912,7 @@ def eq_plot_group_curves(
             lowess=lowess,
             lowess_kwargs=lowess_kwargs,
             shade_area=shade_area,
+            hist=plot_hist,
         )
 
     plot_with_layout(
@@ -970,17 +1022,6 @@ def _plot_bootstrapped_curve_ax(
     # Aggregate across bootstrap iterations
     mean_y = np.nanmean(y_array, axis=0)
     lower, upper = np.nanpercentile(y_array, [2.5, 97.5], axis=0)
-
-    # Calculate AUC summary stats if not calibration
-    aucs = (
-        [np.trapz(y, grid_x) for y in y_array if not np.isnan(y).all()]
-        if label_prefix != "CAL"
-        else []
-    )
-    mean_auc = np.mean(aucs) if aucs else float("nan")
-    lower_auc, upper_auc = (
-        np.percentile(aucs, [2.5, 97.5]) if aucs else (float("nan"), float("nan"))
-    )
 
     # non‐calibration AUCs (ROC/PR)
     aucs = (
@@ -1220,27 +1261,44 @@ def eq_group_metrics_plot(
     leg_cols: int = 6,
     y_lim: Optional[Tuple[float, float]] = None,
     statistical_tests: dict = None,
+    disparities: bool = False,
+    include_reference_group: bool = False,
+    reference_group: Optional[str] = None,
+    zero_line_kwargs: Optional[Dict[str, Any]] = None,
     **plot_kwargs: Dict[str, Union[str, float]],
 ) -> None:
     """
-    Plot group and disparity metrics as violin, box, or other seaborn plots with
-    optional pass/fail coloring.
+    Plot group and disparity metrics as violin, box, or other seaborn plots.
 
-    group_metrics         : list           - One dict per category mapping group
-    metric_cols           : list           - Metric names to plot
-    name                  : str            - Plot title or identifier
-    plot_kind             : str, default "violinplot" - Seaborn plot type
-    categories            : str or list    - Categories to include or 'all'
-    color_by_group        : bool, default True - Use separate colors per group
-    max_cols              : int or None    - Max columns in facet grid
-    strict_layout         : bool, default True - Apply tight layout adjustments
-    plot_thresholds       : tuple, default (0.0, 2.0) - (lower, upper) for pass/fail
-    show_pass_fail        : bool, default False - Color by pass/fail
-    y_lim                 : tuple or None  - y-axis limits as (min, max)
+    NEW:
+      disparities : bool, default False
+          If True, draw a red dotted line at y=0 on each subplot and add a
+          legend entry "Reference group (zero diff)".
+      include_reference_group : bool, default False
+          If True, add `reference_group` to the plotted data with 0.0 for each
+          metric in `metric_cols`. Useful for bootstrap difference plots.
+      reference_group : str or None
+          Reference group name to display at zero when `include_reference_group`
+          is True.
+      zero_line_kwargs : dict or None
+          Matplotlib kwargs to style the zero line (defaults to red dotted).
+      Shared y-limits:
+          If y_lim is None, a single y-limit is computed across ALL subplots
+          to make them directly comparable.
+      Y-axis label:
+          Applied only on the left-most column.
     """
-
     if not isinstance(group_metrics, list):
         raise TypeError("group_metrics should be a list")
+
+    if include_reference_group:
+        if reference_group is None:
+            raise ValueError(
+                "reference_group is required when include_reference_group=True"
+            )
+        group_metrics = _add_reference_group_at_zero(
+            group_metrics, reference_group, metric_cols
+        )
 
     all_keys = sorted({key for row in group_metrics for key in row.keys()})
     attributes = (
@@ -1264,14 +1322,40 @@ def eq_group_metrics_plot(
         )
     )
 
+    if y_lim is None:
+        vals = []
+        for row in group_metrics:
+            for attr in attributes:
+                if attr in row:
+                    for col in metric_cols:
+                        if col in row[attr]:
+                            v = row[attr][col]
+                            if isinstance(v, (int, float)):
+                                vals.append(v)
+        if len(vals) > 0:
+            vmin, vmax = min(vals), max(vals)
+            if vmin == vmax:  # avoid zero-range
+                pad = max(1e-6, abs(vmax) * 0.05)
+                y_lim = (vmin - pad, vmax + pad)
+            else:
+                pad = 0.05 * (vmax - vmin)
+                y_lim = (vmin - pad, vmax + pad)
+        else:
+            y_lim = (-1.0, 1.0)  # sensible fallback
+
     ## Initialise signficance checking
     significance_map = {}
     if statistical_tests:
         for group, metrics in statistical_tests.items():
             for metric_key, test_result in metrics.items():
-                ## we have to remove _diff for it to work
                 if metric_key in metric_cols and group in attributes:
                     significance_map[(group, metric_key)] = test_result.is_significant
+
+    # default styling for the zero reference line
+    if zero_line_kwargs is None:
+        zero_line_kwargs = dict(
+            color="red", linestyle=":", linewidth=1, label="Reference group"
+        )
 
     for i, col in enumerate(metric_cols):
         ax = axs[i // n_cols, i % n_cols]
@@ -1303,7 +1387,6 @@ def eq_group_metrics_plot(
                 f"Unsupported plot_type: '{plot_type}'. Must be a valid seaborn plot type."
             )
 
-        ## assemble common args
         plot_args = dict(
             ax=ax,
             x=x_vals,
@@ -1311,28 +1394,30 @@ def eq_group_metrics_plot(
             hue=x_vals,
             palette={group_to_alpha[attr]: group_colors[attr] for attr in attributes},
         )
-        ## only pass legend=False on newer seaborn
         if not SEABORN_OLD:
             plot_args["legend"] = False
 
         try:
             plot_func(**plot_args, **plot_kwargs)
         except TypeError as e:
-            ## fallback for old seaborn which does not accept legend kwarg
             if SEABORN_OLD and "legend" in str(e):
                 plot_args.pop("legend", None)
                 plot_func(**plot_args, **plot_kwargs)
             else:
                 raise ValueError(f"Failed to plot with {plot_type}: {e}")
 
-        ## strip out the auto‐drawn legend on old seaborn
         if SEABORN_OLD:
             lg = ax.get_legend()
             if lg:
                 lg.remove()
 
-        ax.set_title(f"{name}_{col}")
+        metric_cols_clean = [m.replace("_", " ") for m in metric_cols]
+        ax.set_title(f"{name.capitalize()}: {metric_cols_clean[i]}")
 
+        if disparities:
+            ax.axhline(0.0, **zero_line_kwargs)
+
+        # axes cosmetics
         ax.set_xlabel("")
         ax.set_xticks(range(len(attributes)))
         labels = [
@@ -1341,8 +1426,8 @@ def eq_group_metrics_plot(
             for attr in attributes
         ]
         ax.set_xticklabels(labels, rotation=0, fontweight="bold")
+
         for tick_label in ax.get_xticklabels():
-            # So our lookup doesn't break
             label_text = tick_label.get_text().replace(" *", "")
             attr = alpha_to_group[label_text]
             if show_pass_fail:
@@ -1351,11 +1436,20 @@ def eq_group_metrics_plot(
                 )
             else:
                 tick_label.set_color(base_colors.get(attr, "black"))
+
         if show_pass_fail:
             add_plot_threshold_lines(ax, lower, upper, len(attributes))
+
         ax.set_ylim(y_lim)
+
+        if i % n_cols == 0:
+            ax.set_ylabel("Difference vs reference" if disparities else "Metric value")
+        else:
+            ax.set_ylabel("")
+
         ax.grid(show_grid)
 
+    # hide any unused axes
     for j in range(i + 1, n_rows * n_cols):
         axs[j // n_cols, j % n_cols].axis("off")
 
@@ -1364,8 +1458,9 @@ def eq_group_metrics_plot(
             fig, attributes, group_to_alpha, base_colors, show_pass_fail, leg_cols
         )
 
+        extra_legend_items = []
         if statistical_tests:
-            stat_legend_elements = [
+            extra_legend_items.append(
                 Line2D(
                     [0],
                     [0],
@@ -1373,13 +1468,17 @@ def eq_group_metrics_plot(
                     color="w",
                     markerfacecolor="black",
                     markersize=10,
-                    label="Statistically Signficanct Difference",
-                ),
-            ]
-            stat_legend = fig.legend(
-                handles=stat_legend_elements,
-                loc="upper right",
-                bbox_to_anchor=(0.7, 1.1),
+                    label="Statistically Significant Difference",
+                )
+            )
+        if disparities:
+            extra_legend_items.append(
+                Line2D([0], [0], **{**zero_line_kwargs, "label": "Reference group"})
+            )
+
+        if extra_legend_items:
+            fig.legend(
+                handles=extra_legend_items, loc="upper right", bbox_to_anchor=(0.7, 1.1)
             )
 
     if strict_layout:
@@ -1390,6 +1489,26 @@ def eq_group_metrics_plot(
 ################################################################################
 # Group and Disparity Metrics (Point Estimate Plots)
 ################################################################################
+def _resolve_category_tests(statistical_tests, cat_name, groups):
+    """Return the {omnibus/group -> {metric -> StatTestResult}} dict for one category.
+
+    Accepts either:
+      1. Flat single-category dict:  {"omnibus": {...}, "GroupA": {...}, ...}
+      2. Nested dict keyed by category: {"sex": {...}, "race": {...}, ...}
+    """
+    if not statistical_tests:
+        return None
+    # Nested: cat_name is a top-level key whose value looks like a per-category dict
+    if cat_name in statistical_tests:
+        candidate = statistical_tests[cat_name]
+        if isinstance(candidate, dict) and (
+            "omnibus" in candidate or any(g in candidate for g in groups)
+        ):
+            return candidate
+    # Flat: applies directly to the single category being plotted
+    if "omnibus" in statistical_tests or any(g in statistical_tests for g in groups):
+        return statistical_tests
+    return None
 
 
 def eq_group_metrics_point_plot(
@@ -1453,18 +1572,30 @@ def eq_group_metrics_point_plot(
 
             x_vals, y_vals = [], []
             groups = list(group_metrics[j].keys())
+
+            # Resolve the test dict for THIS category (handles flat or nested input)
+            cat_stat_tests = _resolve_category_tests(
+                statistical_tests, cat_name, groups
+            )
+
             # Create modified group labels for this category based on statistical tests
             current_group_to_alpha = group_to_alpha.copy()
-            if statistical_tests and cat_name in statistical_tests:
-                stat_tests = statistical_tests[cat_name]
-
-                if stat_tests.get("omnibus") and stat_tests["omnibus"].is_significant:
+            if cat_stat_tests:
+                # Omnibus test for this specific metric
+                omnibus_for_metric = (cat_stat_tests.get("omnibus") or {}).get(metric)
+                if omnibus_for_metric and omnibus_for_metric.is_significant:
                     current_group_to_alpha = {
                         grp: alph + " *" for grp, alph in current_group_to_alpha.items()
                     }
 
+                # Per-group tests for this specific metric
                 for group in groups:
-                    if group in stat_tests and stat_tests[group].is_significant:
+                    group_tests = cat_stat_tests.get(group)
+                    if (
+                        group_tests
+                        and metric in group_tests
+                        and group_tests[metric].is_significant
+                    ):
                         current_group_to_alpha[group] += " ▲"
 
             current_alpha_to_group = {v: k for k, v in current_group_to_alpha.items()}
@@ -1571,3 +1702,386 @@ def eq_group_metrics_point_plot(
     if strict_layout:
         plt.tight_layout(w_pad=2, h_pad=4, rect=[0.01, 0.01, 1.01, 1])
     save_or_show_plot(fig, save_path, filename)
+
+
+def eq_plot_metrics_forest(
+    group_metrics: Dict[str, Dict[str, float]],
+    metric_name: str,
+    reference_group: Optional[str] = None,
+    figsize: Tuple[float, float] = (6, 4),
+    save_path: Optional[str] = None,
+    filename: str = "points_forest",
+    sort_groups: bool = True,
+    sort_alphabetically: bool = False,
+    ascending: bool = True,
+    title: str = None,
+    statistical_tests: Optional[Dict[str, bool]] = None,
+    x_lim: Optional[Tuple[float, float]] = None,
+) -> None:
+    """
+    Create a forest plot of point estimates for a specific metric across groups.
+    """
+    valid_groups = {
+        group: metrics
+        for group, metrics in group_metrics.items()
+        if metric_name in metrics and not np.isnan(metrics[metric_name])
+    }
+
+    if not valid_groups:
+        raise ValueError(f"No valid data found for metric '{metric_name}'")
+
+    if reference_group and reference_group not in valid_groups:
+        raise ValueError(
+            f"Reference group '{reference_group}' not found in valid groups: {list(valid_groups.keys())}"
+        )
+
+    groups = list(valid_groups.keys())
+    values = [valid_groups[group][metric_name] for group in groups]
+
+    # Add statistical significance markers
+    if statistical_tests:
+        for group in groups:
+            if (
+                group in statistical_tests
+                and isinstance(statistical_tests[group], dict)
+                and metric_name in statistical_tests[group]
+                and statistical_tests[group][metric_name].is_significant
+            ):
+                groups[groups.index(group)] += " ▲"
+
+        if (
+            statistical_tests.get("omnibus")
+            and isinstance(statistical_tests["omnibus"], dict)
+            and metric_name in statistical_tests["omnibus"]
+            and statistical_tests["omnibus"][metric_name].is_significant
+        ):
+            groups = [f"{group} *" for group in groups]
+
+    if sort_groups:
+        sorted_pairs = sorted(
+            zip(groups, values), key=lambda x: x[1], reverse=not ascending
+        )
+        groups, values = zip(*sorted_pairs)
+        groups, values = list(groups), list(values)
+
+    # Optional alphabetical sorting
+    if sort_alphabetically:
+        sorted_pairs = sorted(zip(groups, values), key=lambda x: x[0])
+        groups, values = zip(*sorted_pairs)
+        groups, values = list(groups), list(values)
+
+    y_pos = np.arange(len(groups))
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.scatter(values, y_pos, s=64, color="black", zorder=3)
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(groups)
+    ax.invert_yaxis()
+    ax.set_xlabel(f"{metric_name}")
+
+    if title is None:
+        ax.set_title(f"Forest Plot: {metric_name} by Group")
+    else:
+        ax.set_title(title)
+
+    ax.grid(True, alpha=0.3, zorder=1)
+
+    if reference_group:
+        ref_value = valid_groups[reference_group][metric_name]
+        ax.axvline(
+            x=ref_value,
+            color="red",
+            linestyle="--",
+            alpha=0.7,
+            label=f"Ref. group",
+        )
+
+    if x_lim is not None:
+        ax.set_xlim(x_lim)
+
+    if statistical_tests:
+        legend_elements = []
+
+        legend_elements.append(
+            Line2D(
+                [0],
+                [0],
+                linestyle="--",
+                color="red",
+                markerfacecolor="black",
+                markersize=8,
+                label="Ref. group",
+            )
+        )
+
+        if (
+            statistical_tests.get("omnibus")
+            and isinstance(statistical_tests["omnibus"], dict)
+            and metric_name in statistical_tests["omnibus"]
+            and statistical_tests["omnibus"][metric_name].is_significant
+        ):
+            legend_elements.append(
+                Line2D(
+                    [0],
+                    [0],
+                    marker="*",
+                    color="w",
+                    markerfacecolor="black",
+                    markersize=10,
+                    label="Omnibus test significant",
+                    linestyle="None",
+                )
+            )
+
+        original_groups = list(valid_groups.keys())
+        group_tests_significant = any(
+            group in statistical_tests
+            and isinstance(statistical_tests[group], dict)
+            and metric_name in statistical_tests[group]
+            and statistical_tests[group][metric_name].is_significant
+            for group in original_groups
+        )
+
+        if group_tests_significant:
+            legend_elements.append(
+                Line2D(
+                    [0],
+                    [0],
+                    marker="^",
+                    color="w",
+                    markerfacecolor="black",
+                    markersize=8,
+                    label="Group test significant",
+                    linestyle="None",
+                )
+            )
+
+        # Add legend if there are elements to show
+        if legend_elements:
+            ax.legend(handles=legend_elements, loc="best")
+
+    plt.tight_layout()
+    save_or_show_plot(fig, save_path, filename)
+
+
+def eq_plot_bootstrap_forest(
+    group_boot_metrics: List[Dict[str, Dict[str, np.ndarray]]],
+    metric: str = "Accuracy",
+    reference_group: Optional[str] = None,
+    include_reference_group: bool = False,
+    figsize: Tuple[float, float] = (6, 4),
+    save_path: Optional[str] = None,
+    filename: str = "bootstrap_forest",
+    title: str = None,
+    statistical_tests: Optional[Dict[str, Dict[str, bool]]] = None,
+    x_lim: Optional[Tuple[float, float]] = None,
+    sort_alphabetically: bool = False,
+) -> None:
+    """
+    Create a forest plot of any bootstrap metric with 95% CI for each
+    group, and draw a dotted line through `reference_group` if provided.
+    Adds asterisks to group names with significant differences.
+    """
+    if include_reference_group:
+        if reference_group is None:
+            raise ValueError(
+                "reference_group is required when include_reference_group=True"
+            )
+        group_boot_metrics = _add_reference_group_at_zero(
+            group_boot_metrics, reference_group, [metric]
+        )
+
+    # Calculate mean and 95% CI for each metric per group
+    bootstrap_metrics = calculate_bootstrap_stats(group_boot_metrics, metric)
+    fig, ax = plt.subplots(figsize=figsize)
+
+    # Sort groups for consistent ordering (optional)
+    # Sorting logic
+    if sort_alphabetically:
+        stats_df = bootstrap_metrics.sort_values("group", ascending=True)
+    else:
+        stats_df = bootstrap_metrics.sort_values("mean", ascending=True)
+
+    y_pos = np.arange(len(stats_df))
+
+    # Prepare group labels with significance indicators
+    group_labels = []
+    has_significant = False
+    if statistical_tests:
+        metric_diff_key = f"{metric}_diff"
+        for group in stats_df["group"]:
+            if (
+                group in statistical_tests
+                and metric_diff_key in statistical_tests[group]
+                and statistical_tests[group][metric_diff_key].is_significant
+            ):
+                group_labels.append(f"{group}  $\\mathbf{{*}}$")
+                has_significant = True
+            else:
+                group_labels.append(group)
+    else:
+        group_labels = stats_df["group"].tolist()
+
+    for i, (_, row) in enumerate(stats_df.iterrows()):
+        ax.plot(
+            [row["ci_lower"], row["ci_upper"]],
+            [i, i],
+            "k-",
+            linewidth=2,
+            alpha=0.7,
+        )
+        ax.plot(
+            [row["ci_lower"], row["ci_lower"]],
+            [i - 0.1, i + 0.1],
+            "k-",
+            linewidth=2,
+            alpha=0.7,
+        )
+        ax.plot(
+            [row["ci_upper"], row["ci_upper"]],
+            [i - 0.1, i + 0.1],
+            "k-",
+            linewidth=2,
+            alpha=0.7,
+        )
+
+    # Plot means as dots
+    colors = ["black" for group in stats_df["group"]]
+    ax.scatter(stats_df["mean"], y_pos, color=colors, s=75, zorder=5, alpha=0.8)
+
+    # Add reference line if specified
+    if reference_group and reference_group in stats_df["group"].values:
+        ref_mean = stats_df[stats_df["group"] == reference_group]["mean"].iloc[0]
+        ax.axvline(
+            x=ref_mean,
+            color="red",
+            linestyle="--",
+            alpha=0.7,
+            label=f"Ref. group",
+        )
+
+    # Customize plot
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(group_labels)  # Use labels with asterisks
+    ax.set_xlabel(f"{metric} (95% CI)")
+    ax.set_ylabel("Groups")
+
+    if title is None:
+        title = f"Forest Plot: {metric} by Group"
+    ax.set_title(title)
+
+    # Add grid
+    ax.grid(True, alpha=0.3, axis="x")
+
+    # Add legends
+    legend_elements = []
+    if reference_group:
+        legend_elements.append(
+            plt.Line2D(
+                [0],
+                [0],
+                color="red",
+                linestyle="--",
+                alpha=0.7,
+                label="Ref. group",
+            )
+        )
+    if has_significant:
+        legend_elements.append(
+            Line2D(
+                [0],
+                [0],
+                marker="*",
+                color="w",
+                markerfacecolor="black",
+                markersize=10,
+                label="Omnibus test significant",
+                linestyle="None",
+            )
+        )
+
+    if legend_elements:
+        ax.legend(handles=legend_elements)
+
+    if x_lim is not None:
+        ax.set_xlim(x_lim)
+
+    plt.tight_layout()
+    save_or_show_plot(fig, save_path, filename)
+
+
+################################################################################
+############################ Effect Size Plots #################################
+
+## EquiBoots also calculates effect size when we are dealing with point
+# estimates. In this case we can see the effect size for all of the results is
+# low (under 0.2) with the highest being 0.11. This indicates that although
+# statistical signficance was found it is not necessary a strong finding.
+################################################################################
+
+
+def plot_effect_sizes(
+    stat_test_results,
+    xlabel="Category",
+    ylabel="Effect size",
+    title="Effect Sizes by Group",
+    figsize=(8, 6),
+    rotation=0,
+    legend_loc="best",
+    save_path=None,
+    filename="effect_sizes",
+    decimal_places=2,
+):
+    """
+    Bar chart of effect sizes by outer key (omnibus + each group).
+
+    Expects stat_test_results in nested shape:
+        {outer_key: {metric: StatTestResult, ...}, ...}
+    For each outer key, plots the MAX Cramer's V across all metrics (the
+    strongest disparity signal for that group). Bars are annotated,
+    horizontal guides mark 0.2 and 0.6, and a PNG is saved if `save_path`
+    is provided.
+    """
+    labels = []
+    effect_sizes = []
+    for outer_key, inner in stat_test_results.items():
+        if not isinstance(inner, dict):
+            continue
+        # Pull the max effect size across metrics; treat None as 0
+        max_es = max((r.effect_size if r.effect_size else 0) for r in inner.values())
+        labels.append(outer_key)
+        effect_sizes.append(max_es)
+
+    if not labels:
+        raise ValueError("stat_test_results is empty or malformed.")
+
+    plt.figure(figsize=figsize)
+    bars = plt.bar(labels, effect_sizes)
+
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(
+            bar.get_x() + bar.get_width() / 2,
+            yval + 0.01,
+            round(yval, decimal_places),
+            ha="center",
+            va="bottom",
+        )
+
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+
+    plt.axhline(y=0.2, color="red", linestyle="--", label="Small effect size <= 0.2")
+    plt.axhline(y=0.6, color="red", linestyle="--", label="Medium effect size <= 0.6")
+    plt.plot([], [], color="red", linestyle="--", label="Large effect size > 0.6")
+
+    plt.legend(loc=legend_loc)
+    plt.grid(axis="y", linestyle="--")
+
+    ha = "center" if rotation == 0 else "right"
+    plt.xticks(rotation=rotation, ha=ha)
+    plt.tight_layout()
+
+    fig = plt.gcf()
+    save_or_show_plot(fig, save_path, filename)
+    plt.show()

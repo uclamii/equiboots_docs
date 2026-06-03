@@ -14,6 +14,106 @@
 Changelog
 ===============
 
+`Version 0.0.1a13`_
+----------------------
+
+* Figures can now save as svg/pdf/jpg, not just png.
+* ``plot_effect_sizes`` now uses ``save_or_show_plot`` instead of its own inline save.
+
+`Version 0.0.1a12`_
+----------------------
+
+* **Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a11...0.0.1a12
+
+* Chi Square test now uses custom contingency tables based on which metric is being tested this is handled through the ``get_contingency_table()`` function.
+* Cochran's rule: chi-square unreliable when expected cells are small. We check whether 20% of the expected values are under 5 and if so we don't perform the chi-square test. Fisher's exact used if we have a 2 x 2 contingency table.
+* Formatting of point estimate statistical tests has been updated so that the structure is now ``dictionary[group][metric]``.
+* All plots that originally accepted point estimates have been updated so that they work with this dictionary structure including when we provide two dictionaries (in some examples we plot race and sex together)
+* P-value adjustment has now been updated so that it uses this new structure and works for point estimates (p-value adjustment is only run when we have done a pairwise comparison, this is gated on finding significance at the omnibus level - this all now works on a metric to metric basis)
+* All ``py_scripts`` have been updated to follow this new format.
+* New tests added to the statistical test unittests (including Cochran's rule and Fisher's exact fallback). Updated the plotting tests so that they follow the new point estimate pattern.
+* Added option to plot reference group built into the bootstrapping plotting functions. Fixes this issue `#87 <https://github.com/uclamii/equiboots/issues/87>`_
+* Cohen's D definition fixed `#86 <https://github.com/uclamii/equiboots/issues/86>`_
+* Rewrote ``_analyze_single_metrics`` into three phases (omnibus, pairwise once per group, then annotate effect sizes). Fixes a silent bug where ``results[group]`` was overwritten on each metric iteration, losing effect-size assignments for all but the last significant metric.
+* ``plot_effect_sizes`` rewritten to display max Cramer's V per outer key, preserving the original chart structure under the new nested shape.
+* ``_calculate_effect_size`` routes through ``get_contingency_table`` so Cramer's V is computed on the same K x 2 slice as the chi-square test.
+* ``METRIC_LIST`` pruned to drop TP Rate and TN Rate (aliases of Recall and Specificity, identical chi2 statistics).
+
+
+
+`Version 0.0.1a11`_
+----------------------
+
+* Mapping Error In get_metrics by @elemets in https://github.com/uclamii/equiboots/pull/85
+
+
+* **Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a10...0.0.1a11
+
+
+`Version 0.0.1a10`_
+----------------------
+
+* Reference line and setting y-limit to be consistent by @elemets in https://github.com/uclamii/equiboots/pull/83
+
+
+* **Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a9...0.0.1a10
+
+
+`Version 0.0.1a9`_
+----------------------
+
+**Summary:**  
+
+- Added inline sanitization for metric column titles in ``eq_group_metrics_plot``.  
+- Titles now display with underscores replaced by spaces.  
+- Each plot title now includes the capitalized ``name`` prefix followed by a colon.  
+
+**Example:**  
+
+- Before → ``race_F1_Score_dff``
+- After → ``Race: F1 Score diff``
+
+
+
+`Version 0.0.1a8`_
+----------------------
+
+* **Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a7...0.0.1a8
+
+
+`Version 0.0.1a7`_
+----------------------
+
+* Add ``x_lim`` and ``sort_alphabetically`` options to forest plot functions by @lshpaner in https://github.com/uclamii/equiboots/pull/78
+* **Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a6...0.0.1a7
+
+
+`Version 0.0.1a6`_
+----------------------
+
+* Fixed a minor typo in the legend label within ``eq_group_metrics_plot``. The label now correctly reads "Statistically Significant Difference".
+
+`Version 0.0.1a5`_
+----------------------
+
+* Fixed a critical import issue in ``__init__.py`` where from ``.healer import *`` was missing. This caused certain healing utilities to be inaccessible when importing the package. The bug has been resolved, and all healer functions now load correctly upon package import.
+
+`Version 0.0.1a4`_
+----------------------
+
+* Adding Significant Figures Option by @elemets in https://github.com/uclamii/equiboots/pull/76
+
+
+* **Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a3...0.0.1a4
+
+`Version 0.0.1a3`_
+----------------------
+
+* Add ``legend_loc`` option and improve ``xtick`` alignment in ``plot_effect_sizes()`` by @lshpaner in https://github.com/uclamii/equiboots/pull/74
+
+
+**Full Changelog**: https://github.com/uclamii/equiboots/compare/0.0.1a2...0.0.1a3
+
 `Version 0.0.1a2`_
 ----------------------
 

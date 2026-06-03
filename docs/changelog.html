@@ -6,9 +6,9 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; EquiBoots 0.0.1a1 documentation</title>
+  <title>Changelog &mdash; EquiBoots 0.0.0a13 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
@@ -17,8 +17,8 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c51092a7"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/documentation_options.js?v=1677d8f4"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=a0ccc04e"></script>
@@ -79,6 +79,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html">Calibration Curves and Area Under the Curve</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html#regression-residuals">Regression Residuals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathematical_framework.html#chi-square-tests-and-cochran-s-rule">Chi-Square Tests and Cochran’s Rule</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">iPython Notebooks</span></p>
 <ul>
@@ -90,6 +91,17 @@
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citations.html">Citing EquiBoots</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a13">Version 0.0.1a13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a12">Version 0.0.1a12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a11">Version 0.0.1a11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a10">Version 0.0.1a10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a9">Version 0.0.1a9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a8">Version 0.0.1a8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a7">Version 0.0.1a7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a6">Version 0.0.1a6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a5">Version 0.0.1a5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a4">Version 0.0.1a4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a3">Version 0.0.1a3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a2">Version 0.0.1a2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a1">Version 0.0.1a1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-1a">Version 0.0.1a</a></li>
@@ -109,7 +121,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a4">Version 0.0.0a4</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">New Contributor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">New Contributor</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-0-0a3">Version 0.0.0a3</a></li>
@@ -150,6 +162,99 @@
 </a>
 <div style="height: 130px;"></div></div><section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
+<section id="version-0-0-1a13">
+<h2><a class="reference internal" href="#version-0-0-1a13">Version 0.0.1a13</a><a class="headerlink" href="#version-0-0-1a13" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Figures can now save as svg/pdf/jpg, not just png.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_effect_sizes</span></code> now uses <code class="docutils literal notranslate"><span class="pre">save_or_show_plot</span></code> instead of its own inline save.</p></li>
+</ul>
+</section>
+<section id="version-0-0-1a12">
+<h2><a class="reference internal" href="#version-0-0-1a12">Version 0.0.1a12</a><a class="headerlink" href="#version-0-0-1a12" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a11...0.0.1a12">https://github.com/uclamii/equiboots/compare/0.0.1a11…0.0.1a12</a></p></li>
+<li><p>Chi Square test now uses custom contingency tables based on which metric is being tested this is handled through the <code class="docutils literal notranslate"><span class="pre">get_contingency_table()</span></code> function.</p></li>
+<li><p>Cochran’s rule: chi-square unreliable when expected cells are small. We check whether 20% of the expected values are under 5 and if so we don’t perform the chi-square test. Fisher’s exact used if we have a 2 x 2 contingency table.</p></li>
+<li><p>Formatting of point estimate statistical tests has been updated so that the structure is now <code class="docutils literal notranslate"><span class="pre">dictionary[group][metric]</span></code>.</p></li>
+<li><p>All plots that originally accepted point estimates have been updated so that they work with this dictionary structure including when we provide two dictionaries (in some examples we plot race and sex together)</p></li>
+<li><p>P-value adjustment has now been updated so that it uses this new structure and works for point estimates (p-value adjustment is only run when we have done a pairwise comparison, this is gated on finding significance at the omnibus level - this all now works on a metric to metric basis)</p></li>
+<li><p>All <code class="docutils literal notranslate"><span class="pre">py_scripts</span></code> have been updated to follow this new format.</p></li>
+<li><p>New tests added to the statistical test unittests (including Cochran’s rule and Fisher’s exact fallback). Updated the plotting tests so that they follow the new point estimate pattern.</p></li>
+<li><p>Added option to plot reference group built into the bootstrapping plotting functions. Fixes this issue <a class="reference external" href="https://github.com/uclamii/equiboots/issues/87">#87</a></p></li>
+<li><p>Cohen’s D definition fixed <a class="reference external" href="https://github.com/uclamii/equiboots/issues/86">#86</a></p></li>
+<li><p>Rewrote <code class="docutils literal notranslate"><span class="pre">_analyze_single_metrics</span></code> into three phases (omnibus, pairwise once per group, then annotate effect sizes). Fixes a silent bug where <code class="docutils literal notranslate"><span class="pre">results[group]</span></code> was overwritten on each metric iteration, losing effect-size assignments for all but the last significant metric.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_effect_sizes</span></code> rewritten to display max Cramer’s V per outer key, preserving the original chart structure under the new nested shape.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_calculate_effect_size</span></code> routes through <code class="docutils literal notranslate"><span class="pre">get_contingency_table</span></code> so Cramer’s V is computed on the same K x 2 slice as the chi-square test.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">METRIC_LIST</span></code> pruned to drop TP Rate and TN Rate (aliases of Recall and Specificity, identical chi2 statistics).</p></li>
+</ul>
+</section>
+<section id="version-0-0-1a11">
+<h2><a class="reference internal" href="#version-0-0-1a11">Version 0.0.1a11</a><a class="headerlink" href="#version-0-0-1a11" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Mapping Error In get_metrics by &#64;elemets in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/85">https://github.com/uclamii/equiboots/pull/85</a></p></li>
+<li><p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a10...0.0.1a11">https://github.com/uclamii/equiboots/compare/0.0.1a10…0.0.1a11</a></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a10">
+<h2><a class="reference internal" href="#version-0-0-1a10">Version 0.0.1a10</a><a class="headerlink" href="#version-0-0-1a10" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Reference line and setting y-limit to be consistent by &#64;elemets in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/83">https://github.com/uclamii/equiboots/pull/83</a></p></li>
+<li><p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a9...0.0.1a10">https://github.com/uclamii/equiboots/compare/0.0.1a9…0.0.1a10</a></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a9">
+<h2><a class="reference internal" href="#version-0-0-1a9">Version 0.0.1a9</a><a class="headerlink" href="#version-0-0-1a9" title="Link to this heading"></a></h2>
+<p><strong>Summary:</strong></p>
+<ul class="simple">
+<li><p>Added inline sanitization for metric column titles in <code class="docutils literal notranslate"><span class="pre">eq_group_metrics_plot</span></code>.</p></li>
+<li><p>Titles now display with underscores replaced by spaces.</p></li>
+<li><p>Each plot title now includes the capitalized <code class="docutils literal notranslate"><span class="pre">name</span></code> prefix followed by a colon.</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<ul class="simple">
+<li><p>Before → <code class="docutils literal notranslate"><span class="pre">race_F1_Score_dff</span></code></p></li>
+<li><p>After → <code class="docutils literal notranslate"><span class="pre">Race:</span> <span class="pre">F1</span> <span class="pre">Score</span> <span class="pre">diff</span></code></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a8">
+<h2><a class="reference internal" href="#version-0-0-1a8">Version 0.0.1a8</a><a class="headerlink" href="#version-0-0-1a8" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a7...0.0.1a8">https://github.com/uclamii/equiboots/compare/0.0.1a7…0.0.1a8</a></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a7">
+<h2><a class="reference internal" href="#version-0-0-1a7">Version 0.0.1a7</a><a class="headerlink" href="#version-0-0-1a7" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">x_lim</span></code> and <code class="docutils literal notranslate"><span class="pre">sort_alphabetically</span></code> options to forest plot functions by &#64;lshpaner in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/78">https://github.com/uclamii/equiboots/pull/78</a></p></li>
+<li><p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a6...0.0.1a7">https://github.com/uclamii/equiboots/compare/0.0.1a6…0.0.1a7</a></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a6">
+<h2><a class="reference internal" href="#version-0-0-1a6">Version 0.0.1a6</a><a class="headerlink" href="#version-0-0-1a6" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed a minor typo in the legend label within <code class="docutils literal notranslate"><span class="pre">eq_group_metrics_plot</span></code>. The label now correctly reads “Statistically Significant Difference”.</p></li>
+</ul>
+</section>
+<section id="version-0-0-1a5">
+<h2><a class="reference internal" href="#version-0-0-1a5">Version 0.0.1a5</a><a class="headerlink" href="#version-0-0-1a5" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed a critical import issue in <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> where from <code class="docutils literal notranslate"><span class="pre">.healer</span> <span class="pre">import</span> <span class="pre">*</span></code> was missing. This caused certain healing utilities to be inaccessible when importing the package. The bug has been resolved, and all healer functions now load correctly upon package import.</p></li>
+</ul>
+</section>
+<section id="version-0-0-1a4">
+<h2><a class="reference internal" href="#version-0-0-1a4">Version 0.0.1a4</a><a class="headerlink" href="#version-0-0-1a4" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Adding Significant Figures Option by &#64;elemets in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/76">https://github.com/uclamii/equiboots/pull/76</a></p></li>
+<li><p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a3...0.0.1a4">https://github.com/uclamii/equiboots/compare/0.0.1a3…0.0.1a4</a></p></li>
+</ul>
+</section>
+<section id="version-0-0-1a3">
+<h2><a class="reference internal" href="#version-0-0-1a3">Version 0.0.1a3</a><a class="headerlink" href="#version-0-0-1a3" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">legend_loc</span></code> option and improve <code class="docutils literal notranslate"><span class="pre">xtick</span></code> alignment in <code class="docutils literal notranslate"><span class="pre">plot_effect_sizes()</span></code> by &#64;lshpaner in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/74">https://github.com/uclamii/equiboots/pull/74</a></p></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a class="reference external" href="https://github.com/uclamii/equiboots/compare/0.0.1a2...0.0.1a3">https://github.com/uclamii/equiboots/compare/0.0.1a2…0.0.1a3</a></p>
+</section>
 <section id="version-0-0-1a2">
 <h2><a class="reference internal" href="#version-0-0-1a2">Version 0.0.1a2</a><a class="headerlink" href="#version-0-0-1a2" title="Link to this heading"></a></h2>
 <ul class="simple">
@@ -312,8 +417,8 @@
 <li><p>Bootstrap tests by &#64;elemets in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/47">https://github.com/uclamii/equiboots/pull/47</a></p></li>
 <li><p>Refactor Plotting Module by &#64;lshpaner in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/40">https://github.com/uclamii/equiboots/pull/40</a></p></li>
 </ul>
-<section id="id1">
-<h3>New Contributor<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<section id="id3">
+<h3>New Contributor<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>&#64;arahrooh31 made their first contribution in <a class="reference external" href="https://github.com/uclamii/equiboots/pull/23">https://github.com/uclamii/equiboots/pull/23</a></p></li>
 </ul>

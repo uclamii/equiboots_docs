@@ -6,9 +6,9 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calibration Curves and Area Under the Curve &mdash; EquiBoots 0.0.1a1 documentation</title>
+  <title>Calibration Curves and Area Under the Curve &mdash; EquiBoots 0.0.0a13 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6010b176" />
@@ -17,8 +17,8 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c51092a7"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/documentation_options.js?v=1677d8f4"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=a0ccc04e"></script>
@@ -87,6 +87,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#regression-residuals">Regression Residuals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#chi-square-tests-and-cochran-s-rule">Chi-Square Tests and Cochran’s Rule</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#chi-square-statistic">Chi-Square Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cochran-s-rule">Cochran’s Rule</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#worked-example-sparse-k-x-2-table">Worked Example: Sparse K x 2 Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">iPython Notebooks</span></p>
 <ul>
@@ -203,6 +212,89 @@ toward their real-world interpretation in model evaluation.</p>
 </li>
 </ul>
 <p>These are considered <strong>point estimates</strong> because they provide single-value summaries of the model’s residual error without incorporating uncertainty or sampling variability. To assess the stability or confidence of these estimates, techniques such as <strong>bootstrapping</strong> can be used to generate distributions over repeated samples.</p>
+</section>
+<section id="chi-square-tests-and-cochran-s-rule">
+<h1>Chi-Square Tests and Cochran’s Rule<a class="headerlink" href="#chi-square-tests-and-cochran-s-rule" title="Link to this heading"></a></h1>
+<p>The chi-square test of independence relies on a large-sample approximation.
+Its sampling distribution approaches the theoretical chi-square distribution
+only when expected cell counts are sufficiently large. When expected counts
+are small, the approximation breaks down and p-values become unreliable.</p>
+<section id="chi-square-statistic">
+<h2>Chi-Square Statistic<a class="headerlink" href="#chi-square-statistic" title="Link to this heading"></a></h2>
+<p>For a contingency table with observed counts <span class="math notranslate nohighlight">\(O_{ij}\)</span> and expected
+counts <span class="math notranslate nohighlight">\(E_{ij}\)</span>, the chi-square statistic is:</p>
+<div class="math notranslate nohighlight">
+\[\chi^2 = \sum_{i,j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}\]</div>
+<p>The expected count under the null hypothesis of independence is computed
+from the row and column marginals:</p>
+<div class="math notranslate nohighlight">
+\[E_{ij} = \frac{R_i \cdot C_j}{N}\]</div>
+<p>where <span class="math notranslate nohighlight">\(R_i\)</span> is the total of row <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(C_j\)</span> is the total
+of column <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(N\)</span> is the grand total.</p>
+</section>
+<section id="cochran-s-rule">
+<h2>Cochran’s Rule<a class="headerlink" href="#cochran-s-rule" title="Link to this heading"></a></h2>
+<p>Cochran (1954) provides a practical validity criterion: if more than 20% of
+expected cell counts fall below 5, the chi-square approximation should not
+be trusted. For a contingency table with <span class="math notranslate nohighlight">\(K \times J\)</span> cells, the rule
+is violated when:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\#\{(i,j) : E_{ij} &lt; 5\}}{K \cdot J} &gt; 0.20\]</div>
+<p>When this happens, alternative tests are recommended:</p>
+<ul class="simple">
+<li><p>For 2 x 2 tables: Fisher’s exact test</p></li>
+<li><p>For larger tables: Fisher-Freeman-Halton exact test, or a chi-square
+test with a Monte Carlo simulated p-value</p></li>
+</ul>
+<section id="worked-example-sparse-k-x-2-table">
+<h3>Worked Example: Sparse K x 2 Table<a class="headerlink" href="#worked-example-sparse-k-x-2-table" title="Link to this heading"></a></h3>
+<p>Consider a K x 2 contingency table for the Recall metric across three
+groups, populated with small counts:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{|c|c|c|}
+\hline
+\text{Group} &amp; \text{TP} &amp; \text{FN} \\
+\hline
+\text{ref}   &amp; 2 &amp; 1 \\
+\text{A}     &amp; 1 &amp; 1 \\
+\text{B}     &amp; 1 &amp; 0 \\
+\hline
+\end{array}\end{split}\]</div>
+<p>Row totals: <span class="math notranslate nohighlight">\(R = (3, 2, 1)\)</span>. Column totals: <span class="math notranslate nohighlight">\(C = (4, 2)\)</span>.
+Grand total: <span class="math notranslate nohighlight">\(N = 6\)</span>.</p>
+<p>Compute the expected count for each cell:</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{ref}, \text{TP}} = \frac{3 \cdot 4}{6} = 2.00\]</div>
+<div class="math notranslate nohighlight">
+\[E_{\text{ref}, \text{FN}} = \frac{3 \cdot 2}{6} = 1.00\]</div>
+<div class="math notranslate nohighlight">
+\[E_{A, \text{TP}} = \frac{2 \cdot 4}{6} = 1.33\]</div>
+<div class="math notranslate nohighlight">
+\[E_{A, \text{FN}} = \frac{2 \cdot 2}{6} = 0.67\]</div>
+<div class="math notranslate nohighlight">
+\[E_{B, \text{TP}} = \frac{1 \cdot 4}{6} = 0.67\]</div>
+<div class="math notranslate nohighlight">
+\[E_{B, \text{FN}} = \frac{1 \cdot 2}{6} = 0.33\]</div>
+<p>All six expected cells fall below 5, so the violation fraction is:</p>
+<div class="math notranslate nohighlight">
+\[\frac{6}{6} = 1.00 &gt; 0.20\]</div>
+<p>Cochran’s rule is violated. The chi-square approximation is unreliable on
+this table, and a more appropriate test should be substituted.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">EquiBoots</span></code>, this check is built into <code class="docutils literal notranslate"><span class="pre">_chi_square_test</span></code>. When the
+rule is violated on a 2 x 2 table, the implementation transparently swaps
+in Fisher’s exact test. On larger K x 2 tables, a warning is emitted
+recommending Fisher’s exact as a follow-up.</p>
+</div>
+</section>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h3>
+<p>Kim HY (2017). Statistical notes for clinical researchers: Chi-squared test
+and Fisher’s exact test. <em>Restorative Dentistry &amp; Endodontics</em>, 42(2),
+152-155. <a class="reference external" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5426219/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5426219/</a></p>
+</section>
+</section>
 </section>
 
 

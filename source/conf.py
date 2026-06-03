@@ -24,7 +24,7 @@ copyright = "UCLA CTSI ML Team: Leonid Shpaner, Arthur Funnell, Al Rahrooh, Coli
 author = (
     "Leonid Shpaner, Arthur Funnell, Al Rahrooh, Colin Beam, and Panayiotis Petousis"
 )
-release = "0.0.1a1"
+release = "0.0.0a13"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
